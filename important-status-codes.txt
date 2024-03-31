@@ -1,0 +1,5 @@
+400 Bad Request: Indicates that the request sent by the client is invalid.
+401 Unauthorized: Indicates that the client is not authenticated to access the resource.
+403 Forbidden: Indicates that the client does not have permission to access the resource.
+404 Not Found: Indicates that the requested resource does not exist.
+500 Internal Server Error: Indicates a generic server error.
