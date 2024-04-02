@@ -1,6 +1,5 @@
 const express= require('express');
 const router=express.Router();
-const {challengeCREDConsumer}=require("../rabbitMq/challenge_cred_consumer")
 
 //controllers
 const {createChallenge,deleteChallenge,getChallenges,test,updateChallenge}=require('../controller/challengeController');
@@ -8,14 +7,16 @@ const {createChallenge,deleteChallenge,getChallenges,test,updateChallenge}=requi
 //user-defined middleware
 const tokenValidator = require('../middleware/tokenValidator');
 
-// router.get('/',tokenValidator,getChallenges);
+router.get('/',tokenValidator,getChallenges);
 
-// router.post('/',tokenValidator,createChallenge);
+router.post('/',tokenValidator,createChallenge);
 
-// router.put('/:id',tokenValidator,updateChallenge);
+router.put('/:id',tokenValidator,updateChallenge);
 
-// router.delete('/:id',tokenValidator,deleteChallenge);
+router.delete('/:id',tokenValidator,deleteChallenge);
 
-// router.get('/test',test)
+router.get('/test',test)
+
+
 
 module.exports=router;

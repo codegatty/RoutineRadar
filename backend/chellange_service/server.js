@@ -4,6 +4,8 @@ const app = express();
 
 //userdefined functions
 const connectDb=require("./config/dbConfig")
+const {connToChallengeCredQ,challengeCREDConsumer}=require("./rabbitMq/challenge_cred_consumer")
+const {connToChallengeResponseQ} = require("./rabbitMq/challenge_response_producer")
 
 //built-in middleware
 app.use(express.json());
@@ -17,5 +19,13 @@ app.listen(port,()=>{
     console.log("challenges microservice started at "+port);
 });
 connectDb();
+connToChallengeResponseQ().then(()=>{
+    console.log("RabbitMQ connection established")
+});
+connToChallengeCredQ().then(async()=>{
+    console.log("RabbitMQ connection established")
+     challengeCREDConsumer()
+})
+
 
 
