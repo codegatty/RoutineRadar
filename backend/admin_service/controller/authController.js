@@ -57,7 +57,7 @@ const loginAdmin=asyncHandler(async (req,res)=>{
             adminName:admin.adminName,
             email:admin.email,
             createdBy:admin.createdBy
-        }},process.env.SECRET_KEY,{expiresIn:"30m"})
+        }},process.env.SECRET_KEY,{expiresIn:"24h"})
         res.status(200).json({token:token});
     }
 })

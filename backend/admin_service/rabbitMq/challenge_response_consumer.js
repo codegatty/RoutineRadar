@@ -1,40 +1,46 @@
-const amqp=require("amqplib");
+const amqp = require("amqplib");
+const express = require("express");
+const app = express();
 //const {getResponse} = require("../controller/challangeQController")
 
 let channel;
-async function connToChallangeResponseQ(){
-    try{
-        const connection=await amqp.connect(process.env.QUEUE_URL);
-        channel=await connection.createChannel();
-        
-    }catch(e){
-        console.log("someting went wrong during connection"+e);
-        
-    }
-}   
+async function connToChallangeResponseQ() {
+    try {
+        const connection = await amqp.connect(process.env.QUEUE_URL);
+        channel = await connection.createChannel();
 
-async function challengeResponseConsumer(res) {
-    try{
-        if(!channel){
-            channel=await connToChallangeResponseQ();
+    } catch (e) {
+        console.log("someting went wrong during connection" + e);
+
+    }
+}
+
+async function challengeResponseConsumer() {
+    let data
+    try {
+        if (!channel) {
+            console.log(channel)
+            connToChallengeCredQ();
         }
+        let queueName = "CHALLENGE_RESP"
+        await channel.assertQueue(queueName, { durable: false });
+        channel.consume(queueName, async (msg) => {
+            data = JSON.parse(msg.content);
+            //console.log(data);
 
-        let queueName="CHALLENGE_RESP"
-        channel.assertQueue(queueName,{durable:false});
-        channel.consume(queueName,(msg)=>{
-            console.log(msg.content.toString());
-            //res.status(200).send(msg.content.toString());
+            process.emit("responseReceived", data);
             channel.ack(msg);
-        },{noack:false});
+        }, { noack: false });
 
-    }catch(err){
-        console.log(err);
+    } catch (e) {
+        console.log("someting went wrong during publishing" + e);
     }
-    return res.status(200).send("hello world");
+
 }
 
 
-module.exports={
+
+module.exports = {
     connToChallangeResponseQ,
     challengeResponseConsumer
 }
