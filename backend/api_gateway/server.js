@@ -6,7 +6,8 @@ const {createProxyMiddleware}=require('http-proxy-middleware')
 //define their routes and ports
 const routes={
     '/admin':"http://localhost:5000/",
-    '/challenge':"http://localhost:5001"
+    '/challenge':"http://localhost:5001",
+    '/users':"http://localhost:5002"
 }
 
 //create a proxy for each route
