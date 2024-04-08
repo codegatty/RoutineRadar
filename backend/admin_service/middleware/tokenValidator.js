@@ -11,7 +11,7 @@ if(!token){
     return res.status(401).json({message:"unauthorized"});
 }
 
-await jwt.verify(token,process.env.SECRET_KEY,(err,decodedInfo)=>{
+await jwt.verify(token,process.env.ACCESSTOKEN_SECRET_KEY,(err,decodedInfo)=>{
     if(err){
        res.status(400); 
     }

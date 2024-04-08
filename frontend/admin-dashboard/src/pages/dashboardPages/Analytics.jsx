@@ -1,5 +1,5 @@
 import React from 'react'
-import AnalyticsGrid from '../UIComponents/AnalyticsGrid'
+import AnalyticsGrid from '../../UIComponents/AnalyticsGrid'
 
 function Analytics() {
   return (

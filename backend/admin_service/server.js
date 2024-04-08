@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express=require("express");
+const cookieParser=require("cookie-parser");
+const cors=require("cors");
 const app = express();
 
 //userdefined functions
@@ -11,6 +13,10 @@ const {connToChallangeResponseQ}=require("./rabbitMq/challenge_response_consumer
 //built-in middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors({
+    credentials:true
+}))
+app.use(cookieParser());
 
 //router middlewares
 app.use("/admin/auth",require("./routes/authRoutes"))

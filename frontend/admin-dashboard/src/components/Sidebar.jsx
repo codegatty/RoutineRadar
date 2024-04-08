@@ -33,6 +33,9 @@ function Sidebar() {
           <li>
             <NavLink to="/dashboard/challenges" className={activeFinder}>Challenges</NavLink>
           </li>
+          <li>
+            <NavLink to="/dashboard/admins" className={activeFinder}>Admins</NavLink>
+          </li>
         </ul>
       </div>
       <div className="flex-2 bg-red-500 ">

@@ -1,27 +1,16 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
-import { useContext } from 'react';
-import {AuthContext} from '../context/AuthProvider'
-import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 
 function Login() {
-    const authCtx=useContext(AuthContext)
-    const navigate=useNavigate()
+    
+    
     const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
         email:"admin123@gmail.com",password:"admin"
     }});
 
     async function submitHandler(data){
-        try{
-            const response=await axios.post("http://localhost:5000/api/login",data);
-            const accessToken = response.data.accessToken
-            
-            authCtx.storeToken(accessToken)
-            navigate("/profile");
-        }catch(err){
-            console.log(err);
-        }
+
     }
 
   return (

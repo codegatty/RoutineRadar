@@ -8,19 +8,24 @@ import './index.css'
 import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 
-import Analytics from './pages/Analytics.jsx'
-import Users from './pages/Users.jsx'
-import Challanges from './pages/Challanges.jsx'
-import Login from './pages/Login.jsx'
+import Analytics from './pages/dashboardPages/Analytics.jsx'
+import Users from './pages/dashboardPages/Users.jsx'
+import Challenges from './pages/dashboardPages/Challenges.jsx'
+import Challenge from './pages/dashboardPages/Challenge.jsx'
+import Admins from './pages/dashboardPages/Admins.jsx'
+import Admin from './pages/dashboardPages/Admin.jsx'
 
 const router=createBrowserRouter([
   {path:'/',element:<App/>,errorElement:<NotFound/>},
   {path:'/dashboard',element:<Dashboard/>,children:[
     {path:'/dashboard/analytics',element:<Analytics/>},
     {path:'/dashboard/users',element:<Users/>},
-    {path:'/dashboard/challenges',element:<Challanges/>}
+    {path:'/dashboard/challenges',element:<Challenges/>},
+    {path:'/dashboard/challenges/challenge',element:<Challenge/>},
+    {path:'/dashboard/admins',element:<Admins/>},
+    {path:'/dashboard/admins/admin',element:<Admin/>}
   ]},
-  {path:'/login',element:<Login/>}
+  {path:'/login',element:<div>login</div>}
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
