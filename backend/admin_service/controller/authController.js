@@ -89,46 +89,46 @@ const loginAdmin = asyncHandler(async (req, res) => {
 //@route POST /admin/auth/refresh
 //@access public
 const refresh = async (req, res) => {
-  const cookies = req.cookies.refreshToken
-    
+  const cookies = req.cookies.refreshToken;
+
   if (!cookies)
     return res.status(401).json({ message: "authantication expired" });
 
-  const refreshToken = cookies.refreshToken;
+  const refreshToken = req.cookies.refreshToken;
 
   jwt.verify(
     refreshToken,
     process.env.REFRESHTOKEN_SECRET_KEY,
     async (err, decodedInfo) => {
+      
       if (err) {
         res.status(400);
       }
-      console.log(decodedInfo?.admin)
 
-    //   const admin = Admin.findOne({ email: decodedInfo.admin.email });
+      const admin = await Admin.findOne({ email: decodedInfo.admin.email });
 
-    //   if (!admin) {
-    //     return res.status(401).json({ msg: "Unautharized" });
-    //   }
+      if (!admin) {
+        return res.status(401).json({ msg: "Unautharized" });
+      }
 
-    //   const accessToken = jwt.sign(
-    //     {
-    //       admin: {
-    //         id: admin.id,
-    //         adminName: admin.adminName,
-    //         email: admin.email,
-    //         createdBy: admin.createdBy,
-    //       },
-    //     },
-    //     process.env.ACCESSTOKEN_SECRET_KEY,
-    //     { expiresIn: "40s" }
-    //   );
+      const accessToken = jwt.sign(
+        {
+          admin: {
+            id: admin.id,
+            adminName: admin.adminName,
+            email: admin.email,
+            createdBy: admin.createdBy,
+          },
+        },
+        process.env.ACCESSTOKEN_SECRET_KEY,
+        { expiresIn: "40s" }
+      );
 
-      return res.status(200).json({ accessToken: "accessToken" });
+      return res.status(200).json({ accessToken: accessToken });
     }
   );
+ 
 };
-
 
 const test = (req, res) => {
   res.send("test");

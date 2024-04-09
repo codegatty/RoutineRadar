@@ -16,7 +16,7 @@ function Sidebar() {
 
   return (
     <div className="bg-neutral-900 flex flex-col text-white w-60 ">
-      <div className="bg-neutral-300 flex-2 flex flex-col justify-center items-center">
+      <div className="bg-neutral-300 flex-2 flex flex-col justify-center items-center ">
         <IconContext.Provider value={{ color: 'black', size: '50px' }}>
           <GiRadarCrossSection />
         </IconContext.Provider>

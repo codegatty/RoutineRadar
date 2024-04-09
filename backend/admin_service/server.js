@@ -14,7 +14,8 @@ const {connToChallangeResponseQ}=require("./rabbitMq/challenge_response_consumer
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
-    credentials:true
+    credentials:true,
+    origin:"http://localhost:5173"
 }))
 app.use(cookieParser());
 
