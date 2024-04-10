@@ -11,6 +11,7 @@ import AuthContextProvider from './context/AuthProvider.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import ProtectedRoute from './pages/ProtectedRoute.jsx'
+import PersistLogin from './pages/PersistLogin.jsx'
 
 import Analytics from './pages/dashboardPages/Analytics.jsx'
 import Users from './pages/dashboardPages/Users.jsx'
@@ -22,13 +23,26 @@ import Login from './pages/Login.jsx'
 
 const router=createBrowserRouter([
   {path:'/',element:<App/>,errorElement:<NotFound/>},
-  {path:'/dashboard',element:<ProtectedRoute><Dashboard/></ProtectedRoute>,children:[
-    {path:'/dashboard/analytics',element:<Analytics/>},
-    {path:'/dashboard/users',element:<Users/>},
-    {path:'/dashboard/challenges',element:<Challenges/>},
-    {path:'/dashboard/challenges/challenge',element:<Challenge/>},
-    {path:'/dashboard/admins',element:<Admins/>},
-    {path:'/dashboard/admins/admin',element:<Admin/>}
+  
+  // {path:'/dashboard',element:<ProtectedRoute><Dashboard/></ProtectedRoute>,children:[
+  //   {path:'/dashboard/analytics',element:<Analytics/>},
+  //   {path:'/dashboard/users',element:<Users/>},
+  //   {path:'/dashboard/challenges',element:<Challenges/>},
+  //   {path:'/dashboard/challenges/challenge',element:<Challenge/>},
+  //   {path:'/dashboard/admins',element:<Admins/>},
+  //   {path:'/dashboard/admins/admin',element:<Admin/>}
+  // ]},
+
+  {element:<PersistLogin/>,children:[
+    {path:'/dashboard',element:<ProtectedRoute><Dashboard/></ProtectedRoute>,children:[
+      {path:'/dashboard/analytics',element:<Analytics/>},
+      {path:'/dashboard/users',element:<Users/>},
+      {path:'/dashboard/challenges',element:<Challenges/>},
+      {path:'/dashboard/challenges/challenge',element:<Challenge/>},
+      {path:'/dashboard/admins',element:<Admins/>},
+      {path:'/dashboard/admins/admin',element:<Admin/>}
+    ]}
+
   ]},
   {path:'/login',element:<Login/>}
 ])

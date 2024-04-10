@@ -12,11 +12,14 @@ function useAuth() {
     }
 
     function authState(){
-        console.log(authCtx.tokenId)
         return authCtx.isAuth;
     }
 
-    return {login, logout, authState}
+    function token(){
+        return authCtx.tokenId;
+    }
+
+    return {login, logout, authState,token}
 }
 
 export default useAuth

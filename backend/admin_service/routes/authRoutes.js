@@ -4,7 +4,7 @@ const router=express.Router();
 //user-defined middleware
 const tokenValidator = require('../middleware/tokenValidator');
 
-const {test,registerAdmin,loginAdmin,refresh}=require("../controller/authController")
+const {currentAdmin,registerAdmin,loginAdmin,refresh,getAllAdmins}=require("../controller/authController")
 
 router.post('/register',tokenValidator,registerAdmin);
 
@@ -12,6 +12,8 @@ router.post('/login',loginAdmin);
 
 router.post("/refresh",refresh);
 
-router.get('/check',test)
+router.get('/current',tokenValidator,currentAdmin);
+
+router.get('/admins',tokenValidator,getAllAdmins);
 
 module.exports=router;

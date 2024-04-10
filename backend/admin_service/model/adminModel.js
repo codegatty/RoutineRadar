@@ -12,9 +12,9 @@ const adminSchema=mongoose.Schema({
         type:String,
         required:[true,"Enter the password"]
     },createdBy:{
-        type:mongoose.Types.ObjectId,
-        required:[true,"Enter the createdBy"],
-         ref:"Admin"
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:"Admin"
     }
 },{timestamps:true});
 

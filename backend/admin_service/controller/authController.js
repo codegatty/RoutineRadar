@@ -88,7 +88,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 //@desc refreshes the access token
 //@route POST /admin/auth/refresh
 //@access public
-const refresh = async (req, res) => {
+const refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies.refreshToken;
 
   if (!cookies)
@@ -104,8 +104,9 @@ const refresh = async (req, res) => {
       if (err) {
         res.status(400);
       }
-
-      const admin = await Admin.findOne({ email: decodedInfo.admin.email });
+      
+       const admin = await Admin.findOne({ email: decodedInfo?.admin.email });
+      
 
       if (!admin) {
         return res.status(401).json({ msg: "Unautharized" });
@@ -128,14 +129,30 @@ const refresh = async (req, res) => {
     }
   );
  
+});
+
+//@desc refreshes the access token
+//@route POST /admin/auth/current
+//@access private
+
+const currentAdmin = (req, res) => {
+  const admin=req.admin
+  res.json(admin);
 };
 
-const test = (req, res) => {
-  res.send("test");
-};
+//@desc refreshes the access token
+//@route POST /admin/auth/current
+//@access private
+
+const getAllAdmins=asyncHandler(async (req,res)=>{
+    const admins=await Admin.find({},'-password -__v -createdBy');
+    res.json(admins);
+})
+
 module.exports = {
   registerAdmin,
   loginAdmin,
-  test,
+  currentAdmin,
   refresh,
+  getAllAdmins
 };
