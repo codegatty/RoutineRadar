@@ -6,10 +6,12 @@ function useRefresh(){
     const {login}=useAuth();
     async function tokenRefresher(){
         try{
-            const response=await axios_public.post("auth/refresh",null)
-            
-            login(response.data.accessToken);
-            console.log(response.data.accessToken);
+            try{
+                const res=await axios_public.post('/auth/refresh',{},{withCredentials:true});
+                login(res.data.accessToken)
+            }catch(err){
+                console.log(err.response.msg);
+            }
 
         }catch(err){
             console.log(err)
