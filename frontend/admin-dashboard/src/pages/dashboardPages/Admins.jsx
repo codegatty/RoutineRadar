@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useEffect,useState,useContext } from 'react';
 import {useNavigate} from 'react-router-dom'
 
 import Button from '../../UIComponents/Button'
@@ -6,13 +6,16 @@ import Table from '../../UIComponents/Table';
 
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import useAuth from '../../hooks/useAuth'
+import { AdminsContext } from '../../context/AdminsProvider'; '../../context/AdminsProvider'
+
+import { IoIosAdd } from "react-icons/io";
 
 function Admins() {
   const navigator=useNavigate();
-  const [data,setData]=useState([]);
   const privateAxios=useAxiosPrivate();
   const {token}= useAuth();
-
+  const adminCtx=useContext(AdminsContext)
+  
   useEffect(()=>{
     async function fetchAllAdmins(){
       try{
@@ -20,8 +23,8 @@ function Admins() {
         const response=await privateAxios.get("http://localhost:5000/admin/auth/admins",{withCredentials:true,headers:{
           'Authorization': 'Bearer '+tokenId
         }});
-        setData(response.data);
-        console.log(data)
+        
+      adminCtx.storeAdmins(response.data);
       }catch(e){
         console.log("something went wrong",e);
       }
@@ -30,14 +33,29 @@ function Admins() {
   },[])
 
   function createAdminHandler(){
-    navigator("/dashboard/admins/admin")
+    navigator("/dashboard/admins/admin",{state:{operation:"create"}})
   }
-  const tableAtr=["Id","Name","Email","created_at","updated_at"]
+
+  function updateHandler(admin){
+    navigator("/dashboard/admins");
+  }
+
+  async function removeHandler(id) {
+    
+    navigator("/dashboard/admins");
+  }
+
+  const tableAtr=["Name","Email","created_at","updated_at"]
   return (
     
     <div className=''>
-     <Button className="mt-5 ml-10" onClick={createAdminHandler}>Create new Admin</Button>
-      <Table attributes={tableAtr} data={data}/> 
+      <div className='flex justify-end '>
+      <Button className="mt-5 mr-10 " onClick={createAdminHandler}><IoIosAdd fontSize={30}/>
+      </Button>
+      </div>
+     
+
+      <Table attributes={tableAtr} data={adminCtx.admins} updateHandler={updateHandler} removeHandler={removeHandler}/> 
     </div>
   )
 }

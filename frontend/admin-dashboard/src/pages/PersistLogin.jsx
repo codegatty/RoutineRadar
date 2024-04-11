@@ -14,8 +14,8 @@ function PersistLogin(){
         const tokenId=token()
         const verifyRefreshToken=async ()=>{
             try{
-                const response=login(await tokenRefresher());
-                console.log("peristat"+response)
+                const response=await tokenRefresher();
+                console.log("response persist login"+response)
                 if(response===401 || response===500){
                     navigate("/login",{replace:true});
                 }

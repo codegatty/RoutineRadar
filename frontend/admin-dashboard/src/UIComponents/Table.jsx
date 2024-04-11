@@ -1,29 +1,53 @@
-import React from 'react'
 
-function Table({data,attributes}) {
+
+//icons
+import { AiTwotoneDelete } from "react-icons/ai";
+import { CiEdit } from "react-icons/ci";
+import {v4 as uuidv4} from 'uuid'
+function Table({data,attributes,updateHandler,removeHandler}) {
+
+  function handleUpdate(ele){
+    
+      updateHandler(ele);
+  }
+
+  
+  function handleRemove(id){
+      removeHandler(id);
+  }
+
 
   return (
     <div className='overflow-auto shadow rounded-lg'>
-    <table class="w-full">
+    <table className="w-full">
   <thead className='bg-grey-50 border-b-2 border-grey-200'>
     <tr>
         {
-          attributes.map((ele)=><th className='p-3 text-xl font-bold tracking-wide text-left'>{ele}</th>)
+          attributes.map((ele,index)=><th className='p-3 text-xl font-bold tracking-wide text-left' key={ele}>{ele}</th>)
         }
+        <th className='p-3 text-xl font-bold tracking-wide text-left'>Operations</th>
     </tr>
   </thead>
   <tbody className='divide-y divide-gray-200'>
+    
     {
       data.map((ele)=>{
-        return (<tr>
+        return (<tr key={uuidv4()}>
           {
-            Object.values(ele).map((val)=>{
-              return (<td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold'>{val}</td>)
+            Object.values(ele).map((val,index)=>{
+              return (index!=0&&<td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold' key={uuidv4()}>{val}</td>)
             })
           }
+          <td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold'>
+          <div>
+          <button className="hover:bg-red-500 rounded-3xl p-1" onClick={handleRemove.bind(this,ele._id)}><AiTwotoneDelete fontSize={25} fill="red" /></button>
+          <button className="hover:bg-red-500 rounded-3xl p-1" onClick={handleUpdate.bind(this,ele)}><CiEdit fontSize={25} fill="red" /></button>
+          </div>
+          </td>
       </tr>)
       })
     }
+
   </tbody>
 </table>
 </div>

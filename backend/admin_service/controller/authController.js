@@ -73,12 +73,12 @@ const loginAdmin = asyncHandler(async (req, res) => {
         },
       },
       process.env.REFRESHTOKEN_SECRET_KEY,
-      { expiresIn: "5m" }
+      { expiresIn: "30m" }
     );
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
-      maxAge: 5 * 60 * 1000,
+      maxAge: 30 * 60 * 1000,
     });
 
     res.status(200).json({ accessToken: accessToken });
@@ -122,7 +122,7 @@ const refresh = asyncHandler(async (req, res) => {
           },
         },
         process.env.ACCESSTOKEN_SECRET_KEY,
-        { expiresIn: "40s" }
+        { expiresIn: "1m" }
       );
 
       return res.status(200).json({ accessToken: accessToken });
@@ -149,10 +149,30 @@ const getAllAdmins=asyncHandler(async (req,res)=>{
     res.json(admins);
 })
 
+//@desc logs out the current admin
+//@route POST /admin/auth/logout
+//@access public
+
+const logOut=asyncHandler(async(req,res)=>{
+
+  const cookie = req.cookies;
+
+  if (!cookie?.refreshToken)
+    return res.status(401).json({ message: "unautharized" });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
+  res.json({ message: "Log Out success" });
+  
+})
+
 module.exports = {
   registerAdmin,
   loginAdmin,
   currentAdmin,
   refresh,
-  getAllAdmins
+  getAllAdmins,
+  logOut
 };

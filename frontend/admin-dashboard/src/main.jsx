@@ -7,6 +7,7 @@ import './index.css'
 
 //context
 import AuthContextProvider from './context/AuthProvider.jsx'
+import AdminsContextProvider from './context/AdminsProvider.jsx'
 
 import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard.jsx'
@@ -49,7 +50,9 @@ const router=createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthContextProvider>
+      <AdminsContextProvider>
     <RouterProvider router={router} />
+    </AdminsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>,
 )

@@ -19,7 +19,15 @@ function useAuth() {
         return authCtx.tokenId;
     }
 
-    return {login, logout, authState,token}
+    function getCurrentAdmin(){
+        return authCtx.currentAdmin;
+    }
+
+    function setCurrentAdmin(admin){
+        authCtx.current(admin);
+    }
+
+    return {login, logout, authState,token,getCurrentAdmin,setCurrentAdmin}
 }
 
 export default useAuth
