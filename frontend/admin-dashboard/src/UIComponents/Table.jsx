@@ -7,7 +7,6 @@ import {v4 as uuidv4} from 'uuid'
 function Table({data,attributes,updateHandler,removeHandler}) {
 
   function handleUpdate(ele){
-    
       updateHandler(ele);
   }
 
@@ -18,8 +17,8 @@ function Table({data,attributes,updateHandler,removeHandler}) {
 
 
   return (
-    <div className='overflow-auto shadow rounded-lg'>
-    <table className="w-full">
+    <div className='relative shadow rounded-lg overflow-x-scroll overflow-y-scroll'>
+    <table className="w-full ">
   <thead className='bg-grey-50 border-b-2 border-grey-200'>
     <tr>
         {

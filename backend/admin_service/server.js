@@ -20,9 +20,10 @@ app.use(cors({
 app.use(cookieParser());
 
 //router middlewares
-app.use("/admin/auth",require("./routes/authRoutes"))
+app.use("/admin/auth",require("./routes/authRoutes"));
 app.use("/admin/challenges",require("./routes/challengeRoute"));
-
+app.use("/admin/users",require("./routes/userRoutes"));
+app.use("/admin/counts",require("./routes/countRoute"));
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{

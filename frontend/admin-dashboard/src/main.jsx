@@ -8,6 +8,7 @@ import './index.css'
 //context
 import AuthContextProvider from './context/AuthProvider.jsx'
 import AdminsContextProvider from './context/AdminsProvider.jsx'
+import ChallengeContextProvider from './context/ChallengeProvider.jsx'
 
 import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard.jsx'
@@ -51,7 +52,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthContextProvider>
       <AdminsContextProvider>
+      <ChallengeContextProvider>
     <RouterProvider router={router} />
+    </ChallengeContextProvider>
     </AdminsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>,

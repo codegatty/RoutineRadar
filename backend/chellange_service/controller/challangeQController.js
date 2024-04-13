@@ -35,7 +35,7 @@ async function deleteChallenge(data){
 }
 
 async function getAllChallenges(){
-    const challenges=await Challenge.find({});
+    const challenges=await Challenge.find({},'-__v');
     challengeResponseProducer(challenges)
 }
 

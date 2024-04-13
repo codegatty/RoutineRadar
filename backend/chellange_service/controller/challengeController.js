@@ -77,8 +77,22 @@ const test=asyncHandler(async(req,res)=>{
     return res.send("all fine");
 })  
 
+//@desc gets the count of challenges
+//@route GET /challenge/count
+//@access public
 
-module.exports={getChallenges,createChallenge,updateChallenge,deleteChallenge,test}
+const getChallengeCount=asyncHandler(async (req,res)=>{
+    const challengeCount=await Challenge.estimatedDocumentCount();
+
+    if(!challengeCount)
+    return res.status(400).send({message: "bad request"})
+
+    res.status(200).json({challengeCount:challengeCount});
+})
+
+
+
+module.exports={getChallenges,createChallenge,updateChallenge,deleteChallenge,test,getChallengeCount}
 
 
 

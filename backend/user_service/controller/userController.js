@@ -97,12 +97,34 @@ const updateUser=asyncHandler(async(req,res)=>{
 
 })
 
-const test=(req,res)=>{
-    res.send("test");
-}
+
+//@desc get all users availabe for only admin service
+//@route PUT /user/getAllUsers
+//@access private
+const getAllUsers=asyncHandler(async (req,res)=>{
+    const data=await User.find({},"-password -experience -__v -badges");
+    if(!data){
+        res.status(404).json({msg:"Something went wrong"});
+    }
+    res.status(200).json(data);
+})
+
+//@desc get all users availabe for only admin service
+//@route PUT /user/getAllUsers
+//@access private
+const getUserCount=asyncHandler(async (req,res)=>{
+    const userCount=await User.estimatedDocumentCount();
+
+    if(!userCount)
+    return res.status(400).send({message: "bad request"})
+
+    res.status(200).json({userCount:userCount});
+})
+
 module.exports={registerUser,
     loginUser,
     deleteUser,
     updateUser,
-    test
+    getAllUsers,
+    getUserCount
 }
