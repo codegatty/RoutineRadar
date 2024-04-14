@@ -53,9 +53,7 @@ function Admins() {
       <Button className="mt-5 mr-10 " onClick={createAdminHandler}><IoIosAdd fontSize={30}/>
       </Button>
       </div>
-     
-
-      <Table attributes={tableAtr} data={adminCtx.admins} updateHandler={updateHandler} removeHandler={removeHandler}/> 
+      <Table attributes={tableAtr} data={adminCtx.admins} updateHandler={updateHandler} removeHandler={removeHandler}  disableEdit={true}/> 
     </div>
   )
 }

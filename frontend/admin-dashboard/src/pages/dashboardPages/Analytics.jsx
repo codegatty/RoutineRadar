@@ -2,6 +2,7 @@ import  { useEffect,useState } from 'react'
 import AnalyticsGrid from '../../UIComponents/AnalyticsGrid'
 import useAuth from '../../hooks/useAuth'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import BarGraph from '../../components/BarGraph';
 
 
 
@@ -25,6 +26,7 @@ const [countData,setCountData]=useState({
       'Authorization': `Bearer ${tokenId}`
     }});
     setCountData(response.data);
+    console.log(response.data);
       }catch(e){
         console.log(e);
       }
@@ -36,6 +38,19 @@ const [countData,setCountData]=useState({
   return (
     <div className='mt-5'>
       <AnalyticsGrid data={countData}/>
+      <div class="grid grid-cols-2 gap-4">
+  <div>
+    <BarGraph barData={countData.barDataSet}/>
+  </div>
+  <div>02</div>
+  <div>03</div>
+  <div>04</div>
+  <div>05</div>
+  <div>06</div>
+  <div>07</div>
+  <div>08</div>
+  <div>09</div>
+</div>
     </div>
   )
 }

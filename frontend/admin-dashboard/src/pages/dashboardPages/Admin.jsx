@@ -62,7 +62,7 @@ function Admin() {
     }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full  max-h-[500px] overflow-y-scroll">
     <form className='' onSubmit={handleSubmit(submitHandler)}>
         <div className={classNames(formSection)}>
         <label className={classNames(label)}>Name of Admin</label>

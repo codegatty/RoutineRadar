@@ -1,10 +1,8 @@
-
-
 //icons
 import { AiTwotoneDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import {v4 as uuidv4} from 'uuid'
-function Table({data,attributes,updateHandler,removeHandler}) {
+function Table({data,attributes,updateHandler,removeHandler,disableDelete,disableEdit}) {
 
   function handleUpdate(ele){
       updateHandler(ele);
@@ -17,7 +15,7 @@ function Table({data,attributes,updateHandler,removeHandler}) {
 
 
   return (
-    <div className='relative shadow rounded-lg overflow-x-scroll overflow-y-scroll'>
+    <div className='relative shadow rounded-lg max-h-[400px] overflow-y-scroll'>
     <table className="w-full ">
   <thead className='bg-grey-50 border-b-2 border-grey-200'>
     <tr>
@@ -39,8 +37,13 @@ function Table({data,attributes,updateHandler,removeHandler}) {
           }
           <td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold'>
           <div>
-          <button className="hover:bg-red-500 rounded-3xl p-1" onClick={handleRemove.bind(this,ele._id)}><AiTwotoneDelete fontSize={25} fill="red" /></button>
-          <button className="hover:bg-red-500 rounded-3xl p-1" onClick={handleUpdate.bind(this,ele)}><CiEdit fontSize={25} fill="red" /></button>
+            {
+              disableDelete?"":<button className="hover:bg-red-500 rounded-3xl p-1" onClick={handleRemove.bind(this,ele._id)}><AiTwotoneDelete fontSize={25} fill="red" /></button>
+              
+            }
+            {
+              disableEdit?"":<button className="hover:bg-red-500 rounded-3xl p-1" onClick={handleUpdate.bind(this,ele)}><CiEdit fontSize={25} fill="red" /></button>
+            }
           </div>
           </td>
       </tr>)

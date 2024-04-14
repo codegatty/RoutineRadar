@@ -20,7 +20,8 @@ router.get('/',tokenValidator,asyncHandler( async (req,res)=>{
         const [response1,response2]=responses
         return res.status(200).json({adminCount:adminCount,
             challengeCount:response1.data.challengeCount,
-            userCount:response2.data.userCount
+            userCount:response2.data.userCount,
+            barDataSet:response1.data.barDataSet
         });
         
     }).catch((er)=>{
