@@ -57,7 +57,7 @@ const routinSchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         required:true
     },
-    routine:{
+    task:{
         type:[taskSchema]
     },
     score:{
