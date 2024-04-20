@@ -11,7 +11,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"))
 
 //router middlewares
-app.use('/users',require('./routes/userRoutes'))
+app.use('/user',require('./routes/userRoutes'))
+app.use('/user/routine',require('./routes/routineRoutes'))
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{

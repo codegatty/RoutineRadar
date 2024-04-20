@@ -13,7 +13,7 @@ const {
     updateTask,
     deleteTask,
     addSubTask,
-     updateSubTask,deleteSubTask}=require("../controller/routineController");
+    updateSubTask,deleteSubTask}=require("../controller/routineController");
 
 router.post('/',createRoutine);
 router.delete('/:id',deleteRoutine);

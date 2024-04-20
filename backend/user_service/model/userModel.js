@@ -20,6 +20,10 @@ const userSchema=mongoose.Schema({
     },
     profilePic:{
         type:String,
+    },
+    isRoutineCreated:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true});
 

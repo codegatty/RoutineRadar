@@ -7,15 +7,24 @@ const Routine = require("../model/routineModel");
 //@access private
 const createRoutine = asyncHanlder(async (req, res) => {
   const response = await Routine.create(req.body);
-  res.json(response);
+  if(response){
+    return res.status(201).json(response);
+  }else{
+    return res.status(400).json({msg:"couldn't create routine"});
+  }
+ 
 });
 
 //@desc delete routine
 //@route DELETE /routine/user_id
 //@access private
 const deleteRoutine = asyncHanlder(async (req, res) => {
+
   const response = await Routine.deleteOne({ userId: req.params.id });
-  res.json(response);
+  if(!response){
+    return res.status(404).json({msg:"couldn't delete"});
+  }
+  res.status(200).json(response);
 });
 
 //@desc update the routine
@@ -23,12 +32,16 @@ const deleteRoutine = asyncHanlder(async (req, res) => {
 //@access private
 const updateRoutine = asyncHanlder(async (req, res) => {
   const { goal, type } = req.body;
+  const routine=await Routine.findOne({userId:req.params.id})
+  if(!routine){
+    return res.status(404).json({msg:"routine not found"});
+  }
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id },
     { $set: { goal: goal, type: type } },
     { new: true }
   );
-  res.json(response);
+  res.status(200).json(response);
 });
 
 //@desc add new task in routine
@@ -149,7 +162,7 @@ const updateSubTask = asyncHanlder(async (req, res) => {
 //@access public
 const getRoutine = asyncHanlder(async (req, res) => {
   const response = await Routine.find({ userId: req.params.id });
-  res.json(response);
+  res.status(200).json(response);
 });
 
 

@@ -1,23 +1,11 @@
 const express= require('express');
 const router=express.Router();
-const multer=require('multer');
+const upload= require('../middleware/multerUpload')
 
 //user-defined middleware
 const tokenValidator = require('../middleware/tokenValidator');
 
 const {deleteUser,loginUser,registerUser,updateUser,getAllUsers,getUserCount}=require('../controller/userController');
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'public/profile')
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now()
-      cb(null, uniqueSuffix+file.originalname)
-    }
-  })
-  const upload = multer({ storage: storage })
-
 
 router.post('/register',upload.single("profilePic"),registerUser);
 
