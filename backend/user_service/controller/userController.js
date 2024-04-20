@@ -4,11 +4,11 @@ const jwt=require("jsonwebtoken");
 
 const User=require("../model/userModel");
 
-
 //@desc create a new user 
 //@route POST /user/auth/register
 //@access public
 const registerUser=asyncHandler(async (req,res)=>{
+    const profilePic=req.file.filename
     const {userName,email,password}=req.body;
     const hashedPassword=await bcrypt.hash(password,10);
 
@@ -26,6 +26,7 @@ const registerUser=asyncHandler(async (req,res)=>{
         userName,
         email,
         password:hashedPassword,
+        profilePic,
     })
 
     if(newUser){

@@ -17,6 +17,9 @@ const userSchema=mongoose.Schema({
     },badges:{
         type:[Number],
         default:[]
+    },
+    profilePic:{
+        type:String,
     }
 },{timestamps:true});
 

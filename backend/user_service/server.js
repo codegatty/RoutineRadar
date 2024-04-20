@@ -8,6 +8,7 @@ const connectDb=require("./config/dbConfig")
 //built-in middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(express.static("public"))
 
 //router middlewares
 app.use('/users',require('./routes/userRoutes'))
