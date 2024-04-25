@@ -14,7 +14,7 @@ router.get('/',tokenValidator,asyncHandler( async (req,res)=>{
     //user count
     const request1=axios.get("http://localhost:5001/challenge/count");
     //challenge count
-    const request2=axios.get("http://localhost:5002/users/counts")
+    const request2=axios.get("http://localhost:5002/user/counts")
 
     Promise.all([request1,request2]).then((responses)=>{
         const [response1,response2]=responses

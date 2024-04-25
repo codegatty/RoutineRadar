@@ -57,6 +57,7 @@ function Login() {
         {errors.password&&<InputErrorDisplay>{errors.password.message}</InputErrorDisplay>}
 
         <button className='p-5 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Login"}</button> 
+        
         <InputErrorDisplay className="text-2xl">{error}</InputErrorDisplay>     
     </form>
     </div>

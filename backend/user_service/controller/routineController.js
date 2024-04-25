@@ -40,7 +40,7 @@ const createRoutine = asyncHandler(async (req, res) => {
 
 
 //@desc update existing routine
-//@route user/routine/
+//@route user/routine/userid
 //@access public
 const updateRoutine = asyncHandler(async (req, res) => {
   const {goal,type}=req.body;
@@ -48,12 +48,6 @@ const updateRoutine = asyncHandler(async (req, res) => {
 
   if (!goal || !type || !userId) {
     return res.status(400).json({ message: "requrired field must be filled" });
-  }
-  const user=await User.findOne({_id:userId});
-  if(!user ) {
-    return res.status(404).json({msg:"user does not exist"})
-  }else if(user.isRoutineCreated===false){
-    return res.status(404).json({msg:"user doesn not have current routine"})
   }
 
   axios.put("http://localhost:5005/routine/"+userId,{goal,type}).then((response)=>{
@@ -69,16 +63,11 @@ const updateRoutine = asyncHandler(async (req, res) => {
   
 });
 
-
+//@desc delete the routine
+//@route user/routine/userid
+//@access public
 const deleteRoutine = asyncHandler(async (req, res) => {
   const userId=req.params.id
-
-  const user=await User.findOne({_id:userId});
-  if(!user ) {
-    return res.status(404).json({msg:"user does not exist"})
-  }else if(user.isRoutineCreated===false){
-    return res.status(404).json({msg:"user doesn not have current routine"})
-  }
 
   axios.delete("http://localhost:5005/routine/"+userId).then((response)=>{
     
@@ -93,24 +82,18 @@ const deleteRoutine = asyncHandler(async (req, res) => {
 
 });
 
+//@desc get existing routine based on userId
+//@route user/routine/:usreId
+//@access public
 const getRoutine = asyncHandler(async (req, res) => {
   const userId=req.params.id
-
-  const user=await User.findOne({_id:userId});
-  console.log(user);
-  if(!user ) {
-    return res.status(404).json({msg:"user does not exist"})
-  }else if(user.isRoutineCreated===false){
-    return res.status(404).json({msg:"user doesn not have current routine"})
-  }
-
 
   axios.get("http://localhost:5005/routine/"+userId).then((response)=>{
     
   if(response.status==200){
     return res.status(200).json(response.data)
   }else{
-    return res.status(400).json({msg:"couldn't delete"})
+    return res.status(400).json({msg:"couldn't get the data"})
   }
 }).catch((err)=>{
   return res.status(400).json({msg:"couldn't delete"})

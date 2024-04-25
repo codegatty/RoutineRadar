@@ -6,15 +6,15 @@ const {createRoutine,
     deleteRoutine,
     getRoutine} =require("../controller/routineController")
 
-
+const userRoutineValidator = require("../middleware/userRoutineValidator")
 
 route.post('/',createRoutine);
 
-route.put('/:id',updateRoutine);
+route.put('/:id',userRoutineValidator,updateRoutine);
 
-route.delete('/:id',deleteRoutine);
+route.delete('/:id',userRoutineValidator,deleteRoutine);
 
-route.get('/:id',getRoutine);
+route.get('/:id',userRoutineValidator,getRoutine);
 
 
 

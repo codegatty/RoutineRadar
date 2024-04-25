@@ -6,7 +6,7 @@ const axios=require('axios');
 //@access private
 const getAlluers=async(req,res)=>{
     try{
-        const response=await axios.get('http://localhost:5002/users/getAllUsers');
+        const response=await axios.get('http://localhost:5002/user/getAllUsers');
         res.status(200).json(response.data)
     
     }catch(err){

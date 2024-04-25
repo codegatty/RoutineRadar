@@ -25,10 +25,11 @@ function Users() {
     }
     getUsers();
   },[])
-  const attr=["UserName","Email","created_at","updated_at"];
+  const attr=["UserName","Email","profile pic","is Routine created","created_at","updated_at"];
+  console.log(users)
   return (
     <div>
-      <Table data={users} attributes={attr} />
+      <Table data={users} attributes={attr} disableDelete={true} disableEdit={true}/>
     </div>
   )
 }

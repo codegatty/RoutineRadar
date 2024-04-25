@@ -24,6 +24,7 @@ app.use("/admin/auth",require("./routes/authRoutes"));
 app.use("/admin/challenges",require("./routes/challengeRoute"));
 app.use("/admin/users",require("./routes/userRoutes"));
 app.use("/admin/counts",require("./routes/countRoute"));
+app.use("/admin/badges",require("./routes/badgeRoute"));
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{
