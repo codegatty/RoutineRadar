@@ -10,9 +10,14 @@ const getAllBadges = asyncHandler(async (req, res) => {
 
 const getBadgeByBadgeNo = asyncHandler(async (req, res) => {
   const badgeNo = req.params.badgeNo;
+  console.log(badgeNo,typeof(badgeNo))
 
   const query = `SELECT * FROM badges WHERE badgeno=$1`;
   const result = await db.query(query, [badgeNo]);
+
+  if(result.rows.length <= 0) {
+    return res.json({message:"does not exist"});
+  }
 
   return res.json(result.rows);
 });
@@ -53,16 +58,16 @@ const updateBadge = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "badge does not exist" });
   }
 
-  const query = `
+  const query2 = `
     UPDATE 
         badges 
     SET 
-        title=$1,description=$2,badgeno=$3,image=$4,
+        title=$1,description=$2,badgeno=$3,image=$4
     WHERE 
         id=$5
     RETURNING *;`;
 
-  const result = await db.query(query, [title, description, badgeNo, image,id]);
+  const result = await db.query(query2, [title, description, badgeNo, image,id]);
   
   if(!result.rows[0]){
     return res.status(400).json({ message: "something went wrong" });

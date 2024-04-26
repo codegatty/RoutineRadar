@@ -23,6 +23,7 @@ import Admins from './pages/dashboardPages/Admins.jsx'
 import Admin from './pages/dashboardPages/Admin.jsx'
 import Login from './pages/Login.jsx'
 
+
 const router=createBrowserRouter([
   {path:'/',element:<App/>,errorElement:<NotFound/>},
   

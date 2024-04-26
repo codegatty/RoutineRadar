@@ -9,7 +9,7 @@ const getBadges=asyncHandler(async (req,res)=>{
 
 const getBadgeByBadgeNo=asyncHandler(async (req,res)=>{
     const badgeNo=req.params.badgeNo;
-    const result=await axios.get(`http://localhost:5008/badges/:${badgeNo}`);
+    const result=await axios.get(`http://localhost:5008/badges/${badgeNo}`);
     return res.json(result.data);
 });
 
@@ -19,13 +19,25 @@ const createBadge=asyncHandler(async (req,res)=>{
 });
 
 const updateBadge=asyncHandler(async (req,res)=>{
-    const result=await axios.get("http://localhost:5008/badges");
-    return res.json(result.data);
+    const id=req.params.id;
+    const body=req.body;
+    
+    axios.put(`http://localhost:5008/badges/${id}`,body).then((result)=>{
+        return res.json(result.data);
+    }).catch((err)=>{
+        res.status(400).json({message: err.message});
+    });
+    
 });
 
 const deleteBadge=asyncHandler(async (req,res)=>{
-    const result=await axios.get("hhttp://localhost:5008/badges");
-    return res.json(result.data);
+    const id=req.params.id
+    axios.delete(`http://localhost:5008/badges/${id}`).then((result)=>{
+        return res.json(result.data);
+    }).catch((error)=>{
+        res.status(400).json({message: error.message});
+    });
+    
 });
 
 module.exports = { getBadges, createBadge, updateBadge, deleteBadge, getBadgeByBadgeNo }
