@@ -1,12 +1,7 @@
-
-import { Box } from "@chakra-ui/react"
+import Layout from "./pages/Layout"
 function App() {
-  
-
   return (
-    <>
-<Box m={2}>Tomato</Box>
-    </>
+    <Layout/>
   )
 }
 
