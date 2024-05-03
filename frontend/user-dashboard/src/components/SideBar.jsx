@@ -1,8 +1,20 @@
+import { useState } from 'react';
 import clasnames from 'classnames';
 
-function SideBar() {
-  function openSidebar(){
 
+function SideBar() {
+  const sideBarStyle="sidebar top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900 lg:block hidden md:block sm:hidden"
+  const [isHidden,setIsHidden]=useState(true);
+  let hiddenStyle="hidden"
+  function openSidebar(){
+    
+    setIsHidden(!isHidden);
+    if(isHidden){
+      hiddenStyle="hidden"
+    }else{
+      hiddenStyle="block"
+    }
+    console.log(hiddenStyle)
   }
 
   function toggleButton(){
@@ -10,12 +22,12 @@ function SideBar() {
   }
 
   return (
-    <div className='lg:block block md:block sm:hidden'>
+    <div className=''>
       <div>
-        <button type="button" className='lg:hidden  md:hidden sm:block '>open</button>
+        <button type="button"  onClick={openSidebar} className='lg:hidden  md:hidden sm:block '>open</button>
       </div>
       <div
-        class="sidebar top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900 "
+        className={clasnames(sideBarStyle,"sm:bg-white bg-black lg:bg-black")}
       >
         <div class="text-gray-100 text-xl">
           <div class="p-2.5 mt-1 flex items-center">

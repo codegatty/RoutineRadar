@@ -8,7 +8,7 @@ function Layout() {
     <div className="w-screen h-screen bg-primary flex flex-col">
       <Header/>
       <hr class="h-px mt-1 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-      <div className="flex lg:flow-col flex-col sm:flex-row">
+      <div className="flex lg:flow-col flex-col sm:flex-row h-full">
       <div className="bg-red-500 flex-2">
         <SideBar/>
       </div>
