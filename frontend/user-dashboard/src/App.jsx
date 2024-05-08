@@ -1,7 +1,8 @@
-import Layout from "./pages/Layout"
+
+import Routine from "./pages/Routine"
 function App() {
   return (
-    <Layout/>
+    <Routine/>
   )
 }
 

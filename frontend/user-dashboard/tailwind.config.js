@@ -7,8 +7,13 @@ export default {
   theme: {
     extend: {
       colors:{
-        "primary":"#1e293b"
+        "primary":"#0f172a",
+        "secondary":"#1e293b",
+        "input":"#13283f"
       },
+      textColor:{
+        "primary":"#0ea5e9"
+      }
     },
   },
   plugins: [],
