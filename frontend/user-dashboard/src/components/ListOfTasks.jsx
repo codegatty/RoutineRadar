@@ -1,16 +1,18 @@
 
 import {useContext} from 'react'
 import { RoutineContext } from '../context/RoutineProvider'
-function ListOfTasks() {
-
+function ListOfTasks({onSelect}) {
+  function onSelectHandler(index){
+    onSelect(index) 
+  }
   const routineCtx=useContext(RoutineContext);
-  const routine=routineCtx.routine;
-  console.log(routine)
+  const routine=routineCtx.routine.tasks;
   return (
-    <div className='border border-1'>
+    <div className='border border-1 text-red-500'>
       <ul>
-        <li>{routine.title}</li>
-        <li>title start_time end_time</li>
+        {routine.map((task,index)=>{
+          return <li key={index} onClick={onSelectHandler.bind(this,index)}>{task.title}</li>
+        })}
       </ul>
     </div>
   )

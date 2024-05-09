@@ -18,7 +18,6 @@ function RoutineForm() {
             goal,
             type,
             tasks:[],
-            subTasks:[]
         }
         routineCtx.storeRoutine(finalData)
       }

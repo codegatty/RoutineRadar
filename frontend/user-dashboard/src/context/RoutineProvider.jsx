@@ -6,6 +6,7 @@ export const RoutineContext=createContext({
     updateRoutine:(routine)=>{},
     deleteRoutine:()=>{},
     addTask:(task)=>{},
+    addSubTask:(index,subtask)=>{},
 })
 
 function routineReducer(state,action){
@@ -19,11 +20,28 @@ function routineReducer(state,action){
         case 'ADDTASK':
             return {
         ...state,
-        tasks: [...state.tasks, action.payload],
+        tasks: [...state.tasks, action.payload]
       };
 
+      case 'ADDSUBTASK':
 
-            
+        const updatedTasks=state.tasks.map((task,index)=>{
+            if(index==action.payload.index){
+                const oldSubTasks=task.subTasks;
+                const newSubTasks=[...oldSubTasks,action.payload.subTask];
+                return {
+                   ...task,
+                    subTasks:newSubTasks
+                }
+            }
+            return task;
+        });
+
+        return {
+            ...state,
+            tasks: updatedTasks
+          };
+        
     }
 }
 
@@ -49,12 +67,17 @@ function RoutineContextProvider({children}){
         dispatch({type:'ADDTASK',payload:task});
     }
 
+    function addSubTask(index,subTask){
+        dispatch({type:'ADDSUBTASK',payload:{index:index,subTask:subTask}});
+    }
+
     const values={
         routine:routineState,
         updateRoutine:updateRoutine,
         deleteRoutine:deleteRoutine,
         storeRoutine:storeRoutine,
-        addTask
+        addTask:addTask,
+        addSubTask:addSubTask,
     }
 
     return (

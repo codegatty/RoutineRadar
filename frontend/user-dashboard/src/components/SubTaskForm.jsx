@@ -1,65 +1,68 @@
-import {useForm} from 'react-hook-form'
-import ListOfTasks from './ListOfTasks';
-import ListOfSubTasks from './ListOfSubTasks';
-
+import { useState, useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import ListOfTasks from './ListOfTasks'
+import ListOfSubTasks from './ListOfSubTasks'
+import InputErrorDisplay from '../UIComponents/InputErrorDisplay'
+import { RoutineContext } from '../context/RoutineProvider'
 function SubTaskForm() {
+  const routineCtx = useContext(RoutineContext)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm()
+  const [taskIndex, setTaskIndex] = useState(-1)
+  function submitHandler(data) {
+    routineCtx.addSubTask(taskIndex, data)
+    //TODO:send data to backend
+  }
 
-    const {register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-      } = useForm();
-    
-      function submitHandler(data){
-        console.log(data);
-        //TODO:send data to backend
-      }
+  function onSelect(index) {
+    setTaskIndex(index)
+  }
+
   return (
     <div>
-        <div className='flex flex-row border border-1 '>
-        <ListOfTasks/>
-        <ListOfSubTasks/>
-        </div>
-        
+
+      {/* lists the tasks and subtasks */}
+      <div className="flex flex-row border border-1 ">
+        <ListOfTasks onSelect={onSelect} />
+        {taskIndex === -1 ? '' : <ListOfSubTasks taskIndex={taskIndex} />}
+      </div>
+
+
+      {/* form for the subTask creation  */}
       <form onSubmit={handleSubmit(submitHandler)} className="border ">
-      <input
-        {...register("title", {
-          required: "Title required",
-          minLength: {
-            value: 5,
-            message: "title should be at least 5 characters",
-          },
-        })}
-        className="p-2 m-5 bg-neutral-300 "
-        type="text"
-        placeholder="Enter the title for task"
-      />
-      {errors.goal && (
-        <InputErrorDisplay>{errors.title.message}</InputErrorDisplay>
-      )}
+        <input
+          {...register('description', {
+            required: 'description required',
+            minLength: {
+              value: 5,
+              message: 'description should be at least 5 characters'
+            }
+          })}
+          className="p-2 m-5 bg-neutral-300 "
+          type="text"
+          placeholder="Enter the title for task"
+        />
+        {errors.description && <InputErrorDisplay>{errors.description.message}</InputErrorDisplay>}
 
-<input
-        {...register("description", {
-          required: "description required",
-          minLength: {
-            value: 5,
-            message: "description should be at least 5 characters",
-          },
-        })}
-        className="p-2 m-5 bg-neutral-300 "
-        type="text"
-        placeholder="Enter the title for task"
-      />
-      {errors.goal && (
-        <InputErrorDisplay>{errors.description.message}</InputErrorDisplay>
-      )}
+        <input
+          {...register('weightage', {
+            required: ' weightage required'
+          })}
+          className="p-2 m-5 bg-neutral-300 "
+          type="number"
+          aria-label="Time"
+          placeholder="Enter the weightage for task"
+        />
 
-      
-      <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"create"}</button> 
+        {errors.weightage && <InputErrorDisplay>{errors.weightage.message}</InputErrorDisplay>}
 
-    </form>
-
-
-
+        <button className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold" type="submit">
+          {isSubmitting ? 'Loading..' : 'create'}
+        </button>
+      </form>
     </div>
   )
 }

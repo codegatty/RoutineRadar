@@ -1,12 +1,20 @@
 import React from 'react'
+import { useContext } from 'react'
+import { RoutineContext } from '../context/RoutineProvider'
 
-function ListOfSubTasks() {
+
+function ListOfSubTasks({taskIndex}) {
+  const routineCtx=useContext(RoutineContext);
+  const routine=routineCtx.routine;
+  const subTasks=routine.tasks[taskIndex].subTasks
   return (
     <div className='border border-1'>
-        <ul>
-        <li>title start_time end_time</li>
-        <li>title start_time end_time</li>
-      </ul>
+        {/* <ul className='text-red-500'>
+        {subTasks.map(
+          (item,index)=><li key={index}>{item.description}</li>
+        )}
+      </ul> */}
+      <CustomList items={subTasks} />
     </div>
   )
 }

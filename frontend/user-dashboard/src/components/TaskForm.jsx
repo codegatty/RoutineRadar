@@ -7,7 +7,8 @@ function TaskForm() {
   const {register,handleSubmit,formState: { errors, isSubmitting } } = useForm();
   const routineCtx=useContext(RoutineContext)
   function submitHandler(data) {
-   routineCtx.addTask(data);
+   routineCtx.addTask({...data,subTasks:[]});
+   
     //TODO:send data to backend
     
   }
