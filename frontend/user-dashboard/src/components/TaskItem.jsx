@@ -1,14 +1,28 @@
-import React from 'react'
+import SubTaskItem from "../UIComponents/SubTaskItem"
+import Hr from "../UIComponents/Hr"
 
-function TaskItem(){
+function TaskItem({task}){
+  
   return (
-    <div className='flex flex-row justify-center items-center '>
-      <div className='flex-2'>
-        <input type="checkbox" value="hello"/>
+    <div className='flex flex-col'>
+      <div className='flex flex-row justify-around'>
+        <input className="flex-2" type="checkbox"/>
+        <h4 className='flex-1'>{task.title}</h4>
       </div>
-      <div className='flex-1 px-1'>
-        <span>title</span>
+
+      <div className='flex flex-row justify-around'>
+          <span>{task.startsAt}</span>
+          <span>{task.endsAt}</span>
       </div>
+      <div>
+        {
+          task.subTasks.map((subTask,index)=>{
+            return <SubTaskItem key={index} subTask={subTask}/>
+          })
+        }
+
+      </div>
+    <Hr/>
     </div>
   )
 }

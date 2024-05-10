@@ -13,8 +13,6 @@ function Task() {
       </div>
       <div>
         <TaskItem/>
-        <TaskItem/>
-        <TaskItem/>
       </div>
       </div>
     </div>
