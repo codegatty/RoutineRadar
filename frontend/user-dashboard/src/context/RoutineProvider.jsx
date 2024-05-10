@@ -37,10 +37,12 @@ function routineReducer(state,action){
             return task;
         });
 
+        console.log(updatedTasks)
         return {
             ...state,
             tasks: updatedTasks
           };
+        
         
     }
 }

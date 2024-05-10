@@ -1,14 +1,19 @@
 import React from 'react'
 
 function ListItem({data}) {
-    const values=data.keyValues;
+  const {subTasks,...newData}=data
+
+       const values=Object.values(newData)
+  
+    
+    
   return (
-    <div>
-    {
-        data.map((item,index)=>{
-            <div className=''>{}</div>
-        })  
-    }
+    <div className='flex flex-row w-full justify-around  hover:bg-primary '>
+      {
+        values.map((item,index)=>{
+          return <div className='flex gap-2  m-1' key={index}>{item}</div>
+        })
+      }
     </div>
   )
 }

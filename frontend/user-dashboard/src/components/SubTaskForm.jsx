@@ -14,6 +14,7 @@ function SubTaskForm() {
   const [taskIndex, setTaskIndex] = useState(-1)
   function submitHandler(data) {
     routineCtx.addSubTask(taskIndex, data)
+    
     //TODO:send data to backend
   }
 
@@ -25,14 +26,16 @@ function SubTaskForm() {
     <div>
 
       {/* lists the tasks and subtasks */}
-      <div className="flex flex-row border border-1 ">
+      <div className="flex flex-row border border-1 justify-around ">
         <ListOfTasks onSelect={onSelect} />
         {taskIndex === -1 ? '' : <ListOfSubTasks taskIndex={taskIndex} />}
       </div>
 
 
       {/* form for the subTask creation  */}
-      <form onSubmit={handleSubmit(submitHandler)} className="border ">
+
+      {taskIndex!==-1&&<form onSubmit={handleSubmit(submitHandler)} className="m-1">
+        <h1 className='text-center text-2xl'>Add New SubTask</h1>
         <input
           {...register('description', {
             required: 'description required',
@@ -62,7 +65,7 @@ function SubTaskForm() {
         <button className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold" type="submit">
           {isSubmitting ? 'Loading..' : 'create'}
         </button>
-      </form>
+      </form>}
     </div>
   )
 }
