@@ -27,7 +27,7 @@ function RoutineForm() {
     onSubmit={handleSubmit(submitHandler)}
   >
     <h1 className="text-center text-2xl mt-5 font-bold text-primary">
-      Create Account
+      Create Routine
     </h1>
 
     <input

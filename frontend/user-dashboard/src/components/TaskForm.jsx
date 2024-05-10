@@ -1,17 +1,49 @@
 import { useForm } from "react-hook-form";
 import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
-import { useContext } from "react";
+import { useContext,useEffect,useState } from "react";
 
-function TaskForm() {
-  const {register,handleSubmit,formState: { errors, isSubmitting } } = useForm();
+function TaskForm({defaultValue,selectedIndex}) {
+  const [isUpdate,setIsUpdate]=useState(false)
+  useEffect(()=>{
+    if(defaultValue!==undefined) {
+      setIsUpdate(true);
+    }else{
+      setIsUpdate(false);
+    }
+  },[defaultValue])
+
   const routineCtx=useContext(RoutineContext)
+  
+  const {register,handleSubmit,formState: { errors, isSubmitting, } } = useForm({values:{
+    title:isUpdate?defaultValue.title:"",
+    startsAt:isUpdate?defaultValue.startsAt:"",
+    endsAt:isUpdate?defaultValue.endsAt:"",
+    weightage:isUpdate?defaultValue.weightage:""
+  }});
+  
+  
   function submitHandler(data) {
-   routineCtx.addTask({...data,subTasks:[]});
-   
+    if(isUpdate){
+      routineCtx.updateTask(selectedIndex,data);
+    }else{
+      routineCtx.addTask({...data,subTasks:[]});
+    }
+
     //TODO:send data to backend
     
   }
+
+  function deleteHandler(){
+    routineCtx.deleteTask(selectedIndex);
+    setIsUpdate(false)
+  }
+
+  function handleAddNewTask(){
+    defaultValue=null
+    setIsUpdate(false)
+  }
+
   return (
     <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col w-96 bg-primary rounded-md shadow-sm shadow-secondary">
       <input
@@ -76,13 +108,40 @@ function TaskForm() {
         <InputErrorDisplay>{errors.weightage.message}</InputErrorDisplay>
       )}
 
+
+
+      {
+        isUpdate?<div className="flex flex-row justify-around">
+          <button
+        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        type="submit"
+      >
+        {isSubmitting ? "Loading.." : "update Task"}
+      </button>
+
       <button
+        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        onClick={deleteHandler}
+      >
+        {isSubmitting ? "Loading.." : "Delete Task"}
+      </button>
+
+      <button
+        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        onClick={handleAddNewTask}
+      >
+        {isSubmitting ? "Loading.." : "Add Task"}
+      </button>
+
+        </div>
+        :<button
         className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
         type="submit"
       >
         {isSubmitting ? "Loading.." : "Add Task"}
       </button>
-      
+      }
+   
     </form>
   );
 }
