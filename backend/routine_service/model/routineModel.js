@@ -23,11 +23,11 @@ const taskSchema=mongoose.Schema({
         type:String,
         required:[true,"Enter the admin name"]
     },
-    startTime:{
+    startsAt:{
         type:String,
         required:[true,"Enter the admin name"]
     },
-    endTime:{
+    endsAt:{
         type:String,
         required:[true,"Enter the admin name"]
     },
@@ -36,9 +36,7 @@ const taskSchema=mongoose.Schema({
         default:false
     },
     subTasks:[subTaskSchema],
-    order:{
-        type:Number
-    },weightage:{
+    weightage:{
         type:Number,
         required:[true,"Enter the admin name"]
     }
@@ -57,7 +55,7 @@ const routinSchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         required:true
     },
-    task:{
+    tasks:{
         type:[taskSchema]
     },
     score:{

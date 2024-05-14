@@ -1,11 +1,11 @@
-const asyncHanlder = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 const Routine = require("../model/routineModel");
 
 
-//@desc create a new routine
+//desc create a new routine
 //@route POST /routine
 //@access private
-const createRoutine = asyncHanlder(async (req, res) => {
+const createRoutine = asyncHandler(async (req, res) => {
   const response = await Routine.create(req.body);
   if(response){
     return res.status(201).json(response);
@@ -18,7 +18,7 @@ const createRoutine = asyncHanlder(async (req, res) => {
 //@desc delete routine
 //@route DELETE /routine/user_id
 //@access private
-const deleteRoutine = asyncHanlder(async (req, res) => {
+const deleteRoutine = asyncHandler(async (req, res) => {
 
   const response = await Routine.deleteOne({ userId: req.params.id });
   if(!response){
@@ -30,7 +30,7 @@ const deleteRoutine = asyncHanlder(async (req, res) => {
 //@desc update the routine
 //@route PUT /routine/user_id
 //@access private
-const updateRoutine = asyncHanlder(async (req, res) => {
+const updateRoutine = asyncHandler(async (req, res) => {
   const { goal, type } = req.body;
   const routine=await Routine.findOne({userId:req.params.id})
   if(!routine){
@@ -47,42 +47,50 @@ const updateRoutine = asyncHanlder(async (req, res) => {
 //@desc add new task in routine
 //@route POST /challenge/task/user_id
 //@access private
-const addTask = asyncHanlder(async (req, res) => {
+const addTask = asyncHandler(async (req, res) => {
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id },
-    { $push: { task: req.body } },
+    { $push: { tasks: req.body } },
     { new: true }
   );
-  res.json(response);
+
+  const lengthOfTasks=response.tasks.length;
+  const filteredResponse=response.tasks[lengthOfTasks-1];
+  if(lengthOfTasks>=0)
+    return res.json(filteredResponse);
+  return res.json(response);
+
 });
 
 
 //@desc update the task
 //@route PUT /routine/task/add/user_id
 //@access private
-const updateTask = asyncHanlder(async (req, res) => {
-  const { order, title, startTime, endTime, weightage } = req.body;
+const updateTask = asyncHandler(async (req, res) => {
+  const { taskId, title, startTime, endTime, weightage } = req.body;
   const response = await Routine.findOneAndUpdate(
-    { userId: req.params.id, task: { $elemMatch: { order: order } } },
+    { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {
       $set: {
-        "task.$.title": title,
-        "task.$.startTime": startTime,
-        "task.$.endTime": endTime,
-        "task.$.weightage": weightage,
+        "tasks.$.title": title,
+        "tasks.$.startTime": startTime,
+        "tasks.$.endTime": endTime,
+        "tasks.$.weightage": weightage,
       },
     },
     { new: true }
   );
+
   res.json(response);
+  
 });
 
 
 //@desc delete and task 
 //@route PUT /routine/task/user_id
 //@access private
-const deleteTask = asyncHanlder(async (req, res) => {
-  const { order } = req.body;
+const deleteTask = asyncHandler(async (req, res) => {
+  const { taskId } = req.body;
 
   const response = await Routine.findOneAndUpdate(
     {
@@ -90,7 +98,7 @@ const deleteTask = asyncHanlder(async (req, res) => {
     },
     {
       $pull: {
-        task: { order: order }, // Remove the routine with the specified order number
+        tasks: { _id: taskId }, // Remove the routine with the specified order number
       },
     },
     { new: true } // Return the updated document
@@ -102,38 +110,45 @@ const deleteTask = asyncHanlder(async (req, res) => {
 //@desc add an subtask for task
 //@route POST /routine/task/sub_task/user_id
 //@access private
-const addSubTask = asyncHanlder(async (req, res) => {
-  const { order, description, weightage, subTaskOrder } = req.body;
+const addSubTask = asyncHandler(async (req, res) => {
+  const { taskId, description, weightage } = req.body;
   const response = await Routine.findOneAndUpdate(
-    { userId: req.params.id, task: { $elemMatch: { order: order } } },
+    { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {
       $push: {
-        "task.$.subTasks": { description, weightage, order: subTaskOrder },
+        "tasks.$.subTasks": { description, weightage},
       },
     },
     { new: true }
   );
-  res.json(response);
+  if(response){
+  const currentTask = response.tasks.filter((task)=>task.id ===taskId);
+  const lengthOfSubTasks=currentTask[0].subTasks.length;
+  
+  return res.json(currentTask[0].subTasks[lengthOfSubTasks-1]);
+  }
+  return response
 });
 
 
 //@desc update an sub task in specific task
 //@route POST /routine/task/sub_task/update/user_id
 //@access private
-const updateSubTask = asyncHanlder(async (req, res) => {
-  const { description, weightage, order, subTaskOrder } = req.body;
+const updateSubTask = asyncHandler(async (req, res) => {
+  const { description, weightage, taskId, subTaskId } = req.body;
 
   const response = await Routine.findOneAndUpdate({userId: req.params.id,
-    'task.order': order},{
+    'tasks._id': taskId},{
       $set: {
-        'task.$[task].subTasks.$[subtask].description': description,
-        'task.$[task].subTasks.$[subtask].weightage':weightage 
+         'tasks.$[task].subTasks.$[subTask].description': description,
+         'tasks.$[task].subTasks.$[subTask].weightage':weightage 
       }
     },  {
-      arrayFilters: [{ 'task.order':order }, { 'subtask.order': subTaskOrder }],
+      arrayFilters: [{ 'task._id':taskId }, { 'subTask._id': subTaskId }],
       new: true
     });
-    //if something went wrong change the arrayfilter task to some  other identifier
+
+    //?if something went wrong change the array filter task to some  other identifier
     res.json(response)
   })
 
@@ -141,14 +156,14 @@ const updateSubTask = asyncHanlder(async (req, res) => {
 //@desc delete an subTask from task
 //@route PUT /routine/task/sub_task/user_id
 //@access private
-  const deleteSubTask=asyncHanlder(async (req,res)=>{
-    const{order,subTaskOrder}=req.body;
+  const deleteSubTask=asyncHandler(async (req,res)=>{
+    const{taskId,subTaskId}=req.body;
     const response = await Routine.findOneAndUpdate(
       { userId: req.params.id,
-        'task.order': order },
+        'tasks._id': taskId },
       {
         $pull: {
-          "task.$.subTasks": {order:subTaskOrder },
+          "tasks.$.subTasks": {_id:subTaskId },
         },
       },
       { new: true }
@@ -160,7 +175,7 @@ const updateSubTask = asyncHanlder(async (req, res) => {
 //@desc create a new challenge
 //@route GET /routine
 //@access public
-const getRoutine = asyncHanlder(async (req, res) => {
+const getRoutine = asyncHandler(async (req, res) => {
   const response = await Routine.find({ userId: req.params.id });
   res.status(200).json(response);
 });

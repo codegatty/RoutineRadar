@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
 import { useContext,useEffect,useState } from "react";
+import { axios_public } from "../axios_config/axiosConfig";
 
 function TaskForm({defaultValue,selectedIndex}) {
   const [isUpdate,setIsUpdate]=useState(false)
@@ -23,19 +24,38 @@ function TaskForm({defaultValue,selectedIndex}) {
   }});
   
   
-  function submitHandler(data) {
-    if(isUpdate){
-      routineCtx.updateTask(selectedIndex,data);
-    }else{
-      routineCtx.addTask({...data,subTasks:[]});
-    }
+  async function submitHandler(data) {
+    const userId=routineCtx.routine.userId;
+    try{
 
-    //TODO:send data to backend
+      if(isUpdate){
+        const taskId=routineCtx.routine.tasks[selectedIndex]._id
+        const finalData={...data,taskId}
+        const response=await axios_public.put(`/task/update/${userId}`,finalData);
+        routineCtx.updateTask(selectedIndex,data);
+      }else{
+          const response=await axios_public.put(`/task/add/${userId}`,data);
+          console.log(response.data)
+          routineCtx.addTask({...data,subTasks:[],_id:response.data._id});
+      }
+      
+    }catch(error){
+      console.log(error.message);
+    }
     
   }
 
-  function deleteHandler(){
-    routineCtx.deleteTask(selectedIndex);
+  async function deleteHandler(){
+    const userId=routineCtx.routine.userId;
+    const taskId=routineCtx.routine.tasks[selectedIndex]._id
+    try{
+       await axios_public.put(`/task/delete/${userId}`,{taskId});
+        routineCtx.deleteTask(selectedIndex);
+        setIsUpdate(false);
+    }catch(error){
+      console.log(error);
+    }
+    
     setIsUpdate(false)
   }
 

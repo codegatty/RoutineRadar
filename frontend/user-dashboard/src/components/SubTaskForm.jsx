@@ -4,6 +4,7 @@ import ListOfTasks from './ListOfTasks'
 import ListOfSubTasks from './ListOfSubTasks'
 import InputErrorDisplay from '../UIComponents/InputErrorDisplay'
 import { RoutineContext } from '../context/RoutineProvider'
+import { axios_public } from '../axios_config/axiosConfig'
 function SubTaskForm({onSelectIndex}) {
   const routineCtx = useContext(RoutineContext)
 
@@ -31,17 +32,42 @@ function SubTaskForm({onSelectIndex}) {
  
 
 
-  function submitHandler(data) {
+  async function submitHandler(data) {
+     const taskId=routineCtx.routine.tasks[taskIndex]._id
+    const userId=routineCtx.routine.userId
+    try{
+      if(shouldUpdate){
+        const subTaskId=routineCtx.routine.tasks[taskIndex].subTasks[subTaskIndex]._id
+        const response=await axios_public.put(`/task/sub_task/update/${userId}`,{...data,taskId,subTaskId});
+        routineCtx.updateSubTask(taskIndex,subTaskIndex,data);
+        setShouldUpdate(false)
+      }else{
+        const response=await axios_public.put(`/task/sub_task/add/${userId}`,{...data,taskId});
+        routineCtx.addSubTask(taskIndex, {...data,_id:response.data._id})
+      }
 
-    if(shouldUpdate){
-      routineCtx.updateSubTask(taskIndex,subTaskIndex,data);
-    }else{
-      routineCtx.addSubTask(taskIndex, data)
+    }catch(error){
+      console.log(error)
     }
-    
-    
-    //TODO:send data to backend
   }
+
+async function deleteHandler(){
+    try{
+      const taskId=routineCtx.routine.tasks[taskIndex]._id
+      const userId=routineCtx.routine.userId
+      const subTaskId=routineCtx.routine.tasks[taskIndex].subTasks[subTaskIndex]._id
+
+      const response=await axios_public.put(`/task/sub_task/delete/${userId}`,
+      {taskId:taskId, subTaskId:subTaskId});
+
+      routineCtx.deleteSubTask(taskIndex,subTaskIndex)
+      setShouldUpdate(false)
+      
+    }catch(error){
+      console.log(error)
+    }
+  }
+
 
   //? updates when we select one of the task in tasks list
   function onSelect(index) {
@@ -58,10 +84,6 @@ function SubTaskForm({onSelectIndex}) {
     setShouldUpdate(false)
   }
 
-  function deleteHandler(){
-    routineCtx.deleteSubTask(taskIndex,subTaskIndex)
-    setShouldUpdate(false)
-  }
 
   return (
     <div>

@@ -108,7 +108,7 @@ function routineReducer(state,action){
 }
 
 function RoutineContextProvider({children}){
-    const [routineState,dispatch]=useReducer(routineReducer,{...dummy_data});
+    const [routineState,dispatch]=useReducer(routineReducer,null);
 
 
     function updateRoutine(routine){

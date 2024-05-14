@@ -4,9 +4,9 @@ import Hr from "../UIComponents/Hr"
 function TaskItem({task}){
   
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col hover:bg-secondary' >
       <div className='flex flex-row justify-around'>
-        <input className="flex-2" type="checkbox"/>
+        <input className="flex-2" type="checkbox"  checked={task.isCompleted}/>
         <h4 className='flex-1'>{task.title}</h4>
       </div>
 

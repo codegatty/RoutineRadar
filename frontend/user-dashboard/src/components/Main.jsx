@@ -3,7 +3,10 @@
 function Main() {
   return (
     <div>
-      main
+        <div>Timer</div>
+        <div>
+          detailes of task and subTasks
+        </div>
     </div>
   )
 }

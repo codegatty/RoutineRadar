@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
+import {axios_public} from '../axios_config/axiosConfig'
 
 
 function RoutineForm() {
@@ -14,12 +15,22 @@ function RoutineForm() {
 
       async function submitHandler(data) {
         const {goal,type}=data
+        const userId="6623842ca349171323f3c4f9"
         const finalData={
             goal,
             type,
+            userId,
             tasks:[],
         }
-        routineCtx.storeRoutine(finalData)
+        
+
+        try{
+          const response=await axios_public.post(`/`,finalData)
+          routineCtx.storeRoutine(finalData)
+          console.log(response.data)
+        }catch(error){
+          console.log("Something went wrong")
+        }
       }
   return (
     <form
