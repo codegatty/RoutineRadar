@@ -121,7 +121,7 @@ function routineReducer(state,action){
         case 'UPDATESUBTASKISCOMPLETE':
             const sele_task=state.tasks.find(task=>task._id===action.payload.taskId)
             const sel_subTask=sele_task.subTasks.find(subtask=>subtask._id===action.payload.subTaskId)
-            // console.log(sel_subTask)
+        
             const up_subTask={...sel_subTask,isCompleted:!sel_subTask.isCompleted}
 
             const up_subTasks=sele_task.subTasks.map((subTask,index)=>{
@@ -142,7 +142,7 @@ function routineReducer(state,action){
 }
 
 function RoutineContextProvider({children}){
-    const [routineState,dispatch]=useReducer(routineReducer,dummy_data);
+    const [routineState,dispatch]=useReducer(routineReducer,null);
 
 
     function updateRoutine(routine){

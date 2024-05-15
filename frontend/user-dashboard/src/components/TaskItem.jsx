@@ -6,8 +6,9 @@ import {axios_public} from '../axios_config/axiosConfig'
 import { RoutineContext } from '../context/RoutineProvider'
 import classnames from 'classnames'
 import { FiChevronDown } from "react-icons/fi";
+import { convertTo12HourFormat } from '../utility/convertTo12HourFormat'
 
-function TaskItem({ task,userId }) {
+function TaskItem({ task,userId,onClick }) {
   const routineCtx = useContext(RoutineContext);
   const [enabled, setEnabled] = useState(task.isCompleted)
   const [toggleSubTask,setToggleSubTask] = useState(false); 
@@ -36,7 +37,7 @@ function TaskItem({ task,userId }) {
 
   
   return (
-    <div className="flex flex-col hover:bg-secondary p-4 rounded-xl">
+    <div className="flex flex-col hover:bg-secondary p-4 rounded-xl" onClick={onClick}>
       <div className="flex flex-row justify-around items-center">
 
         <Checkbox
@@ -54,8 +55,8 @@ function TaskItem({ task,userId }) {
       </div>
 
       <div className="flex flex-row justify-around">
-        <span className='font-semibold'>From: <span className='font-bold '>{task.startsAt}</span></span>
-        <span>To: {task.endsAt}</span>
+        <span className='font-semibold'>From: <span className='font-bold '>{convertTo12HourFormat(task.startsAt)}</span></span>
+        <span>To: {convertTo12HourFormat(task.endsAt)}</span>
       </div>
       <div className={classnames(toggleSubTask?"block":"hidden")}>
         {task.subTasks.map((subTask, index) => {

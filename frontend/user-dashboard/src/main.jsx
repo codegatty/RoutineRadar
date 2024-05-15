@@ -8,6 +8,7 @@ import {createBrowserRouter,RouterProvider} from 'react-router-dom'
 import Routine from './pages/Routine.jsx'
 import Layout from './pages/Layout.jsx'
 
+
 const router=createBrowserRouter([
   {path:'/',element:<Layout/>},
   {path:'/routine',element:<Routine/>}

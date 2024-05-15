@@ -12,6 +12,7 @@ import Main from "../components/Main";
 
 function Layout() {
   const [sidebarToggle,setSidebarToggle] =useState(true);
+  const [taskId,setTaskId]=useState(null);
   const navigate=useNavigate();
   const routineCtx=useContext(RoutineContext);
 
@@ -32,6 +33,10 @@ function Layout() {
   function createHandler(){
     navigate("/routine")
   }
+
+  function taskIdHandler(taskId){
+    setTaskId(taskId)
+  }
   return (
     <div className="w-screen h-screen bg-primary flex flex-col">
       <Header sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle}/>
@@ -39,11 +44,11 @@ function Layout() {
       <hr className="h-px mt-1 bg-gray-200 border-0 dark:bg-gray-700"></hr>
       <div className="flex lg:flow-col flex-col sm:flex-row h-full">
       <div className=" flex-2">
-        <SideBar sidebarToggle={sidebarToggle} routine={routineCtx.routine}/>
-        {/* <button className="btn bg-red-300" onClick={createHandler}>add new routine</button> */}
+        <SideBar sidebarToggle={sidebarToggle} routine={routineCtx.routine} selectedTaskId={taskIdHandler}/>
+        <button className="btn bg-red-300" onClick={createHandler}>add new routine</button>
       </div>
-      <div className="bg-blue-500 flex-1">
-      <Main />
+      <div className="flex-1">
+      <Main taskId={taskId}/>
       </div>
       <div className="bg-green-500 flex-2">
       <NavBar/>

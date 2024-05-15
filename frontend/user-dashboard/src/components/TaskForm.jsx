@@ -35,7 +35,7 @@ function TaskForm({defaultValue,selectedIndex}) {
         routineCtx.updateTask(selectedIndex,data);
       }else{
           const response=await axios_public.put(`/task/add/${userId}`,data);
-          console.log(response.data)
+          
           routineCtx.addTask({...data,subTasks:[],_id:response.data._id});
       }
       
