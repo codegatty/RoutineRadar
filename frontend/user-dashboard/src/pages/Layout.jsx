@@ -40,7 +40,7 @@ function Layout() {
       <div className="flex lg:flow-col flex-col sm:flex-row h-full">
       <div className=" flex-2">
         <SideBar sidebarToggle={sidebarToggle} routine={routineCtx.routine}/>
-        <button className="btn bg-red-300" onClick={createHandler}>add new routine</button>
+        {/* <button className="btn bg-red-300" onClick={createHandler}>add new routine</button> */}
       </div>
       <div className="bg-blue-500 flex-1">
       <Main />

@@ -181,6 +181,40 @@ const getRoutine = asyncHandler(async (req, res) => {
 });
 
 
+const updateTaskIsCompleted=asyncHandler(async (req, res) => {
+  const { taskId,isCompleted } = req.body;
+ 
+  const response = await Routine.findOneAndUpdate(
+    { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
+    {
+      $set: {
+        "tasks.$.isCompleted": isCompleted
+      },
+    },
+    { new: true }
+  );
+
+  res.json(response);
+})
+
+const updateSubTaskIsCompleted=asyncHandler(async (req, res) => {
+
+  const {  taskId, subTaskId,isCompleted } = req.body;
+
+  const response = await Routine.findOneAndUpdate({userId: req.params.id,
+    'tasks._id': taskId},{
+      $set: {
+         'tasks.$[task].subTasks.$[subTask].isCompleted': isCompleted
+      }
+    },  {
+      arrayFilters: [{ 'task._id':taskId }, { 'subTask._id': subTaskId }],
+      new: true
+    });
+
+    //?if something went wrong change the array filter task to some  other identifier
+    res.json(response)
+
+})
 
 module.exports = {
   createRoutine,
@@ -192,5 +226,7 @@ module.exports = {
   deleteTask,
   addSubTask,
   updateSubTask,
-  deleteSubTask
+  deleteSubTask,
+  updateSubTaskIsCompleted,
+  updateTaskIsCompleted
 };

@@ -9,9 +9,11 @@ export const RoutineContext=createContext({
     addTask:(task)=>{},
     updateTask:(index,task)=>{},
     deleteTask:(index)=>{},
+    updateTaskIsCompleted:(taskId)=>{},
     addSubTask:(index,subtask)=>{},
     updateSubTask:(taskIndex,subtaskIndex,subTask)=>{},
     deleteSubTask:(taskIndex,subtaskIndex)=>{},
+    updateSubTaskIsCompleted:(subTaskId,taskId)=>{},
     
 
 })
@@ -47,6 +49,18 @@ function routineReducer(state,action){
         const uTasks=state.tasks.filter((task,index)=>index!=action.payload)
         
         return {...state,tasks:uTasks};
+
+    case 'UPDATETASKISCOMPLETE':
+        const sel_task=state.tasks.find(task=>task._id===action.payload)
+        const up_task={...sel_task,isCompleted:!sel_task.isCompleted}
+        const up_tasks=state.tasks.map((task,index)=>{
+            if(task._id==action.payload){
+                return up_task
+            }
+            return task
+        })
+        
+        return {...state,tasks:up_tasks}
         
       case 'ADDSUBTASK':
 
@@ -104,11 +118,31 @@ function routineReducer(state,action){
             
             return {...state,tasks:updated_Tasks};  
 
+        case 'UPDATESUBTASKISCOMPLETE':
+            const sele_task=state.tasks.find(task=>task._id===action.payload.taskId)
+            const sel_subTask=sele_task.subTasks.find(subtask=>subtask._id===action.payload.subTaskId)
+            // console.log(sel_subTask)
+            const up_subTask={...sel_subTask,isCompleted:!sel_subTask.isCompleted}
+
+            const up_subTasks=sele_task.subTasks.map((subTask,index)=>{
+                if(subTask._id===action.payload.subTaskId)
+                    return up_subTask
+                return subTask
+            })
+            const new_updated_task={...sele_task,subTasks:up_subTasks}
+            const new_updated_tasks=state.tasks.map((task)=>{
+                if(task._id===action.payload.taskId)
+                    return new_updated_task
+                return task
+            })
+
+            return {...state,tasks:new_updated_tasks};
+
     }
 }
 
 function RoutineContextProvider({children}){
-    const [routineState,dispatch]=useReducer(routineReducer,null);
+    const [routineState,dispatch]=useReducer(routineReducer,dummy_data);
 
 
     function updateRoutine(routine){
@@ -149,6 +183,15 @@ function RoutineContextProvider({children}){
         dispatch({type:'DELETESUBTASK',payload:{taskIndex:taskIndex,subtaskIndex:subtaskIndex}});
     }
 
+    function updateTaskIsCompleted(taskId){
+        dispatch({type:'UPDATETASKISCOMPLETE',payload:taskId});
+    }
+
+    function updateSubTaskIsCompleted(taskId,subTaskId){
+        dispatch({type:'UPDATESUBTASKISCOMPLETE',payload:{taskId,subTaskId}});
+    }
+
+
     
 
     const values={
@@ -159,9 +202,11 @@ function RoutineContextProvider({children}){
         addTask:addTask,
         updateTask:updateTask,
         deleteTask:deleteTask,
+        updateTaskIsCompleted:updateTaskIsCompleted,
         addSubTask:addSubTask,
         updateSubTask:updateSubTask,
         deleteSubTask:deleteSubTask,
+        updateSubTaskIsCompleted:updateSubTaskIsCompleted,
     }
 
     return (
