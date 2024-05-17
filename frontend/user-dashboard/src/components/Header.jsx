@@ -1,20 +1,29 @@
 
 import { TfiAlignLeft } from "react-icons/tfi";
+import { useContext } from "react";
+import {RoutineContext} from '../context/RoutineProvider'
 
 function Header({sidebarToggle,setSidebarToggle}) {
+
+  const routineCtx=useContext(RoutineContext)
+
   function sidebarToggleHandler(){
     setSidebarToggle(!sidebarToggle)
   }
   return (
-    <div className="bg-primary h-10 flex flex-row justify-between items-center px-5 ">
+    <div className="bg-primary h-10 flex flex-row justify-around items-center px-5 ">
       
-      <div className='flex flex-row '>
+      <div className='flex flex-row  flex-1'>
         <button className="mr-2" onClick={sidebarToggleHandler}><TfiAlignLeft color="white" size={25} /></button>
-        <h1 className='text-center text-1xl text -white'>Routine Radar</h1>
+        <h1 className='text-center text-1xl text-white font-semibold'>Routine Radar</h1>
       </div>
-      <div>
-        
+
+      <div className="flex-1 flex">
+      <div className="bg-yellow-900 p-1 rounded-lg flex flex-row justify-center items-center text-white font-bold ">
+          <span className="flex-1 text-sm">Score:  </span><span className="flex-1">{routineCtx?.routine?.score}</span>
+        </div>
       </div>
+
     </div>
   )
 }

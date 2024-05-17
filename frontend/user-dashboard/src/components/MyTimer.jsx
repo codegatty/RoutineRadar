@@ -11,9 +11,11 @@ function MyTimer({ expiryTimestamp }) {
 
 
   return (
-    <div style={{textAlign: 'center'}}>
-      <div style={{fontSize: '100px'}}>
+    <div style={{textAlign: 'center'}} >
+      <div style={{fontSize: '80px'}} className='flex justify-center items-center '>
+        <div className=' flex justify-center items-center p-1 rounded-lg text-primary border border-blue-500'>
         <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+        </div>
       </div>
 
     </div>

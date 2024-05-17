@@ -1,5 +1,6 @@
 import { createContext,useReducer } from "react";
 import { dummy_data } from "../dummy_data";
+import { scoreCalculator } from "../utility/scoreCalculator";
 
 export const RoutineContext=createContext({
     routine:null,
@@ -10,8 +11,8 @@ export const RoutineContext=createContext({
     updateTask:(index,task)=>{},
     deleteTask:(index)=>{},
     updateTaskIsCompleted:(taskId)=>{},
-    addSubTask:(index,subtask)=>{},
-    updateSubTask:(taskIndex,subtaskIndex,subTask)=>{},
+    addSubTask:(index,subtask,total_weightage)=>{},
+    updateSubTask:(taskIndex,subtaskIndex,subTask,total_weightage)=>{},
     deleteSubTask:(taskIndex,subtaskIndex)=>{},
     updateSubTaskIsCompleted:(subTaskId,taskId)=>{},
     
@@ -52,6 +53,8 @@ function routineReducer(state,action){
 
     case 'UPDATETASKISCOMPLETE':
         const sel_task=state.tasks.find(task=>task._id===action.payload)
+        const up_score=scoreCalculator(sel_task.weightage)+state.score
+        
         const up_task={...sel_task,isCompleted:!sel_task.isCompleted}
         const up_tasks=state.tasks.map((task,index)=>{
             if(task._id==action.payload){
@@ -60,17 +63,18 @@ function routineReducer(state,action){
             return task
         })
         
-        return {...state,tasks:up_tasks}
+        return {...state,tasks:up_tasks,score:up_score}
         
       case 'ADDSUBTASK':
-
         const updatedTasks=state.tasks.map((task,index)=>{
             if(index==action.payload.index){
                 const oldSubTasks=task.subTasks;
                 const newSubTasks=[...oldSubTasks,action.payload.subTask];
                 return {
                    ...task,
-                    subTasks:newSubTasks
+                    subTasks:newSubTasks,
+                    weightage:parseInt(action.payload.total_weightage)
+                    
                 }
             }
             return task;
@@ -81,8 +85,7 @@ function routineReducer(state,action){
           };
 
           case 'UPDATESUBTASK':
-            const selected_task=state.tasks[action.payload.taskIndex]
-        
+            let selected_task=state.tasks[action.payload.taskIndex]
             const selected_sub_tasks=selected_task.subTasks
             const selected_sub_task=selected_sub_tasks[action.payload.subtaskIndex]
             const updated_sub_task={...selected_sub_task,...action.payload.subTask}
@@ -93,7 +96,9 @@ function routineReducer(state,action){
                 return subTask
             })
             
-            const updated_task={...selected_task,subTasks:updated_sub_tasks}
+            const updated_task={...selected_task,
+                subTasks:updated_sub_tasks,
+                weightage:action.payload.total_weightage}
 
             
 
@@ -171,12 +176,12 @@ function RoutineContextProvider({children}){
         dispatch({type:'DELETETASK',payload:index});
     }
 
-    function addSubTask(index,subTask){
-        dispatch({type:'ADDSUBTASK',payload:{index:index,subTask:subTask}});
+    function addSubTask(index,subTask,total_weightage){
+        dispatch({type:'ADDSUBTASK',payload:{index:index,subTask:subTask,total_weightage:total_weightage}});
     }
 
-    function updateSubTask(taskIndex,subtaskIndex,subTask){
-        dispatch({type:'UPDATESUBTASK',payload:{taskIndex:taskIndex,subtaskIndex:subtaskIndex,subTask:subTask}});
+    function updateSubTask(taskIndex,subtaskIndex,subTask,total_weightage){
+        dispatch({type:'UPDATESUBTASK',payload:{taskIndex:taskIndex,subtaskIndex:subtaskIndex,subTask:subTask,total_weightage:total_weightage}});
     }
 
     function deleteSubTask(taskIndex,subtaskIndex){

@@ -111,13 +111,18 @@ const deleteTask = asyncHandler(async (req, res) => {
 //@route POST /routine/task/sub_task/user_id
 //@access private
 const addSubTask = asyncHandler(async (req, res) => {
-  const { taskId, description, weightage } = req.body;
+  const { taskId, description, weightage,total_weightage } = req.body;
+  console.log(req.body)
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {
       $push: {
         "tasks.$.subTasks": { description, weightage},
+        
       },
+      $set:{
+        "tasks.$.weightage": total_weightage
+      }
     },
     { new: true }
   );

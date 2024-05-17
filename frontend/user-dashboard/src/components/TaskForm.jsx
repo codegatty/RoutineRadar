@@ -25,18 +25,22 @@ function TaskForm({defaultValue,selectedIndex}) {
   
   
   async function submitHandler(data) {
+    
+
     const userId=routineCtx.routine.userId;
     try{
 
       if(isUpdate){
         const taskId=routineCtx.routine.tasks[selectedIndex]._id
-        const finalData={...data,taskId}
+        //?convert the weightage to number
+        const finalData={...data,taskId};
+
         const response=await axios_public.put(`/task/update/${userId}`,finalData);
-        routineCtx.updateTask(selectedIndex,data);
+        routineCtx.updateTask(selectedIndex,{...data,weightage:parseInt(data.weightage)});
       }else{
           const response=await axios_public.put(`/task/add/${userId}`,data);
-          
-          routineCtx.addTask({...data,subTasks:[],_id:response.data._id});
+          const finalData={...data,weightage:parseInt(data.weightage)}
+          routineCtx.addTask({...finalData,subTasks:[],_id:response.data._id});
       }
       
     }catch(error){

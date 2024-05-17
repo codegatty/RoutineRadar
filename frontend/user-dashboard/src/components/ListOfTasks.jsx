@@ -14,7 +14,7 @@ function ListOfTasks({onSelect}) {
       <Title className="text-primary text-center">List Of Tasks</Title>
       <ul className='text-primary '>
         {tasks.map((task,index)=>{
-          return <li key={index} onClick={onSelectHandler.bind(this,index)}><ListItem data={task}/></li>
+          return <li key={index} onClick={onSelectHandler.bind(this,index)}><ListItem data={task} listType="task"/></li>
         })}
       </ul>
     </div>

@@ -9,7 +9,9 @@ export default {
       colors:{
         "primary":"#0f172a",
         "secondary":"#1e293b",
-        "input":"#13283f"
+        "input":"#13283f",
+        "app-blue":"#0ea5e9",
+        "app-light-blue":"#5881a8"
       },
       textColor:{
         "primary":"#0ea5e9"

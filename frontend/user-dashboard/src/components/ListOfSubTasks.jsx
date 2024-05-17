@@ -1,8 +1,8 @@
 import React from 'react'
 import { useContext } from 'react'
 import { RoutineContext } from '../context/RoutineProvider'
-import ListItem from '../UIComponents/ListItem';
 import Title from '../UIComponents/Title';
+import ListItemSubTask from '../UIComponents/ListItemSubTask';
 
 function ListOfSubTasks({taskIndex,onSelect}) {
   const routineCtx=useContext(RoutineContext);
@@ -19,7 +19,7 @@ function ListOfSubTasks({taskIndex,onSelect}) {
       <Title className="text-primary text-center">List Of SubTasks</Title>
         <ul className='text-primary'>
          {subTasks && subTasks.map(
-          (subTask,index)=><li key={index} onClick={onSelectHandler.bind(this,index)}><ListItem data={subTask}/></li>
+          (subTask,index)=><li key={index} onClick={onSelectHandler.bind(this,index)}><ListItemSubTask data={subTask}/></li>
         )}
       </ul>
       
