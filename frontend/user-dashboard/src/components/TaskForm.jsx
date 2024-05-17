@@ -5,6 +5,8 @@ import { useContext,useEffect,useState } from "react";
 import { axios_public } from "../axios_config/axiosConfig";
 
 function TaskForm({defaultValue,selectedIndex}) {
+  const inputClasses="p-2 m-5 bg-secondary rounded-2xl text-primary text-sm font-semibold"
+  const buttonClasses="p-2 m-5 bg-app-blue hover:bg-secondary hover:text-primary rounded-xl text-secondary font-semibold"
   const [isUpdate,setIsUpdate]=useState(false)
   useEffect(()=>{
     if(defaultValue!==undefined) {
@@ -69,7 +71,9 @@ function TaskForm({defaultValue,selectedIndex}) {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col w-96 bg-primary rounded-md shadow-sm shadow-secondary">
+    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col w-96 bg-primary h-full " >
+      <h1 className="text-primary text-3xl text-center mt-5">Task</h1>
+    <h2 className="text-primary text-md text-center ">({defaultValue?.title})</h2>
       <input
         {...register("title", {
           required: "Title required",
@@ -78,7 +82,7 @@ function TaskForm({defaultValue,selectedIndex}) {
             message: "title should be at least 5 characters",
           },
         })}
-        className="p-2 m-5 bg-neutral-300 "
+        className={inputClasses}
         type="text"
         placeholder="Enter the title for task"
       />
@@ -91,7 +95,7 @@ function TaskForm({defaultValue,selectedIndex}) {
         {...register("startsAt", {
           required: "starts at required",
         })}
-        className="p-2 m-5 bg-neutral-300 "
+        className={inputClasses}
         type="time"
         aria-label="Time"
         placeholder="Enter the title for task"
@@ -108,7 +112,7 @@ function TaskForm({defaultValue,selectedIndex}) {
             message: "title should be at least 5 characters",
           },
         })}
-        className="p-2 m-5 bg-neutral-300 "
+        className={inputClasses}
         type="time"
         aria-label="Time"
         placeholder="Enter the title for task"
@@ -122,7 +126,7 @@ function TaskForm({defaultValue,selectedIndex}) {
         {...register("weightage", {
           required: " weightage required",
         })}
-        className="p-2 m-5 bg-neutral-300 "
+        className={inputClasses}
         type="number"
         aria-label="Time"
         placeholder="Enter the weightage for task"
@@ -137,32 +141,33 @@ function TaskForm({defaultValue,selectedIndex}) {
       {
         isUpdate?<div className="flex flex-row justify-around">
           <button
-        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        className={buttonClasses}
         type="submit"
       >
-        {isSubmitting ? "Loading.." : "update Task"}
+        {isSubmitting ? "Loading.." : "update"}
       </button>
 
       <button
-        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        className={buttonClasses}
         onClick={deleteHandler}
       >
-        {isSubmitting ? "Loading.." : "Delete Task"}
+        {isSubmitting ? "Loading.." : "Delete"}
       </button>
 
       <button
-        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        className={buttonClasses}
         onClick={handleAddNewTask}
       >
-        {isSubmitting ? "Loading.." : "Add Task"}
+        {isSubmitting ? "Loading.." : "Add"}
       </button>
 
         </div>
         :<button
-        className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+        className={buttonClasses}
         type="submit"
+        
       >
-        {isSubmitting ? "Loading.." : "Add Task"}
+        {isSubmitting ? "Loading.." : "Add"}
       </button>
       }
    

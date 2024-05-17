@@ -1,14 +1,13 @@
 
 function ListItemSubTask({data}) {
-  
-    
-  
-    const values=Object.values(data)  
+    const {_id,isCompleted,...updatedData}=data
+    console.log(updatedData)
+    const values=Object.values(updatedData)  
     return (
-      <div className='flex flex-row w-full justify-around  hover:bg-primary '>
+      <div className='flex flex-row w-full justify-center  hover:bg-primary item-center '>
         {
           values.map((item,index)=>{
-             return <div className='flex gap-2  m-1' key={index}>{item}</div>
+             return <div className='flex-1 flex gap-1  m-1 ' key={index}>{item}</div>
           })
         }
       </div>

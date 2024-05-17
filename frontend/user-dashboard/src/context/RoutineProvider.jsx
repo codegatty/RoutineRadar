@@ -1,6 +1,6 @@
 import { createContext,useReducer } from "react";
 import { dummy_data } from "../dummy_data";
-import { scoreCalculator } from "../utility/scoreCalculator";
+import {scoreCalculatorFromTask } from "../utility/scoreCalculator";
 
 export const RoutineContext=createContext({
     routine:null,
@@ -53,8 +53,10 @@ function routineReducer(state,action){
 
     case 'UPDATETASKISCOMPLETE':
         const sel_task=state.tasks.find(task=>task._id===action.payload)
-        const up_score=scoreCalculator(sel_task.weightage)+state.score
-        
+
+        //?calculating score for tasks with subtask and without subtasks
+        const up_score=scoreCalculatorFromTask(sel_task,state.score)
+         
         const up_task={...sel_task,isCompleted:!sel_task.isCompleted}
         const up_tasks=state.tasks.map((task,index)=>{
             if(task._id==action.payload){
@@ -128,12 +130,13 @@ function routineReducer(state,action){
             const sel_subTask=sele_task.subTasks.find(subtask=>subtask._id===action.payload.subTaskId)
         
             const up_subTask={...sel_subTask,isCompleted:!sel_subTask.isCompleted}
-
+            
             const up_subTasks=sele_task.subTasks.map((subTask,index)=>{
                 if(subTask._id===action.payload.subTaskId)
                     return up_subTask
                 return subTask
             })
+
             const new_updated_task={...sele_task,subTasks:up_subTasks}
             const new_updated_tasks=state.tasks.map((task)=>{
                 if(task._id===action.payload.taskId)
@@ -147,7 +150,7 @@ function routineReducer(state,action){
 }
 
 function RoutineContextProvider({children}){
-    const [routineState,dispatch]=useReducer(routineReducer,null);
+    const [routineState,dispatch]=useReducer(routineReducer,dummy_data);
 
 
     function updateRoutine(routine){

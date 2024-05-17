@@ -7,7 +7,7 @@ import { RoutineContext } from '../context/RoutineProvider'
 import classnames from 'classnames'
 import { FiChevronDown } from "react-icons/fi";
 import { convertTo12HourFormat } from '../utility/convertTo12HourFormat'
-
+import {scoreCalculatorFromTask} from '../utility/scoreCalculator'
 
 function TaskItem({ task,userId,onClick }) {
   const routineCtx = useContext(RoutineContext);
@@ -20,13 +20,12 @@ function TaskItem({ task,userId,onClick }) {
     setEnabled(!enabled);
     const data={
       taskId,
-      isCompleted:!enabled
+      isCompleted:!enabled, 
     }
     
     try{
-    const response=await axios_public.put(`/task/update/is_complete/${userId}`,data)
-   
     routineCtx.updateTaskIsCompleted(task._id)
+    const response=await axios_public.put(`/task/update/is_complete/${userId}`,{...data})
     }catch(error){
       console.log(error);
     }

@@ -6,6 +6,10 @@ import InputErrorDisplay from '../UIComponents/InputErrorDisplay'
 import { RoutineContext } from '../context/RoutineProvider'
 import { axios_public } from '../axios_config/axiosConfig'
 function SubTaskForm({ onSelectIndex }) {
+  const inputClasses = 'p-2 m-5 bg-secondary rounded-2xl text-primary text-sm font-semibold'
+  const buttonClasses =
+    'p-2 m-5 bg-app-blue hover:bg-secondary hover:text-primary rounded-xl text-secondary font-semibold'
+
   const routineCtx = useContext(RoutineContext)
 
   const [subTaskIndex, setSubTaskIndex] = useState(-1)
@@ -13,8 +17,12 @@ function SubTaskForm({ onSelectIndex }) {
   const [shouldUpdate, setShouldUpdate] = useState(false)
 
   let selectedSubTask = routineCtx.routine.tasks[taskIndex]?.subTasks
+  let taskTitle=""
+  let subTaskTitle=""
   if (subTaskIndex !== -1) {
     selectedSubTask = routineCtx.routine.tasks[taskIndex]?.subTasks[subTaskIndex]
+    taskTitle=routineCtx.routine.tasks[taskIndex]?.title
+    subTaskTitle=selectedSubTask.description
   } else {
     selectedSubTask = []
   }
@@ -31,29 +39,24 @@ function SubTaskForm({ onSelectIndex }) {
   })
 
   async function submitHandler(data) {
-
     const taskId = routineCtx.routine.tasks[taskIndex]._id
     const userId = routineCtx.routine.userId
 
     //?this calculate the total subtask weightage to convert task weightage to subtask weightage
-    let total_weightage=routineCtx
-    .routine.tasks[taskIndex]
-    .subTasks
-    .reduce((acc,curr)=>{return parseInt(acc)+parseInt(curr.weightage)},0)
-    total_weightage+=parseInt(data.weightage);
-
-    
+    let total_weightage = routineCtx.routine.tasks[taskIndex].subTasks.reduce((acc, curr) => {
+      return parseInt(acc) + parseInt(curr.weightage)
+    }, 0)
+    total_weightage += parseInt(data.weightage)
 
     try {
       if (shouldUpdate) {
-
         const subTaskId = routineCtx.routine.tasks[taskIndex].subTasks[subTaskIndex]._id
-         const response=await axios_public.put(`/task/sub_task/update/${userId}`, { ...data, taskId, subTaskId })
-        routineCtx.updateSubTask(taskIndex, subTaskIndex, {data},total_weightage)
+        const response = await axios_public.put(`/task/sub_task/update/${userId}`, { ...data, taskId, subTaskId })
+        routineCtx.updateSubTask(taskIndex, subTaskIndex, { data }, total_weightage)
         setShouldUpdate(false)
       } else {
-        const response = await axios_public.put(`/task/sub_task/add/${userId}`, { ...data, taskId,total_weightage })
-        routineCtx.addSubTask(taskIndex, { ...data, _id: response.data._id },total_weightage)
+        const response = await axios_public.put(`/task/sub_task/add/${userId}`, { ...data, taskId, total_weightage })
+        routineCtx.addSubTask(taskIndex, { ...data, _id: response.data._id }, total_weightage)
         setShouldUpdate(false)
       }
     } catch (error) {
@@ -95,9 +98,9 @@ function SubTaskForm({ onSelectIndex }) {
   }
 
   return (
-    <div>
+    <div className=' flex flex-col h-full'>
       {/* lists the tasks and subtasks */}
-      <div className="flex flex-row border border-1 justify-around ">
+      <div className="flex-1 flex flex-row justify-around mt-16 w-full ">
         <ListOfTasks onSelect={onSelect} />
 
         {taskIndex !== -1 && <ListOfSubTasks taskIndex={taskIndex} onSelect={onSelectHandler} />}
@@ -106,8 +109,10 @@ function SubTaskForm({ onSelectIndex }) {
       {/* form for the subTask creation  */}
 
       {taskIndex !== -1 && (
-        <form onSubmit={handleSubmit(submitHandler)} className="m-1">
-          <h1 className="text-center text-2xl">Add New SubTask</h1>
+        <div className='flex-1 flex item-center justify-center '>
+        <form onSubmit={handleSubmit(submitHandler)} className="m-1  flex flex-col w-96 ">
+          <h1 className="text-primary text-3xl text-center mt-5">Sub Task</h1>
+          <h2 className="text-primary text-md text-center ">({taskTitle+">"+subTaskTitle})</h2>
           <input
             {...register('description', {
               required: 'description required',
@@ -116,7 +121,7 @@ function SubTaskForm({ onSelectIndex }) {
                 message: 'description should be at least 5 characters'
               }
             })}
-            className="p-2 m-5 bg-neutral-300 "
+            className={inputClasses}
             type="text"
             placeholder="Enter the title for task"
           />
@@ -126,7 +131,7 @@ function SubTaskForm({ onSelectIndex }) {
             {...register('weightage', {
               required: ' weightage required'
             })}
-            className="p-2 m-5 bg-neutral-300 "
+            className={inputClasses}
             type="number"
             aria-label="Time"
             placeholder="Enter the weightage for task"
@@ -134,24 +139,25 @@ function SubTaskForm({ onSelectIndex }) {
 
           {errors.weightage && <InputErrorDisplay>{errors.weightage.message}</InputErrorDisplay>}
           {shouldUpdate ? (
-            <div>
-              <button className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold" type="submit">
-                {isSubmitting ? 'Loading..' : 'Update subTask'}
+            <div className='flex flex-row justify-around items-center'>
+              <button className={buttonClasses} type="submit">
+                {isSubmitting ? 'Loading..' : 'Update'}
               </button>
-              <button className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold" onClick={deleteHandler}>
-                {isSubmitting ? 'Loading..' : 'Delete subTask'}
+              <button className={buttonClasses} onClick={deleteHandler}>
+                {isSubmitting ? 'Loading..' : 'Delete'}
               </button>
 
-              <button className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold" onClick={addSubTaskHandler}>
-                {isSubmitting ? 'Loading..' : 'Add subTask'}
+              <button className={buttonClasses} onClick={addSubTaskHandler}>
+                {isSubmitting ? 'Loading..' : 'Add'}
               </button>
             </div>
           ) : (
-            <button className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold" type="submit">
-              {isSubmitting ? 'Loading..' : 'Add subTask'}
+            <button className={buttonClasses} type="submit">
+              {isSubmitting ? 'Loading..' : 'Add'}
             </button>
           )}
         </form>
+        </div>
       )}
     </div>
   )

@@ -15,9 +15,9 @@ function ListOfSubTasks({taskIndex,onSelect}) {
   }
   
   return (
-    <div className='bg-secondary p-2 w-full m-1'>
+    <div className='bg-secondary p-2 w-full m-1 h-full'>
       <Title className="text-primary text-center">List Of SubTasks</Title>
-        <ul className='text-primary'>
+        <ul className='text-primary h-52 overflow-auto'>
          {subTasks && subTasks.map(
           (subTask,index)=><li key={index} onClick={onSelectHandler.bind(this,index)}><ListItemSubTask data={subTask}/></li>
         )}

@@ -10,7 +10,7 @@ function ListOfTasks({onSelect}) {
   const routineCtx=useContext(RoutineContext);
   const tasks=routineCtx.routine.tasks;
   return (
-    <div className='bg-secondary p-2 w-full m-1'>
+    <div className='bg-secondary p-2 w-full m-1 h-full'>
       <Title className="text-primary text-center">List Of Tasks</Title>
       <ul className='text-primary '>
         {tasks.map((task,index)=>{

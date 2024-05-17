@@ -1,14 +1,14 @@
 
 function ListItem({data,listType}) {
   
-  const {subTasks,...new_Data}=data
+  const {subTasks,_id,isCompleted,...new_Data}=data
 
   const values=Object.values(new_Data)  
   return (
-    <div className='flex flex-row w-full justify-around  hover:bg-primary '>
+    <div className='flex flex-row w-full justify-center  hover:bg-primary '>
       {
         values.map((item,index)=>{
-           return <div className='flex gap-2  m-1' key={index}>{item}</div>
+           return <div className='flex gap-2  m-1 flex-1 text-center' key={index}>{item}</div>
         })
       }
     </div>

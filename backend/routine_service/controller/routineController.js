@@ -187,8 +187,8 @@ const getRoutine = asyncHandler(async (req, res) => {
 
 
 const updateTaskIsCompleted=asyncHandler(async (req, res) => {
-  const { taskId,isCompleted } = req.body;
- 
+  const { taskId,isCompleted,score } = req.body;
+  
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {

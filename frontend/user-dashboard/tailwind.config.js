@@ -14,7 +14,8 @@ export default {
         "app-light-blue":"#5881a8"
       },
       textColor:{
-        "primary":"#0ea5e9"
+        "primary":"#0ea5e9",
+        "secondary":"#1e293b"
       }
     },
   },
