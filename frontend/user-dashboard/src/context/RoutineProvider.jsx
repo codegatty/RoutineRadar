@@ -53,19 +53,25 @@ function routineReducer(state,action){
 
     case 'UPDATETASKISCOMPLETE':
         const sel_task=state.tasks.find(task=>task._id===action.payload)
-
-        //?calculating score for tasks with subtask and without subtasks
-        const up_score=scoreCalculatorFromTask(sel_task,state.score)
-         
         const up_task={...sel_task,isCompleted:!sel_task.isCompleted}
+        
+        let up_score=0
+        //?calculating score for tasks with subtask and without subtasks
+        if(up_task.isCompleted===true){
+             up_score=scoreCalculatorFromTask(sel_task,state.score)
+        }
+        
         const up_tasks=state.tasks.map((task,index)=>{
             if(task._id==action.payload){
                 return up_task
             }
             return task
         })
-        
+
+        if(up_task.isCompleted===true)
         return {...state,tasks:up_tasks,score:up_score}
+        else
+        return {...state,tasks:up_tasks}
         
       case 'ADDSUBTASK':
         const updatedTasks=state.tasks.map((task,index)=>{
@@ -150,7 +156,7 @@ function routineReducer(state,action){
 }
 
 function RoutineContextProvider({children}){
-    const [routineState,dispatch]=useReducer(routineReducer,dummy_data);
+    const [routineState,dispatch]=useReducer(routineReducer,null);
 
 
     function updateRoutine(routine){

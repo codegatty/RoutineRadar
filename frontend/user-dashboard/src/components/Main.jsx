@@ -4,6 +4,7 @@ import {createDateFromString} from '../utility/createDateFromString'
 import MyTimer from '../components/MyTimer'
 import CountCard from "../UIComponents/CountCard"
 import { LuTimerOff } from "react-icons/lu";
+import {scoreCalculatorFromTasks} from '../utility/scoreCalculator'
 
 function Main({taskId}) {
   const routineCtx=useContext(RoutineContext);
@@ -13,6 +14,7 @@ function Main({taskId}) {
     noOfSubtasks:0,
     completedSubtasks:0,
     nonCompletedSubtasks:0,
+    scoreAttained:0
   })
   
   useEffect(()=>{
@@ -20,16 +22,15 @@ function Main({taskId}) {
     const startTime=createDateFromString(selectedTask.startsAt)
     const endTime=createDateFromString(selectedTask.endsAt)
 
-    console.log(selectedTask.subTasks.length)
-
     setCounts(()=>{
       return {
         noOfSubtasks:selectedTask.subTasks.length,
         completedSubtasks:selectedTask.subTasks.filter((subTask)=>subTask.isCompleted).length,
         nonCompletedSubtasks:selectedTask.subTasks.filter((subTask)=>!subTask.isCompleted).length,
+        scoreAttained:scoreCalculatorFromTasks(selectedTask)
       }
     })
-
+    console.log(selectedTask,)
 
     if(startTime.getTime()<=new Date().getTime() && endTime.getTime()>=new Date().getTime()){
       setEnableTimer(true)
@@ -37,10 +38,6 @@ function Main({taskId}) {
       setEnableTimer(false)
     }
     }
-
-
-    
-    
 
   },[taskId,routineCtx.routine])
 
@@ -66,13 +63,17 @@ function Main({taskId}) {
             </div>
           }
         </div>
+        {selectedTask?.subTasks.length > 0?
         <div className="flex-1 flex flex-row justify-around">
           <CountCard label="No. of SubTasks: " count={counts.noOfSubtasks}/>
           <CountCard label="Completed SubTask: " count={counts.completedSubtasks}/>
           <CountCard label="Non Completed SubTask: " count={counts.nonCompletedSubtasks}/>
-          <CountCard label="Score Attained: " count={0}/>
-        </div>
-        <div className="flex-1">{taskId}</div>
+          <CountCard label="Score Attained: " count={counts.scoreAttained}/>
+        </div>:<div className="flex-1 flex flex-row justify-around">
+        <CountCard label="No. of SubTasks: " count={counts.noOfSubtasks} disabled={true}/>
+          <CountCard label="Completed SubTask: " count={counts.completedSubtasks} disabled={true}/>
+          <CountCard label="Non Completed SubTask: " count={counts.nonCompletedSubtasks} disabled={true}/>
+          <CountCard label="Score Attained: " count={counts.scoreAttained}/></div>}
         <div className="flex">
 
         </div>

@@ -188,16 +188,20 @@ const getRoutine = asyncHandler(async (req, res) => {
 
 const updateTaskIsCompleted=asyncHandler(async (req, res) => {
   const { taskId,isCompleted,score } = req.body;
+  const curr_score=await Routine.findOne({userId: req.params.id},{score:1,_id:0})
+  const new_score=curr_score.score+score
   
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {
       $set: {
-        "tasks.$.isCompleted": isCompleted
+        "tasks.$.isCompleted": isCompleted,
+        score:new_score
       },
     },
     { new: true }
   );
+
 
   res.json(response);
 })
