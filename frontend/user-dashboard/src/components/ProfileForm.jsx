@@ -2,9 +2,13 @@ import {useForm} from 'react-hook-form'
 import InputErrorDisplay from '../UIComponents/InputErrorDisplay';
 import classNames from 'classnames';
 
-function ProfileForm({className}) {
+function ProfileForm({className,userData}) {
     
-    const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm();
+    const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
+        username:userData?userData.userName:"",
+        email:userData?userData.email:"",
+        profilePic:userData?userData.profilePic:""
+    }});
     
     async function submitHandler(data){
         
@@ -51,10 +55,10 @@ function ProfileForm({className}) {
         {errors.profilePic&&<InputErrorDisplay>{errors.profilePic.message}</InputErrorDisplay>}   
 
 
-        <input  {...register("password",{
+        {/* <input  {...register("password",{
             required: "password required"
         })}className='p-2 m-5 bg-neutral-300' type='password' placeholder='Enter the password' disabled/>
-        {errors.password&&<InputErrorDisplay>{errors.password.message}</InputErrorDisplay>}
+        {errors.password&&<InputErrorDisplay>{errors.password.message}</InputErrorDisplay>} */}
         <div>
         <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Update Account"}</button>
         <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Delete Account"}</button>

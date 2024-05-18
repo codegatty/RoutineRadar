@@ -9,10 +9,11 @@ export const axios_public=axios.create({
     withCredentials: false,
 });
 
-export const axios_private=axios.create({
-    baseURL: 'http://localhost:5000/admin',
+export const axios_user=axios.create({
+    baseURL: 'http://localhost:5002/user',
     headers: {
         'Content-Type': 'application/json',
-    },withCredentials: true,
+        'Accept': 'application/json',
+    },withCredentials: false,
 });
 

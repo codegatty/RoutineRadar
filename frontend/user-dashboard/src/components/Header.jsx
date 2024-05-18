@@ -2,10 +2,16 @@
 import { TfiAlignLeft } from "react-icons/tfi";
 import { useContext } from "react";
 import {RoutineContext} from '../context/RoutineProvider'
+import { UserContext } from "../context/userContext";
+import {useAuth0} from '@auth0/auth0-react'
+
+import DropDownMenu from "../UIComponents/DropDownMenu";
 
 function Header({sidebarToggle,setSidebarToggle}) {
 
   const routineCtx=useContext(RoutineContext)
+  const userCtx=useContext(UserContext)
+  const {logout} =useAuth0()
 
   function sidebarToggleHandler(){
     setSidebarToggle(!sidebarToggle)
@@ -21,9 +27,15 @@ function Header({sidebarToggle,setSidebarToggle}) {
       <div className="flex-1 flex">
       <div className="bg-yellow-900 p-1 rounded-lg flex flex-row justify-center items-center text-white font-bold ">
           <span className="flex-1 text-sm">Score:  </span><span className="flex-1">{routineCtx?.routine?.score}</span>
-        </div>
+        </div>        
       </div>
-
+      <div className="flex-1">
+        <DropDownMenu user={userCtx.userData}/>
+        </div>
+        <div className="flex-1 flex">
+        <button  onClick={logout} className="  bg-red-500 p-1 text-sm font-semibold rounded-lg ">Logout</button>
+        </div>
+      
     </div>
   )
 }

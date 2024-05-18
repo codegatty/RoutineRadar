@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState,useLayoutEffect } from "react"
 import { RoutineContext } from "../context/RoutineProvider"
 import {createDateFromString} from '../utility/createDateFromString'
 import MyTimer from '../components/MyTimer'
@@ -16,8 +16,10 @@ function Main({taskId}) {
     nonCompletedSubtasks:0,
     scoreAttained:0
   })
+
+
   
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     if(selectedTask){
     const startTime=createDateFromString(selectedTask.startsAt)
     const endTime=createDateFromString(selectedTask.endsAt)
@@ -30,7 +32,6 @@ function Main({taskId}) {
         scoreAttained:scoreCalculatorFromTasks(selectedTask)
       }
     })
-    console.log(selectedTask,)
 
     if(startTime.getTime()<=new Date().getTime() && endTime.getTime()>=new Date().getTime()){
       setEnableTimer(true)
@@ -42,6 +43,8 @@ function Main({taskId}) {
   },[taskId,routineCtx.routine])
 
   return (
+    <>{
+    routineCtx.routine?
     <div className="text-white flex flex-col justify-around">
       <div>
         <h1 className="text-center text-2xl capitalize underline m-2">{selectedTask?.title}</h1>
@@ -78,6 +81,14 @@ function Main({taskId}) {
 
         </div>
     </div>
+    :<div className=' h-full flex justify-center items-center'>
+      <div className="flex flex-col items-center ">
+    <h1 className=' flex-1 font-bold text-secondary text-xl text-center'>No Routine Found</h1>
+    <button className="mt-1 p-1 bg-app-blue rounded-lg text-secondary font-semibold text-sm">Create Routine</button>
+    </div>
+  </div>
+}
+    </>
   )
 }
 

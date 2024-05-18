@@ -1,6 +1,7 @@
 const asyncHandler=require("express-async-handler");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
+const axios=require("axios");
 
 const User=require("../model/userModel");
 
@@ -122,10 +123,40 @@ const getUserCount=asyncHandler(async (req,res)=>{
     res.status(200).json({userCount:userCount});
 })
 
+const getUser=asyncHandler(async (req,res)=>{
+    const accessToken=req.headers.authorization.split(' ')[1]
+
+    const response= await axios.get("https://dev-4jfiy6jgo6zsib84.us.auth0.com/userinfo",{
+        headers:{
+            Authorization:`Bearer ${accessToken}`
+        }
+        
+    })
+    const currentUser=response.data
+
+    const user=await User.findOne({email:currentUser.email});
+    
+    if(!user ) {
+        const newUser=await User.create({
+            userName:currentUser.nickname,
+            email:currentUser.email,
+            profilePic:currentUser.picture,
+        })
+        return res.status(200).json(newUser);
+    }else{
+        return res.status(200).json(user);
+    }
+   
+   
+    res.status(200).json(response.data);
+});
+
+
 module.exports={registerUser,
     loginUser,
     deleteUser,
     updateUser,
     getAllUsers,
-    getUserCount
+    getUserCount,
+    getUser
 }

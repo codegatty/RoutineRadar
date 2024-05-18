@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express=require("express");
 const app = express();
+const cors=require("cors");
 
 //userdefined functions
 const connectDb=require("./config/dbConfig")
@@ -9,6 +10,7 @@ const connectDb=require("./config/dbConfig")
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"))
+app.use(cors());
 
 //router middlewares
 app.use('/user',require('./routes/userRoutes'))
