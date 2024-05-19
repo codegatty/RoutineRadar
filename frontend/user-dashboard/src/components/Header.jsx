@@ -3,15 +3,22 @@ import { TfiAlignLeft } from "react-icons/tfi";
 import { useContext } from "react";
 import {RoutineContext} from '../context/RoutineProvider'
 import { UserContext } from "../context/userContext";
-import {useAuth0} from '@auth0/auth0-react'
+import { useNavigate } from "react-router-dom";
+
 
 import DropDownMenu from "../UIComponents/DropDownMenu";
 
 function Header({sidebarToggle,setSidebarToggle}) {
 
+
+
   const routineCtx=useContext(RoutineContext)
   const userCtx=useContext(UserContext)
-  const {logout} =useAuth0()
+
+  function logout(){
+    userCtx.logout();
+    useNavigate("/")
+  }
 
   function sidebarToggleHandler(){
     setSidebarToggle(!sidebarToggle)

@@ -10,6 +10,7 @@ const userSchema=mongoose.Schema({
         required:[true,"Enter the email"]
     },password:{
         type:String,
+        required:[true,"Enter the password"]
     },experience:{
         type:Number,
         default:0,

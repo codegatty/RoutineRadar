@@ -1,7 +1,6 @@
 const asyncHandler=require("express-async-handler");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
-const axios=require("axios");
 
 const User=require("../model/userModel");
 
@@ -11,6 +10,7 @@ const User=require("../model/userModel");
 const registerUser=asyncHandler(async (req,res)=>{
     const profilePic=req.file.filename
     const {userName,email,password}=req.body;
+    
     const hashedPassword=await bcrypt.hash(password,10);
 
     if(!userName||!email||!password){
@@ -58,7 +58,7 @@ const loginUser=asyncHandler(async (req,res)=>{
             userName:user.userName,
             email:user.email,
         }},process.env.SECRET_KEY,{expiresIn:"30m"})
-        res.status(200).json({token:token});
+        res.status(200).json(user);
     }
 })
 
@@ -67,31 +67,37 @@ const loginUser=asyncHandler(async (req,res)=>{
 //@route DELETE /user/id
 //@access private
 const deleteUser=asyncHandler(async(req,res)=>{
+    
     const user = await User.findById(req.params.id);
     if(!user){
         return res.status(404).json({msg:"user not found"});
     }
+    const response=await User.deleteOne({_id:req.params.id});
 
-    await User.deleteOne({_id:req.params.id});
-    
-   
-    res.status(200).json({message:"deletion successful"});
+    res.status(200).json(response);
 })
 
 //@desc update a challenge
 //@route PUT /user/id
 //@access private
 const updateUser=asyncHandler(async(req,res)=>{
-    const {userName,email}=req.body;
-
-    if(!userName || !email){
-        return res.status(400).json({msg:"Please fill all the fields"});
+    const {userName}=req.body;
+    const profilePic=req.file?.filename
+    console.log(userName)
+    if(!userName){
+        return res.status(400).json({msg:"Please fill all the fields..."});
     }
-
-    const user=await User.findByIdAndUpdate(req.params.id,{
-        userName,
-        email,
+    let user
+    if(profilePic){
+         user=await User.findByIdAndUpdate(req.params.id,{
+            userName,
+            profilePic
+        },{new:true});
+    }else{
+     user=await User.findByIdAndUpdate(req.params.id,{
+        userName
     },{new:true});
+    } 
     if(!user){
         return res.status(404).json({msg:"no such user"});
     }
@@ -124,31 +130,15 @@ const getUserCount=asyncHandler(async (req,res)=>{
 })
 
 const getUser=asyncHandler(async (req,res)=>{
-    const accessToken=req.headers.authorization.split(' ')[1]
+   const userId=req.params.id;
 
-    const response= await axios.get("https://dev-4jfiy6jgo6zsib84.us.auth0.com/userinfo",{
-        headers:{
-            Authorization:`Bearer ${accessToken}`
-        }
-        
-    })
-    const currentUser=response.data
+   const user=await User.findById(userId);
 
-    const user=await User.findOne({email:currentUser.email});
-    
-    if(!user ) {
-        const newUser=await User.create({
-            userName:currentUser.nickname,
-            email:currentUser.email,
-            profilePic:currentUser.picture,
-        })
-        return res.status(200).json(newUser);
-    }else{
-        return res.status(200).json(user);
-    }
-   
-   
-    res.status(200).json(response.data);
+   if(!user){
+    res.status(404).send({message: "user not found"})
+   }
+
+   res.status(200).json(user);
 });
 
 

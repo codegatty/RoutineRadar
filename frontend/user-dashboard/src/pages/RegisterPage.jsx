@@ -1,7 +1,10 @@
 import {useForm} from 'react-hook-form'
 import InputErrorDisplay from '../UIComponents/InputErrorDisplay';
-
+import {axios_user} from '../axios_config/axiosConfig'
+import {useNavigate} from 'react-router-dom'
 function RegisterPage() {
+
+    const navigate=useNavigate();
     
     const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
         email:"admin123@gmail.com",password:"admin"
@@ -14,8 +17,19 @@ function RegisterPage() {
         finalData.append("email",data.email);
         finalData.append("password",data.password);
         finalData.append("profilePic",data.profilePic[0]);
-
-        //TODO:send data to backend
+        console.log(data.profilePic[0])
+        try{
+        const response=await axios_user.post("/register",finalData,{
+            headers:{
+                "Content-Type":"multipart/form-data"
+            }
+        });
+        if(response){
+            navigate("/login")
+        }
+        }catch(error){
+            console.log(error)
+        }
     }
 
   return (

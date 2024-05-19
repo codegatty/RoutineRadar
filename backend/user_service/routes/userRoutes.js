@@ -5,20 +5,18 @@ const upload= require('../middleware/multerUpload')
 
 
 //user-defined middleware
-// const tokenValidator = require('../middleware/tokenValidator');
-const tokenValidator= require('../middleware/tokenValidatorAuth0');
-
+ const tokenValidator = require('../middleware/tokenValidator');
 const {deleteUser,loginUser,registerUser,updateUser,getAllUsers,getUserCount,getUser}=require('../controller/userController');
 
 router.post('/register',upload.single("profilePic"),registerUser);
 
 router.post('/login',loginUser);
 
-router.delete('/:id',tokenValidator,deleteUser);
+router.delete('/:id',deleteUser);
 
-router.get('/userData',tokenValidator,getUser)
+router.get('/:id',getUser)
 
-router.put('/:id',tokenValidator,updateUser);
+router.put('/:id',upload.single("profilePic"),updateUser);
 
 router.get('/getAllUsers',getAllUsers)
 

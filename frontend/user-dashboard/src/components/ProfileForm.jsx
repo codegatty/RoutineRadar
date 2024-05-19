@@ -2,12 +2,12 @@ import {useForm} from 'react-hook-form'
 import InputErrorDisplay from '../UIComponents/InputErrorDisplay';
 import classNames from 'classnames';
 
-function ProfileForm({className,userData}) {
+function ProfileForm({className,userData,onUpdate,onDelete}) {
     
     const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
         username:userData?userData.userName:"",
         email:userData?userData.email:"",
-        profilePic:userData?userData.profilePic:""
+        
     }});
     
     async function submitHandler(data){
@@ -15,10 +15,20 @@ function ProfileForm({className,userData}) {
         const finalData=new FormData();
         finalData.append("userName",data.username);
         finalData.append("email",data.email);
-        finalData.append("password",data.password);
-        finalData.append("profilePic",data.profilePic[0]);
+        
+        
+        if(data.profilePic.length==0){
+            finalData.append("profilePic","");
+        }else{
+            finalData.append("profilePic",data.profilePic[0]);
+            console.log(data.profilePic[1])
+        }
 
-        //TODO:send data to backend
+        onUpdate(finalData)
+    }
+
+    function deleteHandler(){
+        onDelete()
     }
 
   return (
@@ -50,7 +60,7 @@ function ProfileForm({className,userData}) {
         {errors.email&&<InputErrorDisplay>{errors.email.message}</InputErrorDisplay>}   
 
         <input  {...register("profilePic",{
-            required: "profile picture required"
+            
         })}className='p-2 m-5 bg-neutral-300 'type='file' accept='image/*' placeholder='upload a profile pic'/> 
         {errors.profilePic&&<InputErrorDisplay>{errors.profilePic.message}</InputErrorDisplay>}   
 
@@ -60,12 +70,13 @@ function ProfileForm({className,userData}) {
         })}className='p-2 m-5 bg-neutral-300' type='password' placeholder='Enter the password' disabled/>
         {errors.password&&<InputErrorDisplay>{errors.password.message}</InputErrorDisplay>} */}
         <div>
-        <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Update Account"}</button>
-        <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Delete Account"}</button>
+        <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold' type='submit' >{isSubmitting?"Loading..":"Update Account"}</button>
+        <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold' onClick={deleteHandler} >{isSubmitting?"Loading..":"Delete Account"}</button>
         </div>
  
         <InputErrorDisplay className="text-2xl">error</InputErrorDisplay>     
     </form>
+
     </div>
   )
 }

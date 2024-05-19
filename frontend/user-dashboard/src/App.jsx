@@ -1,17 +1,15 @@
-import { useEffect } from 'react'
+import {useContext } from 'react'
+import {UserContext} from './context/userContext'
 import Layout from './pages/Layout'
-import {useAuth0} from '@auth0/auth0-react'
+import LoginPage from './pages/LoginPage'
 
 
 function App() {
-  const {
-    loginWithRedirect,
-    isAuthenticated} =useAuth0()
-
+  const userCtx=useContext(UserContext)
   return (
     <>
    {
-    isAuthenticated?<Layout/>:<div><button className='bg-red-500' onClick={loginWithRedirect}>Sign up or login</button></div>
+    userCtx.userId?<Layout/>:<LoginPage/>
    }
    </>
   )

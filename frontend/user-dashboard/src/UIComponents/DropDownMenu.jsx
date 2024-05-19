@@ -1,13 +1,13 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import {Link} from 'react-router-dom'
-import {useAuth0} from '@auth0/auth0-react'
+
 
 function DropDownMenu({user}) {
-    const {logout}=useAuth0()
+    
   return (
     <Menu>
     <MenuButton className="flex justify-center items-center">
-      <img src={user?.profilePic} alt="no image found" height={30} width={30} className='rounded'/>
+      <img src={`http://localhost:5002/profile/${user?.profilePic}`} alt="no image found" height={30} width={30} className='rounded'/>
     </MenuButton>
     <MenuItems anchor="bottom" className="bg-secondary text-primary text-sm p-2 m-1 rounded-sm">
       <MenuItem>
@@ -21,7 +21,7 @@ function DropDownMenu({user}) {
         </a>
       </MenuItem>
       <MenuItem>
-      <button className='className="block data-[focus]:bg-blue-100' onClick={logout}>Logout</button>
+      <button className='className="block data-[focus]:bg-blue-100' >Logout</button>
       </MenuItem>
     </MenuItems>
   </Menu>
