@@ -6,6 +6,9 @@ import {axios_public} from '../axios_config/axiosConfig'
 
 
 function RoutineForm() {
+
+  const inputClasses="p-2 m-5 bg-secondary rounded-2xl text-primary text-sm font-semibold"
+  const buttonClasses="p-2 m-5 bg-app-blue hover:bg-secondary hover:text-primary rounded-xl text-secondary font-semibold"
     const {
         register,
         handleSubmit,
@@ -34,11 +37,11 @@ function RoutineForm() {
       }
   return (
     <form
-    className="flex flex-col w-96 bg-primary rounded-md shadow-sm shadow-secondary "
+    className="flex flex-col w-96 "
     onSubmit={handleSubmit(submitHandler)}
   >
     <h1 className="text-center text-2xl mt-5 font-bold text-primary">
-      Create Routine
+      Create New Routine
     </h1>
 
     <input
@@ -49,7 +52,7 @@ function RoutineForm() {
           message: "Goal should be at least 5 characters",
         },
       })}
-      className="p-2 m-5 bg-neutral-300 "
+      className={inputClasses}
       type="text"
       placeholder="Enter the Goal for routine"
     />
@@ -61,7 +64,7 @@ function RoutineForm() {
       {...register("type", {
         required: "type required",
       })}
-      className="p-2 m-5 bg-neutral-300 "
+      className={inputClasses}
       type="text"
       placeholder="Enter the type of routine"
     />
@@ -70,13 +73,13 @@ function RoutineForm() {
     )}
 
     <button
-      className="p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold"
+      className={buttonClasses}
       type="submit"
     >
-      {isSubmitting ? "Loading.." : "Login"}
+      {isSubmitting ? "Loading.." : "Next"}
     </button>
 
-    <InputErrorDisplay className="text-2xl">error</InputErrorDisplay>
+    <InputErrorDisplay className="text-2xl">{}</InputErrorDisplay>
   </form>
   )
 }

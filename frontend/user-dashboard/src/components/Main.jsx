@@ -1,12 +1,14 @@
-import { useContext, useEffect, useState,useLayoutEffect } from "react"
+import { useContext, useState,useLayoutEffect } from "react"
 import { RoutineContext } from "../context/RoutineProvider"
 import {createDateFromString} from '../utility/createDateFromString'
 import MyTimer from '../components/MyTimer'
 import CountCard from "../UIComponents/CountCard"
 import { LuTimerOff } from "react-icons/lu";
 import {scoreCalculatorFromTasks} from '../utility/scoreCalculator'
+import {useNavigate} from 'react-router-dom'
 
 function Main({taskId}) {
+  const navigate=useNavigate()
   const routineCtx=useContext(RoutineContext);
   const [enableTimer,setEnableTimer]=useState(false)
   const selectedTask=routineCtx.routine?.tasks?.find((task)=>task._id===taskId)
@@ -41,6 +43,10 @@ function Main({taskId}) {
     }
 
   },[taskId,routineCtx.routine])
+
+  function createRoutineHandler(){
+    navigate("/routine")
+  }
 
   return (
     <>{
@@ -84,7 +90,7 @@ function Main({taskId}) {
     :<div className=' h-full flex justify-center items-center'>
       <div className="flex flex-col items-center ">
     <h1 className=' flex-1 font-bold text-secondary text-xl text-center'>No Routine Found</h1>
-    <button className="mt-1 p-1 bg-app-blue rounded-lg text-secondary font-semibold text-sm">Create Routine</button>
+    <button className="mt-1 p-1 bg-app-blue rounded-lg text-secondary font-semibold text-sm" onClick={createRoutineHandler}>Create Routine</button>
     </div>
   </div>
 }

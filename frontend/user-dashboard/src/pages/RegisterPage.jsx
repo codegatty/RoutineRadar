@@ -3,7 +3,8 @@ import InputErrorDisplay from '../UIComponents/InputErrorDisplay';
 import {axios_user} from '../axios_config/axiosConfig'
 import {useNavigate} from 'react-router-dom'
 function RegisterPage() {
-
+    const inputClasses="p-2 m-5 bg-primary rounded-2xl text-primary text-sm font-semibold"
+    const buttonClasses="p-2 m-5 bg-app-blue hover:bg-primary hover:text-primary rounded-xl text-secondary font-semibold"
     const navigate=useNavigate();
     
     const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
@@ -40,7 +41,7 @@ function RegisterPage() {
 
         </div>
 
-        <h1 className='text-center text-2xl mt-5 font-bold text-primary'>Create Account</h1>
+        <h1 className='text-center text-2xl mt-5 font-semibold text-primary'>Create Account</h1>
 
         <input  {...register("username",{
             required: "username required",
@@ -48,7 +49,7 @@ function RegisterPage() {
                 value:5,
                 message:"user name should be at least 5 characters"
             }
-        })}className='p-2 m-5 bg-neutral-300 'type='text' placeholder='Enter the username'/> 
+        })}className={inputClasses} type='text' placeholder='Enter the username'/> 
         {errors.username&&<InputErrorDisplay>{errors.username.message}</InputErrorDisplay>}   
         
         <input  {...register("email",{
@@ -57,23 +58,23 @@ function RegisterPage() {
                 value:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Invalid email"
             }
-        })}className='p-2 m-5 bg-neutral-300 'type='email' placeholder='Enter the email'/> 
+        })}className={inputClasses} type='email' placeholder='Enter the email'/> 
         {errors.email&&<InputErrorDisplay>{errors.email.message}</InputErrorDisplay>}   
 
         <input  {...register("profilePic",{
             required: "profile picture required"
-        })}className='p-2 m-5 bg-neutral-300 'type='file' accept='image/*' placeholder='upload a profile pic'/> 
+        })}className={inputClasses} type='file' accept='image/*' placeholder='upload a profile pic'/> 
         {errors.profilePic&&<InputErrorDisplay>{errors.profilePic.message}</InputErrorDisplay>}   
 
 
         <input  {...register("password",{
             required: "password required"
-        })}className='p-2 m-5 bg-neutral-300' type='password' placeholder='Enter the password'/>
+        })}className={inputClasses} type='password' placeholder='Enter the password'/>
         {errors.password&&<InputErrorDisplay>{errors.password.message}</InputErrorDisplay>}
 
-        <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Login"}</button> 
+        <button className={buttonClasses} type='submit' >{isSubmitting?"Loading..":"Register"}</button> 
         
-        <InputErrorDisplay className="text-2xl">error</InputErrorDisplay>     
+        <InputErrorDisplay className="text-2xl">{}</InputErrorDisplay>     
     </form>
     </div>
   )

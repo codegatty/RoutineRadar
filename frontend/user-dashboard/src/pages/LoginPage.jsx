@@ -7,6 +7,9 @@ import {UserContext} from '../context/userContext'
 import {useNavigate } from 'react-router-dom'
 
 function LoginPage() {
+
+    const inputClasses="p-2 m-5 bg-primary rounded-2xl text-primary text-sm font-semibold"
+    const buttonClasses="p-2 m-5 bg-app-blue hover:bg-primary hover:text-primary rounded-xl text-secondary font-semibold"
     const userCtx=useContext(UserContext);
     const navigate=useNavigate()
     const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
@@ -25,13 +28,13 @@ function LoginPage() {
 
   return (
     <div className='w-screen h-screen bg-primary flex items-center justify-center'>
-    <form className='flex flex-col w-96 bg-secondary rounded-md shadow-sm shadow-secondary ' onSubmit={handleSubmit(submitHandler)}>
+    <form className='flex flex-col w-96 bg-secondary rounded-md shadow-sm shadow-secondary justify-center ' onSubmit={handleSubmit(submitHandler)}>
 
         <div className='flex items-center justify-center bg-neutral-300 '>
 
         </div>
 
-        <h1 className='text-center text-2xl mt-5 font-bold text-primary'>Login Account</h1>
+        <h1 className='text-center text-2xl mt-5 font-semibold text-primary'>Login</h1>
 
         
         <input  {...register("email",{
@@ -40,7 +43,7 @@ function LoginPage() {
                 value:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Invalid email"
             }
-        })}className='p-2 m-5 bg-neutral-300 'type='email' placeholder='Enter the email'/> 
+        })}className={inputClasses}type='email' placeholder='Enter the email'/> 
         {errors.email&&<InputErrorDisplay>{errors.email.message}</InputErrorDisplay>}   
 
  
@@ -48,13 +51,13 @@ function LoginPage() {
 
         <input  {...register("password",{
             required: "password required"
-        })}className='p-2 m-5 bg-neutral-300' type='password' placeholder='Enter the password'/>
+        })}className={inputClasses} type='password' placeholder='Enter the password'/>
         {errors.password&&<InputErrorDisplay>{errors.password.message}</InputErrorDisplay>}
-
-        <button className='p-2 m-5 bg-neutral-300 hover:bg-neutral-500 font-bold'type='submit' >{isSubmitting?"Loading..":"Login"}</button> 
+        <Link className='ml-5 text-primary text-sm' to="/register">No account?register</Link>
+        <button className={buttonClasses} type='submit' >{isSubmitting?"Loading..":"Login"}</button> 
         
-        <InputErrorDisplay className="text-2xl">error</InputErrorDisplay>     
-        <Link to="/register">No account?register</Link>
+        <InputErrorDisplay className="text-2xl">{}</InputErrorDisplay>     
+        
     </form>
     </div>
   )
