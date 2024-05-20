@@ -95,6 +95,7 @@ const getRoutine = asyncHandler(async (req, res) => {
   }else{
     return res.status(400).json({msg:"couldn't get the data"})
   }
+  
 }).catch((err)=>{
   return res.status(400).json({msg:"couldn't delete"})
 });

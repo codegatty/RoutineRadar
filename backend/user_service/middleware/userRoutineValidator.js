@@ -9,7 +9,7 @@ const userRoutineValidator=asyncHandler(async(req,res,next)=>{
     if(!user ) {
       return res.status(404).json({msg:"user does not exist"})
     }else if(user.isRoutineCreated===false){
-      return res.status(404).json({msg:"user doesn not have current routine"})
+      return res.status(404).json({msg:"user does not have current routine"})
     }
     next();
 

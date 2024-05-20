@@ -21,6 +21,16 @@ function DropDownMenu({user}) {
         </Link>
       </MenuItem>
 
+
+      <MenuItem className={menuItemClasses}>
+        <Link className="block data-[focus]:bg-primary " to="/routine">
+          <div className='flex flex-row justify-center items-center gap-2'>
+          <CgProfile className='flex-2'/><span className='flex-1'>Edit Routine</span>
+          </div>
+         
+        </Link>
+      </MenuItem>
+
       <MenuItem className={menuItemClasses}>
       <Link to="/" className="block data-[focus]:bg-primary ">
       <div className='flex flex-row justify-center items-center gap-2'>

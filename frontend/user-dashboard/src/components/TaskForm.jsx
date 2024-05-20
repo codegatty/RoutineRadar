@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
 import { useContext,useEffect,useState } from "react";
-import { axios_public } from "../axios_config/axiosConfig";
+import { axios_public,axios_user } from "../axios_config/axiosConfig";
 
 function TaskForm({defaultValue,selectedIndex}) {
   const inputClasses="p-2 m-5 bg-secondary rounded-2xl text-primary text-sm font-semibold"
@@ -40,8 +40,9 @@ function TaskForm({defaultValue,selectedIndex}) {
         const response=await axios_public.put(`/task/update/${userId}`,finalData);
         routineCtx.updateTask(selectedIndex,{...data,weightage:parseInt(data.weightage)});
       }else{
-          const response=await axios_public.put(`/task/add/${userId}`,data);
-          const finalData={...data,weightage:parseInt(data.weightage)}
+          const response=await axios_public.put(`/task/add/${userId}`,{...data,weightage:100});
+          //const finalData={...data,weightage:parseInt(data.weightage)}
+          const finalData={...data,weightage:100}
           routineCtx.addTask({...finalData,subTasks:[],_id:response.data._id});
       }
       
@@ -122,7 +123,7 @@ function TaskForm({defaultValue,selectedIndex}) {
         <InputErrorDisplay>{errors.endsAt.message}</InputErrorDisplay>
       )}
 
-      <input
+      {/* <input
         {...register("weightage", {
           required: " weightage required",
         })}
@@ -130,7 +131,7 @@ function TaskForm({defaultValue,selectedIndex}) {
         type="number"
         aria-label="Time"
         placeholder="Enter the weightage for task"
-      />
+      /> */}
 
       {errors.weightage && (
         <InputErrorDisplay>{errors.weightage.message}</InputErrorDisplay>

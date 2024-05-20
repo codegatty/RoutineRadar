@@ -11,7 +11,9 @@ export default {
         "secondary":"#1e293b",
         "input":"#13283f",
         "app-blue":"#0ea5e9",
-        "app-light-blue":"#5881a8"
+        "app-light-blue":"#5881a8",
+        'scrollbar-thumb': '#4A5568', // Customize the scrollbar thumb color
+        'scrollbar-track': '#E2E8F0', // Customize the scrollbar track color
       },
       textColor:{
         "primary":"#0ea5e9",
@@ -19,6 +21,8 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')
+  ],
 }
 

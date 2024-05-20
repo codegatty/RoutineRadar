@@ -16,11 +16,6 @@ route.delete('/:id',userRoutineValidator,deleteRoutine);
 
 route.get('/:id',userRoutineValidator,getRoutine);
 
-
-
-route.get('/',(req,res)=>{
-    res.send("hello world~")
-})
 module.exports=route;
 
 

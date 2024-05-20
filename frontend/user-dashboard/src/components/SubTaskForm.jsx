@@ -22,7 +22,7 @@ function SubTaskForm({ onSelectIndex }) {
   if (subTaskIndex !== -1) {
     selectedSubTask = routineCtx.routine.tasks[taskIndex]?.subTasks[subTaskIndex]
     taskTitle=routineCtx.routine.tasks[taskIndex]?.title
-    subTaskTitle=selectedSubTask.description
+    subTaskTitle=selectedSubTask?.description
   } else {
     selectedSubTask = []
   }

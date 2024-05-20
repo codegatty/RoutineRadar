@@ -1,6 +1,6 @@
 import { useState,useEffect,useContext} from "react";
 import {useNavigate} from 'react-router-dom'
-import {useAuth0} from '@auth0/auth0-react'
+
 
 import { RoutineContext } from "../context/RoutineProvider";
 import { axios_public } from "../axios_config/axiosConfig";
@@ -21,22 +21,14 @@ function Layout() {
   const routineCtx=useContext(RoutineContext);
   const userCtx=useContext(UserContext)
 
-  const {user,getAccessTokenSilently} =useAuth0();
+
 
   useEffect(()=>{
     async function fetchRoutine(){
       try{
 
-        //?authentication and authorization
-        const accessToken=await getAccessTokenSilently();
-        const response1=await axios_user.get("/userData",{headers:{
-          Authorization: `Bearer ${accessToken}`
-        }})
-        
-        userCtx.storeUser(response1.data)
-
         //?obtaining routine from backend
-        const response2=await axios_public.get(`/${response1.data._id}`)
+        const response2=await axios_user.get(`routine/${userCtx.userId}`)
          routineCtx.storeRoutine(response2.data[0])
        
       }catch(error){
@@ -55,7 +47,7 @@ function Layout() {
     setTaskId(taskId)
   }
   return (
-    <div className="w-screen h-screen bg-primary flex flex-col">
+    <div className="w-screen h-screen bg-primary flex flex-col overflow-hidden">
       <Header sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle}/>
 
       <hr className="h-px mt-1 bg-gray-200 border-0 dark:bg-gray-700"></hr>

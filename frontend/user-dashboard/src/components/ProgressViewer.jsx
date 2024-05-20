@@ -11,7 +11,7 @@ function ProgressViewer({ className, userData }) {
 
         <div className="flex flex-row my-3 mx-1">
           <label className="flex-1 text-center font-bold text-primary">Is Routine in use: </label>
-          <span className="flex-1 bg-app-blue text-center rounded-lg font-bold text-secondary">{userData?.isRoutine?"yes":"No"}</span>
+          <span className="flex-1 bg-app-blue text-center rounded-lg font-bold text-secondary">{userData?.isRoutineCreated?"yes":"No"}</span>
         </div>
 
       </div>

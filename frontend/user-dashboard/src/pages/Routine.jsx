@@ -14,7 +14,7 @@ function Routine() {
 const routineCtx=useContext(RoutineContext)
 
   return (
-    <div className="w-full h-screen  bg-primary flex flex-row">
+    <div className="w-full h-screen  bg-primary flex flex-row overflow-hidden">
       <div className='flex-2  justify-center items-center '>
         {
           routineCtx.routine===null?<RoutineForm />:<TaskForm defaultValue={routineCtx.routine.tasks[selectedTaskIndex]} selectedIndex={selectedTaskIndex}/>
