@@ -17,12 +17,12 @@ const routineCtx=useContext(RoutineContext)
     <div className="w-full h-screen  bg-primary flex flex-row overflow-hidden">
       <div className='flex-2  justify-center items-center '>
         {
-          routineCtx.routine===null?<RoutineForm />:<TaskForm defaultValue={routineCtx.routine.tasks[selectedTaskIndex]} selectedIndex={selectedTaskIndex}/>
+          routineCtx?.routine===null?<RoutineForm />:<TaskForm defaultValue={routineCtx?.routine?.tasks[selectedTaskIndex]} selectedIndex={selectedTaskIndex}/>
         }
       </div>
 
       <div className="flex-1">
-        {routineCtx.routine===null?"":<SubTaskForm onSelectIndex={onSelectTaskIndex}/>}
+        {routineCtx?.routine===null?"":<SubTaskForm onSelectIndex={onSelectTaskIndex}/>}
       
       </div>
     </div>

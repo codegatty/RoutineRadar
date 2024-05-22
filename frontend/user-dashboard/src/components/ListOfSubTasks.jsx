@@ -13,7 +13,7 @@ function ListOfSubTasks({taskIndex,onSelect}) {
   function onSelectHandler(index){
     onSelect(index);
   }
-  
+  //console.log(routine)
   return (
     <div className='bg-secondary p-2 w-full m-1 h-full'>
       <Title className="text-primary text-center">List Of SubTasks</Title>

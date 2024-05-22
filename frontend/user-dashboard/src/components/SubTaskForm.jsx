@@ -16,12 +16,12 @@ function SubTaskForm({ onSelectIndex }) {
   const [taskIndex, setTaskIndex] = useState(-1)
   const [shouldUpdate, setShouldUpdate] = useState(false)
 
-  let selectedSubTask = routineCtx.routine.tasks[taskIndex]?.subTasks
+  let selectedSubTask = routineCtx?.routine?.tasks[taskIndex]?.subTasks
   let taskTitle=""
   let subTaskTitle=""
   if (subTaskIndex !== -1) {
-    selectedSubTask = routineCtx.routine.tasks[taskIndex]?.subTasks[subTaskIndex]
-    taskTitle=routineCtx.routine.tasks[taskIndex]?.title
+    selectedSubTask = routineCtx?.routine?.tasks[taskIndex]?.subTasks[subTaskIndex]
+    taskTitle=routineCtx?.routine?.tasks[taskIndex]?.title
     subTaskTitle=selectedSubTask?.description
   } else {
     selectedSubTask = []
@@ -42,21 +42,21 @@ function SubTaskForm({ onSelectIndex }) {
     const taskId = routineCtx.routine.tasks[taskIndex]._id
     const userId = routineCtx.routine.userId
 
-    //?this calculate the total subtask weightage to convert task weightage to subtask weightage
-    let total_weightage = routineCtx.routine.tasks[taskIndex].subTasks.reduce((acc, curr) => {
-      return parseInt(acc) + parseInt(curr.weightage)
-    }, 0)
-    total_weightage += parseInt(data.weightage)
+     //?this calculate the total subtask weightage to convert task weightage to subtask weightage
+    // let total_weightage = routineCtx.routine.tasks[taskIndex].subTasks.reduce((acc, curr) => {
+    //   return parseInt(acc) + parseInt(curr.weightage)
+    // }, 0)
+    // total_weightage += parseInt(data.weightage)
 
     try {
       if (shouldUpdate) {
-        const subTaskId = routineCtx.routine.tasks[taskIndex].subTasks[subTaskIndex]._id
-        const response = await axios_public.put(`/task/sub_task/update/${userId}`, { ...data, taskId, subTaskId })
-        routineCtx.updateSubTask(taskIndex, subTaskIndex, { data }, total_weightage)
-        setShouldUpdate(false)
+         const subTaskId = routineCtx.routine.tasks[taskIndex].subTasks[subTaskIndex]._id
+         const response = await axios_public.put(`/task/sub_task/update/${userId}`, { ...data, taskId, subTaskId })
+         routineCtx.updateSubTask(taskIndex, subTaskIndex, { ...data })
+         setShouldUpdate(false)
       } else {
-        const response = await axios_public.put(`/task/sub_task/add/${userId}`, { ...data, taskId, total_weightage })
-        routineCtx.addSubTask(taskIndex, { ...data, _id: response.data._id }, total_weightage)
+        const response = await axios_public.put(`/task/sub_task/add/${userId}`, { ...data, taskId })
+        routineCtx.addSubTask(taskIndex,response.data)
         setShouldUpdate(false)
       }
     } catch (error) {
@@ -127,7 +127,7 @@ function SubTaskForm({ onSelectIndex }) {
           />
           {errors.description && <InputErrorDisplay>{errors.description.message}</InputErrorDisplay>}
 
-          <input
+          {/* <input
             {...register('weightage', {
               required: ' weightage required'
             })}
@@ -137,7 +137,7 @@ function SubTaskForm({ onSelectIndex }) {
             placeholder="Enter the weightage for task"
           />
 
-          {errors.weightage && <InputErrorDisplay>{errors.weightage.message}</InputErrorDisplay>}
+          {errors.weightage && <InputErrorDisplay>{errors.weightage.message}</InputErrorDisplay>} */}
           {shouldUpdate ? (
             <div className='flex flex-row justify-around items-center'>
               <button className={buttonClasses} type="submit">

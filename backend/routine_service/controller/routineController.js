@@ -1,28 +1,25 @@
 const asyncHandler = require("express-async-handler");
 const Routine = require("../model/routineModel");
 
-
 //desc create a new routine
 //@route POST /routine
 //@access private
 const createRoutine = asyncHandler(async (req, res) => {
   const response = await Routine.create(req.body);
-  if(response){
+  if (response) {
     return res.status(201).json(response);
-  }else{
-    return res.status(400).json({msg:"couldn't create routine"});
+  } else {
+    return res.status(400).json({ msg: "couldn't create routine" });
   }
- 
 });
 
 //@desc delete routine
 //@route DELETE /routine/user_id
 //@access private
 const deleteRoutine = asyncHandler(async (req, res) => {
-
   const response = await Routine.deleteOne({ userId: req.params.id });
-  if(!response){
-    return res.status(404).json({msg:"couldn't delete"});
+  if (!response) {
+    return res.status(404).json({ msg: "couldn't delete" });
   }
   res.status(200).json(response);
 });
@@ -32,9 +29,9 @@ const deleteRoutine = asyncHandler(async (req, res) => {
 //@access private
 const updateRoutine = asyncHandler(async (req, res) => {
   const { goal, type } = req.body;
-  const routine=await Routine.findOne({userId:req.params.id})
-  if(!routine){
-    return res.status(404).json({msg:"routine not found"});
+  const routine = await Routine.findOne({ userId: req.params.id });
+  if (!routine) {
+    return res.status(404).json({ msg: "routine not found" });
   }
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id },
@@ -54,14 +51,11 @@ const addTask = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  const lengthOfTasks=response.tasks.length;
-  const filteredResponse=response.tasks[lengthOfTasks-1];
-  if(lengthOfTasks>=0)
-    return res.json(filteredResponse);
+  const lengthOfTasks = response.tasks.length;
+  const filteredResponse = response.tasks[lengthOfTasks - 1];
+  if (lengthOfTasks >= 0) return res.json(filteredResponse);
   return res.json(response);
-
 });
-
 
 //@desc update the task
 //@route PUT /routine/task/add/user_id
@@ -82,11 +76,9 @@ const updateTask = asyncHandler(async (req, res) => {
   );
 
   res.json(response);
-  
 });
 
-
-//@desc delete and task 
+//@desc delete and task
 //@route PUT /routine/task/user_id
 //@access private
 const deleteTask = asyncHandler(async (req, res) => {
@@ -106,76 +98,126 @@ const deleteTask = asyncHandler(async (req, res) => {
   res.json(response);
 });
 
-
 //@desc add an subtask for task
 //@route POST /routine/task/sub_task/user_id
 //@access private
 const addSubTask = asyncHandler(async (req, res) => {
-  const { taskId, description, weightage,total_weightage } = req.body;
-  console.log(req.body)
+  const { taskId, description } = req.body;
+
+  //?pushing the new subTask
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {
       $push: {
-        "tasks.$.subTasks": { description, weightage},
-        
+        "tasks.$.subTasks": { description, weightage:100 },
       },
-      $set:{
-        "tasks.$.weightage": total_weightage
-      }
     },
     { new: true }
   );
-  if(response){
-  const currentTask = response.tasks.filter((task)=>task.id ===taskId);
-  const lengthOfSubTasks=currentTask[0].subTasks.length;
-  
-  return res.json(currentTask[0].subTasks[lengthOfSubTasks-1]);
-  }
-  return response
-});
 
+  // const result = await Routine.findOne(
+  //   { userId: req.params.id, "tasks._id": taskId },
+  //   { "tasks.$": 1 } // Project only the specific task
+  // );
+
+  if ( response) {
+    const currentTask = response.tasks.filter((task) => task.id === taskId);
+    const lengthOfSubTasks = currentTask[0].subTasks.length;
+    //const subTasksLength = result.tasks[0].subTasks.length;
+    let weightage = 100 / lengthOfSubTasks;
+
+    //?updating the weightage of each subTask to newWeightage calculated using no of subtasks
+    const response2 = await Routine.findOneAndUpdate(
+      { userId: req.params.id, "tasks._id": taskId },
+      {
+        $set: {
+          "tasks.$[task].subTasks.$[subTask].weightage": weightage,
+        },
+      },
+      {
+        arrayFilters: [
+          { "task._id": taskId },
+          { "subTask._id": { $exists: true } },
+        ],
+        new: true,
+      }
+    );
+    const currentTask2 = response2.tasks.filter((task) => task.id === taskId);
+    return res.json(currentTask2[0].subTasks[lengthOfSubTasks - 1]);
+  }
+
+  return res.json(response);
+});
 
 //@desc update an sub task in specific task
 //@route POST /routine/task/sub_task/update/user_id
 //@access private
 const updateSubTask = asyncHandler(async (req, res) => {
-  const { description, weightage, taskId, subTaskId } = req.body;
+  const { description,taskId, subTaskId } = req.body;
 
-  const response = await Routine.findOneAndUpdate({userId: req.params.id,
-    'tasks._id': taskId},{
+  const response = await Routine.findOneAndUpdate(
+    { userId: req.params.id, "tasks._id": taskId },
+    {
       $set: {
-         'tasks.$[task].subTasks.$[subTask].description': description,
-         'tasks.$[task].subTasks.$[subTask].weightage':weightage 
-      }
-    },  {
-      arrayFilters: [{ 'task._id':taskId }, { 'subTask._id': subTaskId }],
-      new: true
-    });
+        "tasks.$[task].subTasks.$[subTask].description": description,
+      },
+    },
+    {
+      arrayFilters: [{ "task._id": taskId }, { "subTask._id": subTaskId }],
+      new: true,
+    }
+  );
 
-    //?if something went wrong change the array filter task to some  other identifier
-    res.json(response)
-  })
-
+  //?if something went wrong change the array filter task to some  other identifier
+  res.json(response);
+});
 
 //@desc delete an subTask from task
 //@route PUT /routine/task/sub_task/user_id
 //@access private
-  const deleteSubTask=asyncHandler(async (req,res)=>{
-    const{taskId,subTaskId}=req.body;
-    const response = await Routine.findOneAndUpdate(
-      { userId: req.params.id,
-        'tasks._id': taskId },
+const deleteSubTask = asyncHandler(async (req, res) => {
+  const { taskId, subTaskId } = req.body;
+  const response = await Routine.findOneAndUpdate(
+    { userId: req.params.id, "tasks._id": taskId },
+    {
+      $pull: {
+        "tasks.$.subTasks": { _id: subTaskId },
+      },
+    },
+    { new: true }
+  );
+
+  const result = await Routine.findOne(
+    { userId: req.params.id, "tasks._id": taskId },
+    { "tasks.$": 1 } // Project only the specific task
+  );
+
+  if(result && response){
+
+    const subTasksLength = result.tasks[0].subTasks.length;
+    let weightage = 100 / subTasksLength ;
+    
+    //?updating the weightage of each subTask to newWeightage calculated using no of subtasks
+    const response2 = await Routine.findOneAndUpdate(
+      { userId: req.params.id, "tasks._id": taskId },
       {
-        $pull: {
-          "tasks.$.subTasks": {_id:subTaskId },
+        $set: {
+          "tasks.$[task].subTasks.$[subTask].weightage": weightage,
         },
       },
-      { new: true }
+      {
+        arrayFilters: [
+          { "task._id": taskId },
+          { "subTask._id": { $exists: true } },
+        ],
+        new: true,
+      }
     );
-    res.json(response)
-  })
+  }
 
+
+  res.json(response);
+});
 
 //@desc create a new challenge
 //@route GET /routine
@@ -185,45 +227,47 @@ const getRoutine = asyncHandler(async (req, res) => {
   res.status(200).json(response);
 });
 
+const updateTaskIsCompleted = asyncHandler(async (req, res) => {
+  const { taskId, isCompleted, score } = req.body;
+  const curr_score = await Routine.findOne(
+    { userId: req.params.id },
+    { score: 1, _id: 0 }
+  );
+  const new_score = curr_score.score + score;
 
-const updateTaskIsCompleted=asyncHandler(async (req, res) => {
-  const { taskId,isCompleted,score } = req.body;
-  const curr_score=await Routine.findOne({userId: req.params.id},{score:1,_id:0})
-  const new_score=curr_score.score+score
-  
   const response = await Routine.findOneAndUpdate(
     { userId: req.params.id, tasks: { $elemMatch: { _id: taskId } } },
     {
       $set: {
         "tasks.$.isCompleted": isCompleted,
-        score:new_score
+        score: new_score,
       },
     },
     { new: true }
   );
 
-
   res.json(response);
-})
+});
 
-const updateSubTaskIsCompleted=asyncHandler(async (req, res) => {
+const updateSubTaskIsCompleted = asyncHandler(async (req, res) => {
+  const { taskId, subTaskId, isCompleted } = req.body;
 
-  const {  taskId, subTaskId,isCompleted } = req.body;
-
-  const response = await Routine.findOneAndUpdate({userId: req.params.id,
-    'tasks._id': taskId},{
+  const response = await Routine.findOneAndUpdate(
+    { userId: req.params.id, "tasks._id": taskId },
+    {
       $set: {
-         'tasks.$[task].subTasks.$[subTask].isCompleted': isCompleted
-      }
-    },  {
-      arrayFilters: [{ 'task._id':taskId }, { 'subTask._id': subTaskId }],
-      new: true
-    });
+        "tasks.$[task].subTasks.$[subTask].isCompleted": isCompleted,
+      },
+    },
+    {
+      arrayFilters: [{ "task._id": taskId }, { "subTask._id": subTaskId }],
+      new: true,
+    }
+  );
 
-    //?if something went wrong change the array filter task to some  other identifier
-    res.json(response)
-
-})
+  //?if something went wrong change the array filter task to some  other identifier
+  res.json(response);
+});
 
 module.exports = {
   createRoutine,
@@ -237,5 +281,5 @@ module.exports = {
   updateSubTask,
   deleteSubTask,
   updateSubTaskIsCompleted,
-  updateTaskIsCompleted
+  updateTaskIsCompleted,
 };
