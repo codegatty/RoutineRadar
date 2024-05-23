@@ -53,14 +53,19 @@ function Layout() {
       <hr className="h-px mt-1 bg-gray-200 border-0 dark:bg-gray-700"></hr>
       <div className="flex lg:flow-col flex-col sm:flex-row h-full">
       <div className=" flex-2 h-full ">
-        {/* //!Commented for testing purpose */}
+   
         
         <SideBar sidebarToggle={sidebarToggle} routine={routineCtx.routine} selectedTaskId={taskIdHandler} />
         
       </div>
       <div className="flex-1">
-      {/* //!Commented for testing purpose */}
-      <Main taskId={taskId}/>
+      {
+        taskId?<Main taskId={taskId}/>
+        :<div className="h-full flex justify-center items-center">
+              <h1 className=' flex-1 font-bold text-secondary text-xl text-center'>Select a Task</h1>
+          </div>
+      }
+      
       </div>
       <div className=" flex-2">
       <NavBar/>
