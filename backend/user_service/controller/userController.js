@@ -45,20 +45,25 @@ const loginUser=asyncHandler(async (req,res)=>{
     if(!email||!password){
         return res.status(400).json({msg:"Please fill all the fields"});
     }
+
     const user=await User.findOne({email});
+    const newExperience=user.experience+5;
 
     if(!user){
         return res.status(400).json({msg:"User not found"});
     }else if(!await bcrypt.compare( password,user.password)){
         return res.status(400).json({msg:"Invalid password"});
     }else{
+        const response=await User.findByIdAndUpdate(user._id,{
+            experience:newExperience
+        },{new:true});
         
         const token=jwt.sign({user:{
             id:user.id,
             userName:user.userName,
             email:user.email,
         }},process.env.SECRET_KEY,{expiresIn:"30m"})
-        res.status(200).json(user);
+        res.status(200).json(response);
     }
 })
 
@@ -83,7 +88,7 @@ const deleteUser=asyncHandler(async(req,res)=>{
 const updateUser=asyncHandler(async(req,res)=>{
     const {userName}=req.body;
     const profilePic=req.file?.filename
-    console.log(userName)
+    
     if(!userName){
         return res.status(400).json({msg:"Please fill all the fields..."});
     }

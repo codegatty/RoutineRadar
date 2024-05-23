@@ -22,10 +22,10 @@ function Header({ sidebarToggle, setSidebarToggle }) {
       </div>
 
       <div className="flex-1 flex">
-        {userCtx?.userData.isRoutineCreated && (
-          <div className="bg-yellow-900 p-1 rounded-lg flex flex-row justify-center items-center text-white font-bold ">
-            <span className="flex-1 text-sm">Score: </span>
-            <span className="flex-1">{routineCtx?.routine?.score}</span>
+        {userCtx?.userData && (
+                  <div className=" bg-yellow-500 p-1 rounded-lg flex flex-row justify-center items-center text-white font-thin gap-1">
+            <span className="flex-1 text-sm">Exp:</span>
+            <span className="flex-1 text-sm font-semibold">{userCtx?.userData?.experience}</span>
           </div>
         )}
       </div>

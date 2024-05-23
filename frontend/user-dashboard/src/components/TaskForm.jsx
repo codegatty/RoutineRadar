@@ -3,8 +3,9 @@ import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
 import { useContext,useEffect,useState } from "react";
 import { axios_public,axios_user } from "../axios_config/axiosConfig";
+import classNames from "classnames";
 
-function TaskForm({defaultValue,selectedIndex}) {
+function TaskForm({defaultValue,selectedIndex,className}) {
   const inputClasses="p-2 m-5 bg-secondary rounded-2xl text-primary text-sm font-semibold"
   const buttonClasses="p-2 m-5 bg-app-blue hover:bg-secondary hover:text-primary rounded-xl text-secondary font-semibold"
   const [isUpdate,setIsUpdate]=useState(false)
@@ -72,7 +73,7 @@ function TaskForm({defaultValue,selectedIndex}) {
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col w-96 bg-primary h-full " >
+    <form onSubmit={handleSubmit(submitHandler)} className={classNames("flex flex-col w-96 bg-primary h-full ",className)} >
       <h1 className="text-primary text-3xl text-center mt-5">Task</h1>
     <h2 className="text-primary text-md text-center ">({defaultValue?.title})</h2>
       <input

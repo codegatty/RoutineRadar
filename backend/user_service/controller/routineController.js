@@ -9,7 +9,7 @@ const User = require("../model/userModel");
 const createRoutine = asyncHandler(async (req, res) => {
   const { goal, type, task, userId } = req.body;
   const user = await User.findOne({ _id: userId });
-
+  const newExperience=user.experience+20;
   if (!user) {
     return res.status(404).json({ msg: "user not found" });
   }
@@ -20,14 +20,17 @@ const createRoutine = asyncHandler(async (req, res) => {
 
   if (user.isRoutineCreated === false) {
     //create the rotuine
+    
 
     axios
       .post("http://localhost:5005/routine", { goal, type, task, userId })
       .then(async (response) => {
         await User.updateOne(
           { _id: userId },
-          { $set: { isRoutineCreated: true } }
+          { $set: { isRoutineCreated: true, experience:newExperience} }
         );
+
+        
         return res.status(200).json({ message: "routine created" });
       })
       .catch(() => {
@@ -69,8 +72,14 @@ const updateRoutine = asyncHandler(async (req, res) => {
 const deleteRoutine = asyncHandler(async (req, res) => {
   const userId=req.params.id
 
-  axios.delete("http://localhost:5005/routine/"+userId).then((response)=>{
+  axios.delete("http://localhost:5005/routine/"+userId).then(async (response)=>{
     
+    const currentUser=await User.findOne({_id:req.params.id});
+    const newExperience=currentUser.experience+10;
+    await User.updateOne(
+      { _id: userId },
+      { $set: { isRoutineCreated: false,experience:newExperience } }
+    );
   if(response.status==200){
     return res.status(200).json({msg:"routine deleted"})
   }else{

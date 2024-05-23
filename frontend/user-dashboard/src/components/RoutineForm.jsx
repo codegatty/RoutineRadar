@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext} from "react";
 import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
 import {UserContext} from '../context/userContext'
@@ -31,7 +31,8 @@ function RoutineForm() {
 
         try{
           const response=await axios_user.post(`/routine`,finalData)
-          routineCtx.storeRoutine(finalData)
+          routineCtx.storeRoutine({...finalData,_id:response.data._id})
+          userCtx.createRoutine();
         }catch(error){
           console.log("Something went wrong")
         }
