@@ -9,6 +9,7 @@ import SideBar from '../components/SideBar'
 import NavBar from '../components/NavBar'
 import Main from '../components/Main'
 import WeekAnalytics from '../components/WeekAnalytics'
+import Hr from '../UIComponents/Hr'
 
 function Layout() {
   const [sidebarToggle, setSidebarToggle] = useState(true)
@@ -53,7 +54,7 @@ function Layout() {
             </div>
           )}
           </div>
-
+          
           <WeekAnalytics className="flex-1" />
         </div>
         <div className=" flex-2">

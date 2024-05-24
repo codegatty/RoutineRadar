@@ -16,7 +16,7 @@ function PieGraph() {
   const graphPrimaryColor="#2f405c"
     const [weekScore,setWeekScore]=useState(0)
     const routineCtx=useContext(RoutineContext)
-    const totalScore=(routineCtx.routine?.tasks?.length)*baseScore;
+    const totalScore=((routineCtx.routine?.tasks?.length)*baseScore)*7;
     useEffect(()=>{
         const currentScore=getScoreData();
         setWeekScore(currentScore)
