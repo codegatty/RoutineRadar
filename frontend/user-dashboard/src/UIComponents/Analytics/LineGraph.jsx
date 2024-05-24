@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, scales } from 'chart.js'
 import { RoutineContext } from '../../context/RoutineProvider'
@@ -58,7 +58,7 @@ function LineGraph() {
       title: {
         display: true,
         text: 'Tasks: Completed vs Uncompleted (Week)',
-        color:'#1e293b'
+        color:graphPrimaryColor
       }
     },
     scales: {

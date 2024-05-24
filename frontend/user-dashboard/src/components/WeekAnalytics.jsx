@@ -1,16 +1,17 @@
 import LineGraph from "../UIComponents/Analytics/LineGraph"
-function WeekAnalytics() {
+import PieGraph from "../UIComponents/Analytics/PieGraph"
+import classNames from "classnames"
+function WeekAnalytics({className}) {
   
   return (
-    <div>
+    <div className={classNames("h-full overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary",className)}>
       <div className="grid grid-cols-2 gap-1">
 
         <div className="">
           <LineGraph/>
         </div>
-
-        <div className="bg-blue-500">
-          02
+        <div className="">
+          <PieGraph/>
         </div>
 
       </div>

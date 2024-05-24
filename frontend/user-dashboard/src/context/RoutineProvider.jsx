@@ -53,6 +53,7 @@ function routineReducer(state, action) {
       const up_task = { ...sel_task, isCompleted: !sel_task.isCompleted }
 
       let up_score = 0
+
       //?calculating score for tasks with subtask and without subtasks
       if (up_task.isCompleted === true) {
         up_score = scoreCalculatorFromTask(sel_task, state.score)

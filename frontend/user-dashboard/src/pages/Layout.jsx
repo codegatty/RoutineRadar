@@ -43,18 +43,18 @@ function Layout() {
           <SideBar sidebarToggle={sidebarToggle} routine={routineCtx.routine} selectedTaskId={taskIdHandler} />
         </div>
         <div className="flex-1 flex flex-col">
+          
+          <div className="flex-1">
           {taskId ? (
-            <div className='flex-1'>
-            <Main taskId={taskId} />
-            </div>
+            <Main taskId={taskId}  />
           ) : (
             <div className=" flex-1 h-full flex justify-center items-center">
               <h1 className=" flex-1 font-bold text-secondary text-xl text-center">Select a Task</h1>
             </div>
           )}
-          <div className="flex-1 ">
-            <WeekAnalytics/>
           </div>
+
+          <WeekAnalytics className="flex-1" />
         </div>
         <div className=" flex-2">
           <NavBar />

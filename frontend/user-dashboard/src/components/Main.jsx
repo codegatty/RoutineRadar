@@ -6,8 +6,9 @@ import CountCard from "../UIComponents/CountCard"
 import { LuTimerOff } from "react-icons/lu";
 import {scoreCalculatorFromTasks} from '../utility/scoreCalculator'
 import {useNavigate} from 'react-router-dom'
+import classNames from "classnames"
 
-function Main({taskId}) {
+function Main({taskId,className}) {
   const navigate=useNavigate()
   const routineCtx=useContext(RoutineContext);
   const [enableTimer,setEnableTimer]=useState(false)
@@ -51,7 +52,7 @@ function Main({taskId}) {
   return (
     <>{
     routineCtx.routine?
-    <div className="text-white flex flex-col justify-around">
+    <div className={classNames("text-white flex flex-col justify-around",className)}>
       <div>
         <h1 className="text-center text-2xl capitalize underline m-2">{selectedTask?.title}</h1>
       </div>
@@ -87,7 +88,7 @@ function Main({taskId}) {
 
         </div>
     </div>
-    :<div className=' h-full flex justify-center items-center'>
+    :<div className={classNames(className,'h-full flex justify-center items-center')}>
       <div className="flex flex-col items-center ">
     <h1 className=' flex-1 font-bold text-secondary text-xl text-center'>No Routine Found</h1>
     <button className="mt-1 p-1 bg-app-blue rounded-lg text-secondary font-semibold text-sm" onClick={createRoutineHandler}>Create Routine</button>
