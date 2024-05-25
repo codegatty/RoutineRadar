@@ -10,6 +10,7 @@ function ProductivityViewer() {
     const [productivity,setProductivity]=useState(0)
     useEffect(()=>{
         let currentScore=getScoreData();
+        //?set the productivity in percentage
         setProductivity((currentScore/maxScoreOfWeek)*100)
     },[routineCtx.routine])
   return (
