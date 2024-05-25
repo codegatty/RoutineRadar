@@ -4,7 +4,7 @@ export function getWeekData() {
 }
 
 export function setWeekData(noOfTasks) {
-  if (noOfTasks) {
+
     let data = JSON.parse(localStorage.getItem('weekTaskData'))
 
     const dates = weekStarterEnderFinder()
@@ -35,12 +35,7 @@ export function setWeekData(noOfTasks) {
       localStorage.removeItem('weekTaskData')
       localStorage.setItem('weekTaskData', JSON.stringify(data))
     }
-
-    return JSON.parse(localStorage.getItem('weekTaskData'))
-  } else {
-    return [0, 0, 0, 0, 0, 0, 0]
   }
-}
 
 export function refreshWeekData() {
   const data = [0, 0, 0, 0, 0, 0, 0]

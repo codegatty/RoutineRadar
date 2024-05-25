@@ -2,32 +2,35 @@ import { useContext, useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, scales } from 'chart.js'
 import { RoutineContext } from '../../context/RoutineProvider'
-import { setWeekData, getWeekData, refreshWeekData } from '../../localStorage/weekDataMangament'
+import { setWeekData, getWeekData } from '../../localStorage/weekDataMangament'
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 function LineGraph() {
   const graphPrimaryColor="#2f405c"
-  const [completedData, setCompletedData] = useState([0, 0, 0, 0, 0, 0, 0])
-  const [UnCompletedData, setUnCompletedData] = useState([0, 0, 0, 0, 0, 0, 0])
   const routineCtx = useContext(RoutineContext)
   const maxTasks = routineCtx.routine?.tasks?.length
-  const completedTasks = routineCtx.routine?.tasks?.reduce((acc, ele) => {
-    if (ele.isCompleted == true) return (acc += 1)
-    else return acc
-  }, 0)
-
+  const [completedData, setCompletedData] = useState(getWeekData())
+  const [UnCompletedData, setUnCompletedData] = useState(completedData.map((ele)=>10-ele))
 
 
   useEffect(() => {
-    const tempWeekData=setWeekData(completedTasks)
+    const completedTasks = routineCtx.routine?.tasks?.reduce((acc, ele) => {
+      if (ele.isCompleted == true) return (acc += 1)
+      else return acc
+    }, 0)
+
+    setWeekData(completedTasks)
+    const tempWeekData=getWeekData()
     const temp = [0, 0, 0, 0, 0, 0, 0]
     tempWeekData.forEach((ele, index) => {
       temp[index] = maxTasks - ele
     })
-    setCompletedData(setWeekData(completedTasks))
+    
+    //setWeekData(completedTasks)
+    setCompletedData(getWeekData())
     setUnCompletedData(temp)
     
-  }, [routineCtx.routine,maxTasks,completedTasks])
+  }, [routineCtx.routine,maxTasks])
 
 
   let lineChartData = {
