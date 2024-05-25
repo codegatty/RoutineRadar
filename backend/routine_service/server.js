@@ -2,7 +2,9 @@ require("dotenv").config();
 const express=require("express");
 const app = express();
 const cors=require("cors")
-
+const {job}=require("./scheduler/scheduler.js")
+job;
+ 
 //userdefined functions
 const connectDb=require("./config/dbConfig")
 
@@ -16,6 +18,7 @@ app.use(cors({
 
 //router middlewares
 app.use('/routine',require('./routes/routineRoutes'))
+
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{
