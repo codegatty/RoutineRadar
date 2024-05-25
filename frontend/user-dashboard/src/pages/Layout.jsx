@@ -1,35 +1,42 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext,useCallback } from 'react'
 
 import { RoutineContext } from '../context/RoutineProvider'
 import { axios_user } from '../axios_config/axiosConfig'
 import { UserContext } from '../context/userContext'
+import {taskNotifier} from '../utility/taskNotifier'
 
 import Header from '../components/Header'
 import SideBar from '../components/SideBar'
 import NavBar from '../components/NavBar'
 import Main from '../components/Main'
 import WeekAnalytics from '../components/WeekAnalytics'
-import Hr from '../UIComponents/Hr'
 
 function Layout() {
   const [sidebarToggle, setSidebarToggle] = useState(true)
   const [taskId, setTaskId] = useState(null)
-
+  
   const routineCtx = useContext(RoutineContext)
   const userCtx = useContext(UserContext)
+  
 
   useEffect(() => {
     async function fetchRoutine() {
+      
       try {
         //?obtaining routine from backend
         const response2 = await axios_user.get(`routine/${userCtx.userId}`)
         routineCtx.storeRoutine(response2.data[0])
+        //?this will create multiple timeout callback to trigger notification in future
+        taskNotifier(response2.data[0])
       } catch (error) {
         console.log(error)
       }
     }
     fetchRoutine()
+   
   }, [])
+
+ 
 
   function taskIdHandler(taskId) {
     setTaskId(taskId)

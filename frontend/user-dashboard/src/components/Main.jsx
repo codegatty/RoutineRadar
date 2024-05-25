@@ -1,4 +1,4 @@
-import { useContext, useState,useLayoutEffect } from "react"
+import { useContext, useState,useEffect } from "react"
 import { RoutineContext } from "../context/RoutineProvider"
 import {createDateFromString} from '../utility/createDateFromString'
 import MyTimer from '../components/MyTimer'
@@ -22,7 +22,7 @@ function Main({taskId,className}) {
 
 
   
-  useLayoutEffect(()=>{
+  useEffect(()=>{
     if(selectedTask){
     const startTime=createDateFromString(selectedTask.startsAt)
     const endTime=createDateFromString(selectedTask.endsAt)
@@ -42,7 +42,7 @@ function Main({taskId,className}) {
       setEnableTimer(false)
     }
     }
-
+    
   },[taskId,routineCtx.routine])
 
   function createRoutineHandler(){
