@@ -1,6 +1,12 @@
 import { weekStarterEnderFinder } from '../utility/weekStarterAndEnder'
 export function getScoreData() {
-  return parseFloat(localStorage.getItem('weekScoreData'))
+ let val= parseFloat(localStorage.getItem('weekScoreData'))
+ if(val)
+    return val;
+  else{
+    refreshScoreData();
+    return parseFloat(localStorage.getItem('weekScoreData'))
+  }
 }
 
 export function setScoreData(score) {

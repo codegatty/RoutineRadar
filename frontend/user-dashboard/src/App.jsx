@@ -2,6 +2,7 @@ import {useContext,useEffect } from 'react'
 import {UserContext} from './context/userContext'
 import Layout from './pages/Layout'
 import LoginPage from './pages/LoginPage'
+import { Outlet } from 'react-router-dom'
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
   return (
     <>
    {
-    userCtx.userId?<Layout/>:<LoginPage/>
+    userCtx.userId?<Outlet/>:<LoginPage/>
    }
    </>
   )

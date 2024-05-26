@@ -2,7 +2,7 @@ const RoadMap=require("../model/roadMapModel")
 const asyncHandler = require("express-async-handler");
 
 
-const getRoadMapByuserId = asyncHandler(async (req, res) => {
+const getRoadMapByUserId = asyncHandler(async (req, res) => {
   const userId = req.params.userId;
  
 
@@ -23,11 +23,11 @@ const createRoadmap = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "please fill all fields" });
   }
 
-  const roadMap = await RoadMap.findOne({title:title});
+  // const roadMap = await RoadMap.findOne({title:title});
 
-  if (roadMap) {
-    return res.status(400).json({ message: "badge already exists" });
-  }
+  // if (roadMap) {
+  //   return res.status(400).json({ message: "already there" });
+  // }
 
   
   const result = await RoadMap.create({
@@ -44,7 +44,7 @@ const createRoadmap = asyncHandler(async (req, res) => {
 });
 
 const updateRoadmap = asyncHandler(async (req, res) => {
-  const id = req.params.userId;
+  const id = req.params.id;
 
   const { title, description, map} = req.body;
 
@@ -52,10 +52,10 @@ const updateRoadmap = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "please fill all fields" });
   }
   
-  const roadMap = await db.findOne({_id:id});
+  const roadMap = await RoadMap.findOne({_id:id});
 
-  if (roadMap) {
-    return res.status(400).json({ message: "badge does not exist" });
+  if (!roadMap) {
+    return res.status(400).json({ message: "roadMap does not exist" });
   }
 
   const result = await RoadMap.findByIdAndUpdate(id,{title,description,map},{new:true});
@@ -83,5 +83,5 @@ const deleteRoadmap = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = {createRoadmap,deleteRoadmap,updateRoadmap,getRoadMapByuserId}
+module.exports = {createRoadmap,deleteRoadmap,updateRoadmap,getRoadMapByUserId}
 

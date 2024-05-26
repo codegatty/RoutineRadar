@@ -3,10 +3,11 @@ import { RoutineContext } from "../context/RoutineProvider"
 import {createDateFromString} from '../utility/createDateFromString'
 import MyTimer from '../components/MyTimer'
 import CountCard from "../UIComponents/CountCard"
-import { LuTimerOff } from "react-icons/lu";
+
 import {scoreCalculatorFromTasks} from '../utility/scoreCalculator'
 import {useNavigate} from 'react-router-dom'
 import classNames from "classnames"
+import TimOutWarning from "../UIComponents/TimOutWarning"
 
 function Main({taskId,className}) {
   const navigate=useNavigate()
@@ -21,10 +22,10 @@ function Main({taskId,className}) {
   })
 
 
-  
+  const startTime=createDateFromString(selectedTask.startsAt)
   useEffect(()=>{
     if(selectedTask){
-    const startTime=createDateFromString(selectedTask.startsAt)
+    
     const endTime=createDateFromString(selectedTask.endsAt)
 
     setCounts(()=>{
@@ -57,8 +58,9 @@ function Main({taskId,className}) {
         <h1 className="text-center text-2xl capitalize underline m-2">{selectedTask?.title}</h1>
       </div>
       {
-        selectedTask?.isCompleted &&<div className="flex-1 flex item-center justify-center my-1">
-        <span className="bg-secondary text-primary p-2  rounded-md capitalize">task has been completed</span>
+        selectedTask?.isCompleted &&<div className="flex-1 flex flex-col item-center justify-center my-1 bg-secondary text-primary rounded-md mx-96 p-5">
+        <span className=" p-2 capitalize text-center">task has been completed</span>
+        <span className="text-center font-semibold">Gained Score: {counts.scoreAttained}</span>
       </div>
       }
 
@@ -67,10 +69,10 @@ function Main({taskId,className}) {
             
             enableTimer?
             <MyTimer expiryTimestamp={createDateFromString(selectedTask.endsAt)}/>
-            :
-            <div className=" text-center  p-1 text-red-500 text-sm flex justify-center items-center">
-              <span className=" border border-1 border-red-500 p-1 flex flex-col justify-center items-center"><LuTimerOff />Task Time Expired</span>
-            </div>
+            :(startTime.getTime()<new Date().getTime()?<TimOutWarning/>:<div className="flex-1 flex flex-col item-center justify-center my-1 bg-secondary text-primary rounded-md mx-96 p-5">
+            <span className=" p-2 capitalize text-center font-semibold">Task yet to start</span>
+          </div>)
+
           }
         </div>
         {selectedTask?.subTasks.length > 0?

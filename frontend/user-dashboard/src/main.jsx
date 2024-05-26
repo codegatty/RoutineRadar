@@ -13,13 +13,17 @@ import App from './App.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
+import Layout from './pages/Layout.jsx'
 
 const router=createBrowserRouter([
-  {path:'/',element:<App/>},
-  {path:'/routine',element:<Routine/>},
-  {path:'/profile',element:<ProfilePage/>},
-  {path:'/register',element:<RegisterPage/>},
-  {path:'/login',element:<LoginPage/>},
+  {path:'/',element:<App/>,children:[
+    {path:'/',element:<Layout/>},
+    {path:'/routine',element:<Routine/>},
+    {path:'/profile',element:<ProfilePage/>},
+    {path:'/register',element:<RegisterPage/>},
+    {path:'/login',element:<LoginPage/>},
+  ]},
+
 ])
 
 
