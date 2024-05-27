@@ -2,11 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import './index.css'
-import RoutineContextProvider from './context/RoutineProvider.jsx'
+
 import {ErrorBoundary} from 'react-error-boundary'
 import {createBrowserRouter,RouterProvider} from 'react-router-dom'
 
 import UserContextProvider from './context/userContext.jsx'
+import RoutineContextProvider from './context/RoutineProvider.jsx'
+import  RoadmapContextProvider  from './context/RoadmapProvider.jsx'
 
 import Routine from './pages/Routine.jsx'
 import App from './App.jsx'
@@ -14,6 +16,7 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import Layout from './pages/Layout.jsx'
+import Roadmap from './pages/Roadmap.jsx'
 
 const router=createBrowserRouter([
   {path:'/',element:<App/>,children:[
@@ -22,6 +25,7 @@ const router=createBrowserRouter([
     {path:'/profile',element:<ProfilePage/>},
     {path:'/register',element:<RegisterPage/>},
     {path:'/login',element:<LoginPage/>},
+    {path:'/roadmap',element:<Roadmap/>}
   ]},
 
 ])
@@ -32,11 +36,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
       <UserContextProvider>
     <RoutineContextProvider>
+      <RoadmapContextProvider>
       <ErrorBoundary fallback={<div>something happened...</div>}>
         
         <RouterProvider router={router} />
       </ErrorBoundary>
-      
+      </RoadmapContextProvider>
     </RoutineContextProvider>
     </UserContextProvider>
 

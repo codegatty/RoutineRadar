@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import { CgProfile } from "react-icons/cg";
 import { CiSettings } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
+import { RiRoadMapLine } from "react-icons/ri";
 function DropDownMenu({user}) {
     const menuItemClasses="px-3 py-1 text-sm font-semibold"
   return (
@@ -26,6 +27,15 @@ function DropDownMenu({user}) {
         <Link className="block data-[focus]:bg-primary " to="/routine">
           <div className='flex flex-row justify-center items-center gap-2'>
           <CgProfile className='flex-2'/><span className='flex-1'>Edit Routine</span>
+          </div>
+         
+        </Link>
+      </MenuItem>
+
+      <MenuItem className={menuItemClasses}>
+        <Link className="block data-[focus]:bg-primary " to="/roadmap">
+          <div className='flex flex-row justify-center items-center gap-2'>
+          <RiRoadMapLine className='flex-2'/><span className='flex-1'>RoadMaps</span>
           </div>
          
         </Link>

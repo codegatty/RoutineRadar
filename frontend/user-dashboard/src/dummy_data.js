@@ -73,3 +73,43 @@ export let lineChartData={
       }
   ]
 }
+
+export const roadMap=[
+  {
+      "_id": "66529343a3016784a7a28aae",
+      "title": "full stack developer",
+      "description": "hello ",
+      "paths": [
+          "forntend",
+          "backend",
+          "deployment",
+          "maintaince"
+      ],
+      "userId": "664b27854996d0f0839223ea",
+      "__v": 0
+  },
+  {
+    "_id": "66529343a3016784a7a28aaf",
+    "title": "half stack developer",
+    "description": "hello ",
+    "paths": [
+        "forntend",
+        "backend",
+        "deployment"
+    ],
+    "userId": "664b27854996d0f0839223eg",
+    "__v": 0
+},
+{
+  "_id": "66529343a3016784a7a28aag",
+  "title": "empty stack developer",
+  "description": "hello ",
+  "paths": [
+      "forntend",
+      "backend",
+      "deployment"
+  ],
+  "userId": "664b27854996d0f0839223ea",
+  "__v": 0
+}
+]
