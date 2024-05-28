@@ -8,6 +8,7 @@ export const RoadmapContext=createContext({
     updateRoadMap:(id,roadMap)=>{},
     addPath:(id,path)=>{},
     deleteRoadMap:(id)=>{},
+    updateIsCompleted:(id,isCompleted)=>{},
 })
 
 
@@ -22,7 +23,7 @@ function RoadmapReducer(state,action){
         case 'ADDPATH':
             
              const currentRoadMap=state.filter((roadMap)=>roadMap._id==action.payload.id)
-            let updatedPaths=[action.payload.path,...currentRoadMap[0].paths]
+            let updatedPaths=[{name:action.payload.path,isCompleted:false},...currentRoadMap[0].paths]
             const updatedRoadMap={...currentRoadMap[0],paths:updatedPaths}
             const updatedState=state.map((roadMap)=>{
                 if(roadMap._id===action.payload.id){
@@ -33,7 +34,31 @@ function RoadmapReducer(state,action){
             
             return updatedState
         case 'DELETE':
-            return state;
+            
+            const newState=state.filter((ele)=>ele._id!==action.payload)
+            return newState;
+        case 'UPDATEISCOMPLETED':
+            const index=action.payload.index;
+            const isCompleted=action.payload.isCompleted;
+            const id=action.payload.id;
+    
+             const cur_RoadMap=state.filter((roadMap)=>roadMap._id==id)[0]
+            const up_paths=cur_RoadMap.paths.map((path,idx)=>{
+                if(idx===index){
+                    return {...path,isCompleted:isCompleted}
+                }
+                return path;
+            })
+            const up_roadMap={...cur_RoadMap,paths:up_paths}
+            const new_state=state.map((ele)=>{
+                if(ele._id===id){
+                    return up_roadMap
+                }
+                return ele
+            })
+            console.log(new_state)
+            
+            return new_state;
         
     }
 }
@@ -62,6 +87,11 @@ function RoadmapContextProvider({children}){
         dispatch({ type: 'DELETE', payload: id })
     }
 
+    function updateIsCompleted(id,index,isCompleted) {
+        dispatch({ type: 'UPDATEISCOMPLETED', payload:{id,index,isCompleted} })
+    }
+
+
     const value={
         roadMaps: roadmapState,
         storeRoadMaps,
@@ -69,6 +99,7 @@ function RoadmapContextProvider({children}){
         updateRoadMap,
         deleteRoadMap,
         addPath,
+        updateIsCompleted
     }
 
     return <RoadmapContext.Provider value={value}>

@@ -80,10 +80,10 @@ export const roadMap=[
       "title": "full stack developer",
       "description": "hello ",
       "paths": [
-          "forntend",
-          "backend",
-          "deployment",
-          "maintaince"
+          {name:"frontend",isCompleted:false},
+          {name:"backend",isCompleted:false},
+          {name:"deployment",isCompleted:false},
+          {name:"managment",isCompleted:false}
       ],
       "userId": "664b27854996d0f0839223ea",
       "__v": 0
@@ -93,9 +93,9 @@ export const roadMap=[
     "title": "half stack developer",
     "description": "hello ",
     "paths": [
-        "forntend",
-        "backend",
-        "deployment"
+      {name:"electronics",isCompleted:true},
+      {name:"physics",isCompleted:false},
+      {name:"biology",isCompleted:false}
     ],
     "userId": "664b27854996d0f0839223eg",
     "__v": 0
@@ -105,9 +105,9 @@ export const roadMap=[
   "title": "empty stack developer",
   "description": "hello ",
   "paths": [
-      "forntend",
-      "backend",
-      "deployment"
+    {name:"html",isCompleted:true},
+    {name:"css",isCompleted:false},
+    {name:"javascript",isCompleted:false},
   ],
   "userId": "664b27854996d0f0839223ea",
   "__v": 0

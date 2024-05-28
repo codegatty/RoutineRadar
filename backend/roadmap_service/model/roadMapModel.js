@@ -16,6 +16,10 @@ const roadMapSchema=mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         required:true
+    },
+    isCompleted:{
+        type:Boolean,
+        default:false
     }
 });
 

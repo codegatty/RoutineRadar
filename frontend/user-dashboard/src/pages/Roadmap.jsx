@@ -19,14 +19,19 @@ function Roadmap() {
     setSelectedRoadMap(sel_roadmap)
     
   }
+
+  function newRoadMapHandler(){
+    setSelectedRoadMap(false)
+    console.log("disSelected")
+  }
   return (
     <div className="w-full h-screen  bg-primary flex flex-row overflow-hidden">
       <div className="flex-1">
-      <RoadmapForm defaultValues={selectedRoadMap}/>
+      <RoadmapForm defaultValues={selectedRoadMap} onDisSelect={newRoadMapHandler}/>
      {selectedRoadMap && <PathForm roadMap={selectedRoadMap}/>} 
       </div>
       <div className="flex-1">
-      <RoadMapViewer roadMap={selectedRoadMap}/>
+      <RoadMapViewer roadMapId={selectedRoadMap?selectedRoadMap[0]._id:null}/>
       </div>
       <div className="flex-1 ">
       <ListOfRoadmap maps={roadMaps} onSelect={selectHandler} />  

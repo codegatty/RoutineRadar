@@ -2,24 +2,17 @@ import { Fragment, useEffect, useState,useContext,useCallback } from 'react'
 import { RoadmapContext } from '../context/RoadmapProvider'
 import classNames from 'classnames'
 
-export const RoadMapViewer = ({ roadMap }) => {
-  const [selectedRoadMap, setSelectedRoadMap] = useState()
-  const [id,setId]=useState();
+export const RoadMapViewer = ({ roadMapId }) => {
+  const [selectedRoadMap,setSelectedRoadMap]=useState(null)
   const roadMapCtx = useContext(RoadmapContext)
-  useEffect(() => {
-    if (roadMap) {
-      setSelectedRoadMap(roadMap[0].paths)
-      setId(roadMap[0]._id)
-      refreshViewer()
-    }
-  }, [roadMap,roadMapCtx.roadMaps])
 
-  const refreshViewer=useCallback(() =>{
-    const currentRoadMap = roadMapCtx.roadMaps.filter((roadMap) =>roadMap._id === id)
-    if(currentRoadMap[0]){    
-      setSelectedRoadMap(currentRoadMap[0].paths)
+  useEffect(()=>{
+    if(roadMapId){
+      setSelectedRoadMap(roadMapCtx.roadMaps.find(roadMap=>roadMap._id===roadMapId).paths)
+    }else{
+      setSelectedRoadMap(null)
     }
-  },[roadMapCtx.roadMaps])
+  },[roadMapId,roadMapCtx.roadMaps])
   return (
     <div className="flex flex-col  w-full my-4 text-red-400">
       {selectedRoadMap ? (
@@ -27,13 +20,14 @@ export const RoadMapViewer = ({ roadMap }) => {
           return (
             <Fragment key={key}>
               <div className="flex flex-col items-center mx-auto">
-                <span>{path}</span>
+                <span>{path.name}</span>
                 <Circle />
                 {key !== selectedRoadMap.length - 1 && <Pillar />}
               </div>
             </Fragment>
           )
         })
+        
       ) : <div className={classNames('h-screen flex justify-center items-center')}>
     <h1 className=' flex-1 font-bold text-secondary text-xl text-center'>Select a RoadMap</h1>
           </div>}

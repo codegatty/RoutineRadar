@@ -10,11 +10,13 @@ function ListOfRoadmap({maps,onSelect}) {
       <Title className="text-primary text-center">List Of SubTasks</Title>
       <ul className='text-primary h-full overflow-y-scroll scrollbar-thin scrollbar-thumb-primary scrollbar-track-secondary'>
         {maps?.map((roadMap,index)=>{
-          return <li key={index} onClick={selectHandler.bind(this,roadMap._id)} className="hover:bg-red-200 cursor-pointer">
+          return <li key={index} onClick={selectHandler.bind(this,roadMap._id)} className=" cursor-pointer flex flex-row">
             <div className="flex flex-col p-3 w-full justify-center  hover:bg-primary capitalize">
             <span className="font-semibold"> {roadMap.title}</span>
             <span className="text-sm"> {roadMap.description}</span>
-            </div></li>
+            
+            </div>
+            </li>
         })}
       </ul>
     </div>
