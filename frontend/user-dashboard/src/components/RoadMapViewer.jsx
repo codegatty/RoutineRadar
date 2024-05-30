@@ -1,28 +1,28 @@
-import { Fragment, useEffect, useState,useContext,useCallback } from 'react'
+import { Fragment, useEffect, useState,useContext } from 'react'
 import { RoadmapContext } from '../context/RoadmapProvider'
 import classNames from 'classnames'
 
 export const RoadMapViewer = ({ roadMapId }) => {
-  const [selectedRoadMap,setSelectedRoadMap]=useState(null)
+  const [selectedRoadMapPath,setSelectedRoadMapPath]=useState(null)
   const roadMapCtx = useContext(RoadmapContext)
 
   useEffect(()=>{
     if(roadMapId){
-      setSelectedRoadMap(roadMapCtx.roadMaps.find(roadMap=>roadMap._id===roadMapId).paths)
+      setSelectedRoadMapPath(roadMapCtx.roadMaps.find(roadMap=>roadMap._id===roadMapId)?.paths)
     }else{
-      setSelectedRoadMap(null)
+      setSelectedRoadMapPath(null)
     }
   },[roadMapId,roadMapCtx.roadMaps])
   return (
     <div className="flex flex-col  w-full my-4 text-red-400">
-      {selectedRoadMap ? (
-        selectedRoadMap.map((path, key) => {
+      {selectedRoadMapPath ? (
+        selectedRoadMapPath.map((path, key) => {
           return (
             <Fragment key={key}>
               <div className="flex flex-col items-center mx-auto">
               <span className='text-primary capitalize font-semibold text-md my-1'>{path.name}</span>
                 <Circle />
-                {key !== selectedRoadMap.length - 1 && <Pillar />}
+                {key !== selectedRoadMapPath.length - 1 && <Pillar />}
               </div>
             </Fragment>
           )

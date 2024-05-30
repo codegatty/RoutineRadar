@@ -25,7 +25,7 @@ function SideBar({ sidebarToggle, routine, selectedTaskId }) {
 
       </div>
       <Hr />
-      <ul className="mt-3 text-white font-bold h-screen overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary">
+      <ul className="mt-3 pb-32 text-white font-bold h-screen overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary">
         {(routine?.tasks ?? []).map((task, index) => {
           return (
             <TaskItem task={task} userId={routine?.userId} key={index} onClick={selectHandler.bind(this, task._id)} />

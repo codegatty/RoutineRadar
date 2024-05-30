@@ -4,6 +4,7 @@ import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import {RoadmapContext} from '../context/RoadmapProvider'
 import {UserContext} from '../context/userContext';
 import classNames from "classnames";
+import {axios_user} from '../axios_config/axiosConfig'
 
 
 function RoadmapForm({defaultValues,onDisSelect}) {
@@ -54,11 +55,14 @@ function RoadmapForm({defaultValues,onDisSelect}) {
             description,
             userId,
             paths:[],
-            _id:Math.round(Math.random()*100000)
         }
-        
-         roadMapCtx.addRoadMap(finalData)
-        //TODO:connect with the backend
+        try{
+        const response=await axios_user.post("/roadmap",finalData)
+         roadMapCtx.addRoadMap({_id:response.data._id,...finalData})
+         console.log("response"+response.data)
+        }catch(err){
+          console.log(err)
+        }
       }
 
 
@@ -67,9 +71,15 @@ function RoadmapForm({defaultValues,onDisSelect}) {
         onDisSelect()
       }
 
-      function deleteHandler(){
+      async function deleteHandler(){
         if(defaultValues){
-          roadMapCtx.deleteRoadMap(defaultValues[0]._id)
+          const roadMapId=defaultValues[0]._id
+          roadMapCtx.deleteRoadMap(roadMapId)
+          try{
+            await axios_user.delete("roadMap/"+roadMapId)
+          }catch(error){
+            console.log(error)
+          }
         }
         onDisSelect()
       }
@@ -101,7 +111,7 @@ function RoadmapForm({defaultValues,onDisSelect}) {
       
     />
     {errors.goal && (
-      <InputErrorDisplay>{errors.goal.message}</InputErrorDisplay>
+      <InputErrorDisplay>{errors.title.message}</InputErrorDisplay>
     )}
  {defaultValues && <label className={labelClasses}>Description</label>}
     <input
@@ -114,7 +124,7 @@ function RoadmapForm({defaultValues,onDisSelect}) {
       placeholder="Enter the description fro road map"
     />
     {errors.type && (
-      <InputErrorDisplay>{errors.type.message}</InputErrorDisplay>
+      <InputErrorDisplay>{errors.description.message}</InputErrorDisplay>
     )}
 
     <button

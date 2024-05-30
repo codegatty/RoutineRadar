@@ -23,7 +23,7 @@ function RoadmapReducer(state,action){
         case 'ADDPATH':
             
              const currentRoadMap=state.filter((roadMap)=>roadMap._id==action.payload.id)
-            let updatedPaths=[{name:action.payload.path,isCompleted:false},...currentRoadMap[0].paths]
+            let updatedPaths=[{_id:action.payload.path._id,name:action.payload.path.name,isCompleted:false},...currentRoadMap[0].paths]
             const updatedRoadMap={...currentRoadMap[0],paths:updatedPaths}
             const updatedState=state.map((roadMap)=>{
                 if(roadMap._id===action.payload.id){

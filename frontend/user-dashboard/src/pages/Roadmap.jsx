@@ -1,7 +1,8 @@
-import { useEffect, useState,useContext } from "react"
+import { useEffect, useState,useContext} from "react"
 import ListOfRoadmap from "../components/ListOfRoadmap"
 import RoadmapForm from "../components/RoadmapForm"
 import {RoadmapContext} from '../context/RoadmapProvider'
+
 import { RoadMapViewer } from "../components/RoadMapViewer"
 import PathForm from "../components/PathForm"
 function Roadmap() {
@@ -11,7 +12,7 @@ function Roadmap() {
   const roadMapCtx=useContext(RoadmapContext);
 
   useEffect(()=>{
-    setRoadMaps(roadMapCtx.roadMaps)
+      setRoadMaps(roadMapCtx.roadMaps)
   },[roadMapCtx.roadMaps])
 
   function selectHandler(id){
@@ -22,7 +23,6 @@ function Roadmap() {
 
   function newRoadMapHandler(){
     setSelectedRoadMap(false)
-    console.log("disSelected")
   }
   return (
     <div className="w-full h-screen  bg-primary flex flex-row overflow-hidden">
@@ -36,8 +36,6 @@ function Roadmap() {
       <div className="flex-1 ">
       <ListOfRoadmap maps={roadMaps} onSelect={selectHandler} />  
       </div>
-
-      
      
     </div>
   )
