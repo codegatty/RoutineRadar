@@ -5,8 +5,6 @@ const asyncHandler = require("express-async-handler");
 const getRoadMapByUserId = asyncHandler(async (req, res) => {
   const userId = req.params.userId;
  
-
-  
   const result = await RoadMap.find({userId:userId})
 
   if(!result) {
@@ -17,9 +15,9 @@ const getRoadMapByUserId = asyncHandler(async (req, res) => {
 });
 
 const createRoadmap = asyncHandler(async (req, res) => {
-  const { title, description, map,userId } = req.body;
+  const { title, description, paths,userId } = req.body;
 
-  if (!title || !description || !map || !userId) {
+  if (!title || !description|| !userId) {
     return res.status(400).json({ message: "please fill all fields" });
   }
 
@@ -33,7 +31,7 @@ const createRoadmap = asyncHandler(async (req, res) => {
   const result = await RoadMap.create({
     title,
     description,
-    map,
+    paths,
     userId
   })
 
@@ -66,6 +64,32 @@ const updateRoadmap = asyncHandler(async (req, res) => {
   return res.json(result);
 });
 
+
+const addPaths=asyncHandler(async(req,res)=>{
+  const id=req.params.id
+  const {path}=req.body;
+  const result = await RoadMap.findByIdAndUpdate(
+    id,
+    { $push: { paths: path } }, // Assuming 'paths' is the field name in the schema
+    { new: true }
+  );
+  res.status(200).json(result);
+})
+
+const updateIsCompleted=asyncHandler(async (req,res)=>{
+  const roadMap_id=req.params.id;
+  const {pathId,isCompleted}=req.body
+
+
+  const result = await RoadMap.findOneAndUpdate(
+    { _id: roadMap_id, "paths._id": pathId },
+    { $set: { "paths.$.isCompleted": isCompleted } },
+    { new: true }
+  );
+  res.status(200).json(result);
+
+})
+
 const deleteRoadmap = asyncHandler(async (req, res) => {
     const id=req.params.id;
 
@@ -83,5 +107,5 @@ const deleteRoadmap = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = {createRoadmap,deleteRoadmap,updateRoadmap,getRoadMapByUserId}
+module.exports = {createRoadmap,deleteRoadmap,updateRoadmap,getRoadMapByUserId,addPaths,updateIsCompleted}
 

@@ -20,7 +20,7 @@ export const RoadMapViewer = ({ roadMapId }) => {
           return (
             <Fragment key={key}>
               <div className="flex flex-col items-center mx-auto">
-                <span>{path.name}</span>
+              <span className='text-primary capitalize font-semibold text-md my-1'>{path.name}</span>
                 <Circle />
                 {key !== selectedRoadMap.length - 1 && <Pillar />}
               </div>
@@ -37,11 +37,11 @@ export const RoadMapViewer = ({ roadMapId }) => {
 }
 
 const Circle = () => {
-  return <div className="rounded-full w-4 h-4 bg-blue-500 mx-auto mb-3 flex justify-center content-center"></div>
+  return <div className="rounded-full w-6 h-6 bg-secondary mx-auto mb-3 flex justify-center content-center "></div>
 }
 
 const Pillar = () => {
-  return <div className="rounded-t-full rounded-b-full w-2 h-20 bg-blue-500 mx-auto"></div>
+  return <div className="rounded-t-full rounded-b-full w-2 h-20 bg-secondary  mx-auto"></div>
 }
 
 const EventCard = ({ heading, subHeading }) => {

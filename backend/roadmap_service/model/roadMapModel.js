@@ -1,5 +1,15 @@
 const mongoose=require('mongoose');
 
+const path=mongoose.Schema({
+    name:{
+        type: 'string',
+    },
+    isCompleted:{
+        type:Boolean,
+        default:false
+    }
+})
+
 const roadMapSchema=mongoose.Schema({
     title:{
         required: true,
@@ -9,17 +19,13 @@ const roadMapSchema=mongoose.Schema({
         required: true,
         type: String
     },
-    map:{
-        type:[String],
+    paths:{
+        type:[path],
         required:true
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         required:true
-    },
-    isCompleted:{
-        type:Boolean,
-        default:false
     }
 });
 
