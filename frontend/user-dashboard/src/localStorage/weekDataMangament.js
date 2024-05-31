@@ -11,7 +11,7 @@ export function setWeekData(noOfTasks) {
     const firstDay = dates[0]
     const lastDay = dates[1]
     const currentDate = new Date()
-    if (currentDate.getDate() >= firstDay.getDate() && currentDate.getDate() <= lastDay.getDate()) {
+    if (currentDate >= firstDay || currentDate <= lastDay) {
       let datesOfWeek = []
 
       //get all dates from start date

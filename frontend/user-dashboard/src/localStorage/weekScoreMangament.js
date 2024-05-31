@@ -11,13 +11,15 @@ export function getScoreData() {
 
 export function setScoreData(score) {
   
+  
   if(score){
     const dates = weekStarterEnderFinder()
     const firstDay = dates[0]
     const lastDay = dates[1]
     const currentDate = new Date()
-    if (currentDate.getDate() >= firstDay.getDate() && currentDate.getDate() <= lastDay.getDate()) {
+    if (currentDate>= firstDay && currentDate && lastDay) {
         const newScoreData=getScoreData()+score
+        console.log(getScoreData())
       localStorage.removeItem('weekScoreData')
       localStorage.setItem('weekScoreData', JSON.stringify(newScoreData))
     } else {

@@ -2,7 +2,7 @@ import {useForm} from 'react-hook-form'
 import InputErrorDisplay from '../UIComponents/InputErrorDisplay';
 import {axios_user} from '../axios_config/axiosConfig'
 import {Link} from 'react-router-dom'
-import { useContext} from 'react';
+import { useContext,useState} from 'react';
 import {UserContext} from '../context/userContext'
 import {useNavigate } from 'react-router-dom'
 
@@ -12,6 +12,7 @@ function LoginPage() {
     const buttonClasses="p-2 m-5 bg-app-blue hover:bg-primary hover:text-primary rounded-xl text-secondary font-semibold"
     const userCtx=useContext(UserContext);
     const navigate=useNavigate()
+    const [error,setError]=useState(null)
     const {register,handleSubmit,formState:{errors,isSubmitting}}=useForm({defaultValues:{
         email:"nnm22mc069@nmamit.in",password:"password"
     }});
@@ -23,7 +24,8 @@ function LoginPage() {
             console.log(response.data);
             navigate("/",{replace:true})
         }catch(error){
-            console.log(error.message);
+            console.log(error);
+            setError(error)
         }
     }
 
@@ -57,7 +59,7 @@ function LoginPage() {
         <Link className='ml-5 text-primary text-sm' to="/register">No account?register</Link>
         <button className={buttonClasses} type='submit' >{isSubmitting?"Loading..":"Login"}</button> 
         
-        <InputErrorDisplay className="text-2xl">{}</InputErrorDisplay>     
+        <InputErrorDisplay className="text-2xl">{error?.response.status===500&&"Please connect to internet"}</InputErrorDisplay>     
         
     </form>
     </div>
