@@ -24,8 +24,8 @@ function Login() {
             login(res.data.accessToken)
             navigate("/dashboard",{replace:true});
         }catch(err){
-            console.log(err.response.data.msg);
-            setError(err.response.data.msg);
+            console.log(err.response);
+            setError(err.response.message);
         }
     }
 

@@ -21,6 +21,7 @@ function Table({data,attributes,updateHandler,removeHandler,disableDelete,disabl
     <tr>
         {
           attributes.map((ele,index)=><th className='p-3 text-xl font-bold tracking-wide text-left' key={ele}>{ele}</th>)
+        
         }
         <th className='p-3 text-xl font-bold tracking-wide text-left'>Operations</th>
     </tr>

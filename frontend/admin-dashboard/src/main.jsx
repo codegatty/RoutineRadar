@@ -9,6 +9,7 @@ import './index.css'
 import AuthContextProvider from './context/AuthProvider.jsx'
 import AdminsContextProvider from './context/AdminsProvider.jsx'
 import ChallengeContextProvider from './context/ChallengeProvider.jsx'
+import BadgeContextProvider from './context/BadgeProvider.jsx'
 
 import NotFound from './pages/NotFound.jsx'
 import Dashboard from './pages/Dashboard.jsx'
@@ -22,6 +23,8 @@ import Challenge from './pages/dashboardPages/Challenge.jsx'
 import Admins from './pages/dashboardPages/Admins.jsx'
 import Admin from './pages/dashboardPages/Admin.jsx'
 import Login from './pages/Login.jsx'
+import Badge from './pages/dashboardPages/Badge.jsx'
+import Badges from './pages/dashboardPages/Badges.jsx'
 
 
 const router=createBrowserRouter([
@@ -43,7 +46,9 @@ const router=createBrowserRouter([
       {path:'/dashboard/challenges',element:<Challenges/>},
       {path:'/dashboard/challenges/challenge',element:<Challenge/>},
       {path:'/dashboard/admins',element:<Admins/>},
-      {path:'/dashboard/admins/admin',element:<Admin/>}
+      {path:'/dashboard/admins/admin',element:<Admin/>},
+      {path:'/dashboard/badge/',element:<Badge/>},
+      {path:'/dashboard/badges/',element:<Badges/>},
     ]}
 
   ]},
@@ -54,7 +59,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AuthContextProvider>
       <AdminsContextProvider>
       <ChallengeContextProvider>
+        <BadgeContextProvider>
     <RouterProvider router={router} />
+    </BadgeContextProvider>
     </ChallengeContextProvider>
     </AdminsContextProvider>
     </AuthContextProvider>
