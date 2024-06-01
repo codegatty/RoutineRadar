@@ -47,7 +47,7 @@ function BadgeContextProvider({children}){
 
     }
 
-    function storeBadge(badges){
+    function storeBadges(badges){
         dispatch({type:'STORE',payload:badges});
     }
 
@@ -56,7 +56,7 @@ function BadgeContextProvider({children}){
         addBadge,
         updateBadge,
         deleteBadge,
-        storeBadge
+        storeBadges
     }
 
     return (

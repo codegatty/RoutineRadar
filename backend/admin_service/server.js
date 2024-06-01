@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express=require("express");
 const cookieParser=require("cookie-parser");
+const bodyParser = require('body-parser');
 const cors=require("cors");
 const app = express();
 
@@ -8,6 +9,10 @@ const app = express();
 const connectDb=require("./config/dbConfig")
 const {connToChallengeCredQ}=require("./rabbitMq/challenge_cred_producer");
 const {connToChallangeResponseQ}=require("./rabbitMq/challenge_response_consumer");
+
+// Increase the limit
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 //built-in middleware

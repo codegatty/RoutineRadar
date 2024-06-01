@@ -10,7 +10,6 @@ const getAllBadges = asyncHandler(async (req, res) => {
 
 const getBadgeByBadgeNo = asyncHandler(async (req, res) => {
   const badgeNo = req.params.badgeNo;
-  console.log(badgeNo,typeof(badgeNo))
 
   const query = `SELECT * FROM badges WHERE badgeno=$1`;
   const result = await db.query(query, [badgeNo]);
@@ -46,14 +45,14 @@ const createBadge = asyncHandler(async (req, res) => {
 const updateBadge = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
-  const { title, description, badgeNo,image } = req.body;
+  const { title, description, badgeno,image } = req.body;
 
-  if (!title || !description || !badgeNo) {
+  if (!title || !description || !badgeno) {
     return res.status(400).json({ message: "please fill all fields" });
   }
   const query1 = `SELECT FROM badges WHERE id=$1`;
   const badge = await db.query(query1, [id]);
-
+  
   if (!badge.rows[0]) {
     return res.status(400).json({ message: "badge does not exist" });
   }
@@ -67,7 +66,7 @@ const updateBadge = asyncHandler(async (req, res) => {
         id=$5
     RETURNING *;`;
 
-  const result = await db.query(query2, [title, description, badgeNo, image,id]);
+  const result = await db.query(query2, [title, description, badgeno, image,id]);
   
   if(!result.rows[0]){
     return res.status(400).json({ message: "something went wrong" });

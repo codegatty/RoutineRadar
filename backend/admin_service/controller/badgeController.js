@@ -14,8 +14,13 @@ const getBadgeByBadgeNo=asyncHandler(async (req,res)=>{
 });
 
 const createBadge=asyncHandler(async (req,res)=>{
-    const result=await axios.get("http://localhost:5008/badges");
-    return res.json(result.data);
+    const data=req.body
+    axios.post("http://localhost:5008/badges",data).then((response)=>{
+        return res.status(201).json(response.data)
+    }).catch((error)=>{
+        return res.status(400).json(error.message)
+    });
+    
 });
 
 const updateBadge=asyncHandler(async (req,res)=>{

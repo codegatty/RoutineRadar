@@ -9,7 +9,7 @@ import { typesOfChallange } from "../../constants/challengeTypes"
 import InputErrorDisplay from "../../components/InputErrorDisplay"
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import useAuth from '../../hooks/useAuth'
-import { rangeValidator } from '../../util/rangeValidator'
+import { imageToBase64 } from '../../util/imageToBas64'
 
 
 
@@ -24,50 +24,62 @@ function Badge(){
      const navigate=useNavigate()
      const {state}=useLocation()
      const shouldCreate=state.operation==="create"?true:false;
+     const [error,setError]=useState(null)
 
     const {register,handleSubmit,formState:{errors,isLoading}}=useForm({
         defaultValues:{
             title:shouldCreate?"":state.badge.title,
             description:shouldCreate?0:state.badge.description,
-            badgeNo:shouldCreate?0:state.badge.badgeNo,
+            badgeno:shouldCreate?0:state.badge.badgeno,
         }
     });
 
+
+
     async function submitHandler(data){
         const tokenId=token();
-        console.log(data)
-        // if(state.operation==="create"){
-        //     try{
-                
-        //         const response=await axiosPrivate.post("http://localhost:5000/admin/challenges",newData,{
-        //             withCredentials:true,
-        //             headers:{
-        //                 Authorization:"Bearer "+tokenId
-        //             }
-        //         })
-        //        navigate("/dashboard/challenges");
+    
+         if(state.operation==="create"){
+            try{
+                const imgString=await imageToBase64(data.image[0])
+                const newData={...data,image:imgString}
+                console.log(newData)
+                const response=await axiosPrivate.post("http://localhost:5000/admin/badges",newData,{
+                    withCredentials:true,
+                    headers:{
+                        Authorization:"Bearer "+tokenId
+                    }
+                })
+               navigate("/dashboard/badges");
+            }catch(e){
+                console.log(e)
+                setError(e.message);
+            }
+        }else if(state.operation==="update"){
 
-        //     }catch(e){
-                
-        //         setError(e.message);
-        //     }
-        // }else if(state.operation==="update"){
-        //     try{
-        //         const response=await axiosPrivate.put("http://localhost:5000/admin/challenges/"+state.challenge._id,newData,{
-        //             withCredentials:true,
-        //             headers:{
-        //                 Authorization:"Bearer "+tokenId
-        //             }
-        //         })
-        //         console.log(response.status)
-        //         if(response.status==200){
-        //             navigate("/dashboard/challenges");
-        //         }
-        //     }catch(e){
-        //       setError(e.message)
-        //     }
+            let newData={}
+            if(data.image.length==0){
+                newData={...data,image:state.badge.image}
+            }else{
+                const imgString=await imageToBase64(data.image[0])
+               newData={...data,image:imgString}
+            }
+            try{
+
+                const response=await axiosPrivate.put("http://localhost:5000/admin/badges/"+state.badge.id,newData,{
+                    withCredentials:true,
+                    headers:{
+                        Authorization:"Bearer "+tokenId
+                    }
+                })
+                if(response.status==200){
+                    navigate("/dashboard/badges");
+                }
+            }catch(e){
+              setError(e.message)
+            }
             
-        // }
+       }
     }
 
 
@@ -102,29 +114,25 @@ function Badge(){
                 </div>
                 <div className={classNames(formSection,"mt-1")}>
                 <label className={classNames(label)}>Badge No.</label>
-                <input className={classNames(input)} type="number"  {...register("badgeNo",{
+                <input className={classNames(input)} type="number"  {...register("badgeno",{
                     required: "Please enter the badge number",
                     
                 })}/>
-                <InputErrorDisplay>{errors.weightage&&errors.weightage.message}</InputErrorDisplay>
+                <InputErrorDisplay>{errors.badgeno&&errors.badgeno.message}</InputErrorDisplay>
                 </div>
 
                 <div className={classNames(formSection)}>
                 <label className={classNames(label)}>Badge Image</label>
-                <input className={classNames(input)} type="file" {...register("Image",{
-                    required: "Please enter your description",
-                    minLength:{
-                        value:8,
-                        message:"Name must be at least 8 characters long"
-                    }
+                <input className={classNames(input)} type="file" accept='image/*' {...register("image",{
+                    required:false,
                 })}/>
 
-                <InputErrorDisplay>{errors.description&&errors.description.message}</InputErrorDisplay>
+                <InputErrorDisplay>{errors.image&&errors.image.message}</InputErrorDisplay>
                 </div>
 
                 <div className='flex items-center justify-around'>
                 <Button className="bg-neutral-950 text-white text-center hover:bg-white hover:text-neutral-950 font-bold ">
-                        {isLoading?"Loading":shouldCreate===false?"Update":"create"}
+                        {isLoading?"Loading":state.operation==="update"?"Update":"create"}
                     </Button>
 
                     <Button className="bg-neutral-950 text-white text-center hover:bg-white hover:text-neutral-950 font-bold ">

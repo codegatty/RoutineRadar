@@ -18,34 +18,33 @@ function Badges() {
   const badgeCtx=useContext(BadgeContext)
 
   useEffect(()=>{
-    //async function fetchAllAdmins(){
-    //   try{
-    //     const tokenId=token();
-    //     const response=await privateAxios.get("http://localhost:5000/admin/challenges",{withCredentials:true,headers:{
-    //       'Authorization': 'Bearer '+tokenId
-    //     }});
-    //     challengeCtx.storeChallenges(response.data);
+    async function fetchAllAdmins(){
+      try{
+        const tokenId=token();
+        const response=await privateAxios.get("http://localhost:5000/admin/badges",{withCredentials:true,headers:{
+          'Authorization': 'Bearer '+tokenId
+        }});
+        badgeCtx.storeBadges(response.data);
         
-    //   }catch(e){
-    //     console.log("something went wrong",e);
-    //   }
-    // }
-    //fetchAllAdmins();
+      }catch(e){
+        console.log("something went wrong",e);
+      }
+    }
+    fetchAllAdmins();
   },[])
 
   async function handleDeletion(id){
-    // try{
-    //   const tokenId=token();
-    //   const response=await privateAxios.delete("http://localhost:5000/admin/challenges/"+id,{withCredentials:true,headers:{
-    //     'Authorization': 'Bearer '+tokenId
-    //   }});
-    //   if(response.status === 200){
-      console.log(id)
+    try{
+      const tokenId=token();
+      const response=await privateAxios.delete("http://localhost:5000/admin/badges/"+id,{withCredentials:true,headers:{
+        'Authorization': 'Bearer '+tokenId
+      }});
+      if(response.status === 200){
        badgeCtx.deleteBadge(id);
-    //   }
-    // }catch(e){
-    //   console.log("something went wrong",e);
-    // }
+      }
+    }catch(e){
+      console.log("something went wrong",e);
+    }
   }
 
   function handleEdit(badge){
