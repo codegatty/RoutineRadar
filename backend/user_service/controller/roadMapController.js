@@ -1,5 +1,7 @@
 const async_handler=require("express-async-handler")
 const axios=require('axios')
+const User=require("../model/userModel")
+const {addExpBadge}=require("../utils/BadgeFunctions")
 //pass
 const createRoadMap=async_handler(async(req,res)=>{
     const {title,description,userId}=req.body
@@ -14,9 +16,26 @@ const createRoadMap=async_handler(async(req,res)=>{
         paths:[]
     }
 
+    const user=User.findById(userId)
+    if(!user){
+        return res.status(400).json({ message: "User does not exist" });
+    }
+
     axios.post("http://localhost:5009/roadmap",finalData)
-    .then((response)=>{
-        return res.status(200).json(response.data)
+    .then(async (response)=>{
+        
+        const newExperience=user.experience+30
+
+        const resp= await User.findByIdAndUpdate(
+            userId,
+            {
+              experience: newExperience,
+            },
+            { new: true }
+          );
+
+          addExpBadge(userId);
+        return res.status(200).json(resp.data)
     }).catch((error)=>{
         return res.status(400).json(error.message)
     })
@@ -65,6 +84,8 @@ const deleteRoadMap=async_handler(async(req,res)=>{
 
     axios.delete("http://localhost:5009/roadmap/"+req.params.id)
     .then((response)=>{
+
+
         return res.status(200).json(response.data)
     }).catch(()=>{
         return res.status(400).json({message:"couldn't delete roadmap"})

@@ -1,15 +1,14 @@
-import {useEffect, useState} from 'react'
+import { useState} from 'react'
 import classNames from "classnames"
 import { useForm } from 'react-hook-form'
 import { useNavigate,useLocation } from 'react-router-dom'
 
 import Button from "../../UIComponents/Button"
-import TypeList from "../../UIComponents/TypeList"
-import { typesOfChallange } from "../../constants/challengeTypes"
 import InputErrorDisplay from "../../components/InputErrorDisplay"
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import useAuth from '../../hooks/useAuth'
 import { imageToBase64 } from '../../util/imageToBas64'
+import { rangeValidator2 } from '../../util/rangeValidator'
 
 
 
@@ -29,8 +28,8 @@ function Badge(){
     const {register,handleSubmit,formState:{errors,isLoading}}=useForm({
         defaultValues:{
             title:shouldCreate?"":state.badge.title,
-            description:shouldCreate?0:state.badge.description,
-            badgeno:shouldCreate?0:state.badge.badgeno,
+            description:shouldCreate?"":state.badge.description,
+            badgeno:shouldCreate?"":state.badge.badgeno,
         }
     });
 
@@ -43,11 +42,12 @@ function Badge(){
             try{
                 const imgString=await imageToBase64(data.image[0])
                 const newData={...data,image:imgString}
+            
                 console.log(newData)
                 const response=await axiosPrivate.post("http://localhost:5000/admin/badges",newData,{
                     withCredentials:true,
                     headers:{
-                        Authorization:"Bearer "+tokenId
+                        Authorization:"Bearer "+tokenId,
                     }
                 })
                navigate("/dashboard/badges");
@@ -116,6 +116,7 @@ function Badge(){
                 <label className={classNames(label)}>Badge No.</label>
                 <input className={classNames(input)} type="number"  {...register("badgeno",{
                     required: "Please enter the badge number",
+                    validate:(value)=>rangeValidator2(value)
                     
                 })}/>
                 <InputErrorDisplay>{errors.badgeno&&errors.badgeno.message}</InputErrorDisplay>
@@ -131,7 +132,7 @@ function Badge(){
                 </div>
 
                 <div className='flex items-center justify-around'>
-                <Button className="bg-neutral-950 text-white text-center hover:bg-white hover:text-neutral-950 font-bold ">
+                <Button className="bg-neutral-950 text-white text-center hover:bg-green hover:text-neutral-950 font-bold ">
                         {isLoading?"Loading":state.operation==="update"?"Update":"create"}
                     </Button>
 

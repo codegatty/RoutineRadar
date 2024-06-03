@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Routine = require("../model/routineModel");
+const {addDaysBadges,addScoreBadges}=require("../util/badgeFunction")
 
 //desc create a new routine
 //@route POST /routine
@@ -223,7 +224,12 @@ const deleteSubTask = asyncHandler(async (req, res) => {
 //@route GET /routine
 //@access public
 const getRoutine = asyncHandler(async (req, res) => {
-  const response = await Routine.find({ userId: req.params.id });
+  let response = await Routine.find({ userId: req.params.id });
+  //?adds the badge
+  addDaysBadges(response)
+  addScoreBadges(response)
+  response = await Routine.find({ userId: req.params.id });
+
   res.status(200).json(response);
 });
 

@@ -16,7 +16,7 @@ function ProfilePage() {
 
 
   function updateHandler(formData){
-    consol
+    //!pending profile update feature
   }
 
   async function deleteHandler(){

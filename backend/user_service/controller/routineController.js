@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const axios = require("axios");
-
 const User = require("../model/userModel");
+const {addExpBadge,firstRoutineBadge}=require("../utils/BadgeFunctions")
 
 //@desc creates new routine
 //@route user/routine
@@ -25,12 +25,15 @@ const createRoutine = asyncHandler(async (req, res) => {
     axios
       .post("http://localhost:5005/routine", { goal, type, task, userId })
       .then(async (response) => {
+        
+
+        //?adds experience when user create routine
         await User.updateOne(
           { _id: userId },
           { $set: { isRoutineCreated: true, experience:newExperience} }
         );
-
-        
+        addExpBadge(userId)
+        firstRoutineBadge(userId)
         return res.status(200).json({ message: "routine created" });
       })
       .catch(() => {

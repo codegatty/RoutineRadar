@@ -61,6 +61,9 @@ const routinSchema=mongoose.Schema({
     score:{
         type:Number,
         default:0
+    }, badges:{
+        type:[Number],
+        default:[]
     }
 },{timestamps:true});
 
