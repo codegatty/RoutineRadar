@@ -8,7 +8,7 @@ const upload= require('../middleware/multerUpload')
  const tokenValidator = require('../middleware/tokenValidator');
 const {deleteUser,loginUser,registerUser,updateUser,getAllUsers,getUserCount,getUser}=require('../controller/userController');
 
- router.post('/register',upload.single("profilePic"),registerUser);
+router.post('/register',upload.single("profilePic"),registerUser);
 router.post('/login',loginUser);
 
 router.get('/getAllUsers',getAllUsers)

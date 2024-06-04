@@ -25,7 +25,7 @@ function Login() {
             navigate("/dashboard",{replace:true});
         }catch(err){
             console.log(err.response);
-            setError(err.response.message);
+            setError(err.response);
         }
     }
 

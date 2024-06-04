@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const userSchema=mongoose.Schema({
     userName:{
         type:String,
@@ -24,7 +25,16 @@ const userSchema=mongoose.Schema({
     isRoutineCreated:{
         type:Boolean,
         default:false
+    },
+        challengeId:{
+            type:mongoose.SchemaTypes.ObjectId,
+            default:null
+        },
+    participatedChallengeIds:{
+        type:[mongoose.SchemaTypes.ObjectId],
+        default:[]
     }
+    
 },{timestamps:true});
 
 module.exports = mongoose.model("User",userSchema);

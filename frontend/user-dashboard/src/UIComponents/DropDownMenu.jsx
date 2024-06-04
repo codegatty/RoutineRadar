@@ -42,6 +42,14 @@ function DropDownMenu({user}) {
       </MenuItem>
 
       <MenuItem className={menuItemClasses}>
+      <Link to="/challenge" className="block data-[focus]:bg-primary ">
+      <div className='flex flex-row justify-center items-center gap-2'>
+          <CiSettings className='flex-2'/><span className='flex-1'>Challenges</span>
+          </div>
+      </Link>
+      </MenuItem>
+
+      <MenuItem className={menuItemClasses}>
       <Link to="/" className="block data-[focus]:bg-primary ">
       <div className='flex flex-row justify-center items-center gap-2'>
           <CiSettings className='flex-2'/><span className='flex-1'>Settings</span>

@@ -7,4 +7,5 @@ export function createDateFromString(timeInString){
     date.setMilliseconds(0);
     return date;
   }
+
   

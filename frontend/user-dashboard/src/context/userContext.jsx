@@ -8,7 +8,9 @@ export const UserContext = createContext({
     updateExperience:(val)=>{},
     deleteRoutine:()=>{},
     createRoutine:()=>{},
-    logout:()=>{}
+    logout:()=>{},
+    updateChallengeId:(challengeId)=>{},
+    updateParticipatedChallengeIds:(challengeId)=>{}
 });
 
 
@@ -43,6 +45,22 @@ function UserContextProvider({children}){
       
     }
 
+    function updateChallengeId(challengeId){
+        setUserData({...userData,challengeId:challengeId})
+      
+    }
+
+    function updateParticipatedChallengeIds(challengeId){
+        const oldParticipatedChallenges=userData.participatedChallengeIds
+        const currentExperience =userData.experience
+        const updatedParticipatedChallengeIds=[challengeId,...oldParticipatedChallenges]
+        setUserData({...userData,
+            participatedChallengeIds:updatedParticipatedChallengeIds,
+            challengeId:null,
+            experience:currentExperience+10
+        })
+    }
+
     const values={
         userId,
         userData,
@@ -50,7 +68,9 @@ function UserContextProvider({children}){
         logout,
         updateExperience,
         createRoutine,
-        deleteRoutine
+        deleteRoutine,
+        updateChallengeId,
+        updateParticipatedChallengeIds
     }
     return (
         <UserContext.Provider value={values}>

@@ -6,8 +6,20 @@ const weekStarterEnderFinder = require("../utils/weekStarterAndEnder");
 //@route GET /challenge
 //@access public
 const getChallenges = asyncHandler(async (req, res) => {
-  const challenges = await Challenge.find();
+  const challenges = await Challenge.find({},{createdBy:0,createdAt:0,updatedAt:0,__v:0});
   res.status(200).json(challenges);
+});
+
+//@desc get all chellanges based on admin
+//@route GET /challenge
+//@access public
+const getChallengesById = asyncHandler(async (req, res) => {
+  const challengeId=req.params.id
+  const challenge = await Challenge.find({_id:challengeId},{createdBy:0,createdAt:0,updatedAt:0,__v:0});
+  if(!challenge || challenge.length==0){
+    return res.status(400).json({message:"no challenge found"})
+  }
+  return res.status(200).json(challenge);
 });
 
 //@desc create a new challenge
@@ -124,4 +136,5 @@ module.exports = {
   deleteChallenge,
   test,
   getChallengeCount,
+  getChallengesById
 };

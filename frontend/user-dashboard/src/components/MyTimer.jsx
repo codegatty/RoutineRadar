@@ -8,7 +8,7 @@ function MyTimer({ expiryTimestamp }) {
     minutes,
     hours,
   } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
-
+console.log(expiryTimestamp)
 
   return (
     <div style={{textAlign: 'center'}} >

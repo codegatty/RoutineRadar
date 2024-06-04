@@ -13,10 +13,12 @@ app.use(express.static("public"))
 app.use(cors());
 
 //router middlewares
+app.use('/user/challenge',require('./routes/challengeRoutes'))
 app.use('/user',require('./routes/userRoutes'))
 app.use('/user/routine',require('./routes/routineRoutes'))
 app.use('/user/roadMap',require('./routes/roadMapRoutes'))
 app.use('/user/badge',require('./routes/badgeRoutes'))
+
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{

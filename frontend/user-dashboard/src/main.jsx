@@ -17,16 +17,18 @@ import RegisterPage from './pages/RegisterPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import Layout from './pages/Layout.jsx'
 import Roadmap from './pages/Roadmap.jsx'
+import Challenge from './pages/Challenge.jsx'
 
 const router=createBrowserRouter([
   {path:'/',element:<App/>,children:[
     {path:'/',element:<Layout/>},
     {path:'/routine',element:<Routine/>},
     {path:'/profile',element:<ProfilePage/>},
-    {path:'/register',element:<RegisterPage/>},
-    {path:'/login',element:<LoginPage/>},
-    {path:'/roadmap',element:<Roadmap/>}
+    {path:'/roadmap',element:<Roadmap/>},
+    {path:'/challenge',element:<Challenge/>}
   ]},
+  {path:'/register',element:<RegisterPage/>},
+  {path:'/login',element:<LoginPage/>},
 
 ])
 

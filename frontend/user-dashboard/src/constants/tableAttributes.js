@@ -1,0 +1,1 @@
+export const challengeAttributes=['name','type','duration','exp gain','description']
