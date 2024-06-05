@@ -3,15 +3,24 @@ const route=express.Router();
 
 const {createRoadMap,deleteRoadMap,getRoadMapsByUserId,updateIsCompleted,addPaths}=require('../controller/roadMapController');
 
-route.post('/',createRoadMap);
+// Specific routes with parameters should come first
+route.put('/update_isCompleted/:id', updateIsCompleted);
+route.put('/add_path/:id', addPaths);
+route.delete('/:id', deleteRoadMap);
 
-route.put('/update_isCompleted/:id',updateIsCompleted);
+// General routes without parameters come after
+route.post('/', createRoadMap);
+route.get('/:userId', getRoadMapsByUserId);
 
-route.put('/add_path/:id',addPaths)
+// route.post('/',createRoadMap);
 
-route.delete('/:id',deleteRoadMap);
+// route.put('/update_isCompleted/:id',updateIsCompleted);
 
-route.get('/:userId',getRoadMapsByUserId);
+// route.put('/add_path/:id',addPaths)
+
+// route.delete('/:id',deleteRoadMap);
+
+// route.get('/:userId',getRoadMapsByUserId);
 
 
 

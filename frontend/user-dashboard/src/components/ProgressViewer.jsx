@@ -35,7 +35,7 @@ function ProgressViewer({ className, userData }) {
       <div className="flex flex-col gap-2 my-3 mx-1  bg-secondary   p-1   rounded-md shadow-sm shadow-secondary fill-emerald-50 flex-1 ">
         <label className=" text-center font-bold text-primary">Badges </label>
         <div className="flex-1 flex flex-row justify-center items-center">
-        <label className="flex-2 text-center font-bold text-primary">profile Badges </label>
+        <label className="flex-2 text-center text-sm font-light text-primary">profile Badges </label>
           {badges.length === 0 ? (
             <span className="font-bold text-slate-900 text-xl text-center">No Badges attained</span>
           ) : (
@@ -43,7 +43,7 @@ function ProgressViewer({ className, userData }) {
           )}
         </div>
         <div className="flex-1 flex flex-row justify-center items-center">
-        <label className=" text-center font-bold text-primary">Routine Badges </label>
+        <label className=" text-center text-sm font-light text-primary">Routine Badges </label>
           {badges.length === 0 ? (
             <span className="font-bold text-slate-900 text-xl text-center">No Badges attained</span>
           ) : (
@@ -82,9 +82,9 @@ const BadgeViewer = ({ badges, type }) => {
               </div>
             }
           >
-            <div className="flex flex-col border border-1 border-app-blue p-1 rounded-lg">
-              <img src={badge.image} className="rounded-full border border-1 border-app-blue" />
-              <span className="text-center font-semibold text-sm capitalize text-app-blue">{badge.title}</span>
+            <div className="flex flex-col border border-1 border-app-blue p-1 rounded-lg justify-center items-center">
+              <img src={badge.image} className="rounded-full border border-1 border-app-blue h-16 w-16" />
+              <span className="text-center font-normal text-xs capitalize text-app-blue">{badge.title}</span>
             </div>
           </Popover>
         )

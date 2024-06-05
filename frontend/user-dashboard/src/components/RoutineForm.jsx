@@ -4,6 +4,8 @@ import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
 import {UserContext} from '../context/userContext'
 import {axios_user} from '../axios_config/axiosConfig'
+import {refreshWeekData} from '../localStorage/weekDataMangament'
+import {refreshScoreData} from '../localStorage/weekScoreMangament'
 
 
 function RoutineForm() {
@@ -33,6 +35,9 @@ function RoutineForm() {
           const response=await axios_user.post(`/routine`,finalData)
           routineCtx.storeRoutine({...finalData,_id:response.data._id})
           userCtx.createRoutine();
+          //?refreshing local storage for new Routine
+          refreshScoreData()
+          refreshWeekData()
         }catch(error){
           console.log("Something went wrong")
         }

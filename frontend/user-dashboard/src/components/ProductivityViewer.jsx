@@ -16,7 +16,7 @@ function ProductivityViewer() {
   return (
     <div >
       
-        <div className={classNames("bg-app-blue p-3 rounded-lg flex-1 m-5 flex justify-center items-center gap-2 animate-bounce ")}>
+        <div className={classNames("bg-app-blue p-3 rounded-lg flex-1 m-5 flex justify-center items-center gap-2 animate-pulse  animate-infinite ")}>
             <span className=' flex-1 font-thin text-sm text-white'>Productivity of the week</span> <span className='flex-2 text-blue-700 font-bold'>{productivity.toFixed(2)}%</span>
           </div>
     </div>

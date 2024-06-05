@@ -15,7 +15,7 @@ export const RoadMapViewerAdv = () => {
   function optionChangeHandler(e) {
     if (e.target.value) {
       const currentRoadMap = roadMapCtx.roadMaps.filter((ele) => ele._id === e.target.value)
-      const newPath = currentRoadMap[0]?.paths.map((ele) => {
+      const newPath = currentRoadMap[0]?.paths?.map((ele) => {
         return ele.isCompleted
       })
       setSelectedRoadMap(currentRoadMap[0])
@@ -57,7 +57,7 @@ export const RoadMapViewerAdv = () => {
           onChange={optionChangeHandler}
         >
           <option value={null}>Select a roadMap</option>
-          {roadMapCtx.roadMaps.map((roadMap, idx) => {
+          {roadMapCtx?.roadMaps?.map((roadMap, idx) => {
             return (
               <option value={roadMap._id} key={idx}>
                 {roadMap.title}
@@ -127,7 +127,7 @@ const Pillar = ({ isEnabled }) => {
     <div
       className={classNames(
         'rounded-t-full rounded-b-full w-1 h-20 border border-5 border-secondary  mx-auto',
-        isEnabled ? 'bg-app-blue' : 'bg-primary'
+        isEnabled ? 'bg-app-blue animate-ping_once ' : 'bg-primary'
       )}
     ></div>
   )

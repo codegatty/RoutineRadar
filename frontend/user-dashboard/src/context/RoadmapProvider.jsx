@@ -23,8 +23,9 @@ function RoadmapReducer(state,action){
         case 'ADDPATH':
             
              const currentRoadMap=state.filter((roadMap)=>roadMap._id==action.payload.id)
-            let updatedPaths=[{_id:action.payload.path._id,name:action.payload.path.name,isCompleted:false},...currentRoadMap[0].paths]
+             let updatedPaths=[...currentRoadMap[0].paths,{_id:action.payload.path._id,name:action.payload.path.name,isCompleted:false}]
             const updatedRoadMap={...currentRoadMap[0],paths:updatedPaths}
+
             const updatedState=state.map((roadMap)=>{
                 if(roadMap._id===action.payload.id){
                     return updatedRoadMap
@@ -56,7 +57,7 @@ function RoadmapReducer(state,action){
                 }
                 return ele
             })
-            console.log(new_state)
+            
             
             return new_state;
         
@@ -65,7 +66,7 @@ function RoadmapReducer(state,action){
 
 function RoadmapContextProvider({children}){
 
-    const [roadmapState, dispatch] = useReducer(RoadmapReducer, roadMap)
+    const [roadmapState, dispatch] = useReducer(RoadmapReducer, null)
 
     function storeRoadMaps(roadMaps) {
         dispatch({ type: 'STORE', payload: roadMaps })

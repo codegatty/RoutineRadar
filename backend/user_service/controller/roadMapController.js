@@ -16,7 +16,7 @@ const createRoadMap=async_handler(async(req,res)=>{
         paths:[]
     }
 
-    const user=User.findById(userId)
+    const user=await User.findById(userId)
     if(!user){
         return res.status(400).json({ message: "User does not exist" });
     }
@@ -24,8 +24,8 @@ const createRoadMap=async_handler(async(req,res)=>{
     axios.post("http://localhost:5009/roadmap",finalData)
     .then(async (response)=>{
         
-        const newExperience=user.experience+30
-
+        const newExperience= user.experience+30
+        
         const resp= await User.findByIdAndUpdate(
             userId,
             {
@@ -35,7 +35,7 @@ const createRoadMap=async_handler(async(req,res)=>{
           );
 
           addExpBadge(userId);
-        return res.status(200).json(resp.data)
+        return res.status(200).json(response.data)
     }).catch((error)=>{
         return res.status(400).json(error.message)
     })

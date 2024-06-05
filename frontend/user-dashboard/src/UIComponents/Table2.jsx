@@ -18,16 +18,16 @@ function Table2({ data, attributes, onComplete, className }) {
     }
 
   return (
-    <div className={classNames('relative shadow rounded-lg overflow-y-scroll', className)}>
+    <div className={classNames('relative shadow rounded-lg overflow-y-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary', className)}>
       <table className="w-full ">
         <thead className="bg-grey-50 border-b-2 border-grey-200 capitalize">
           <tr>
             {attributes.map((ele, index) => (
-              <th className="p-3 text-xl font-bold tracking-wide text-left" key={ele}>
+              <th className="p-3 text-md font-semibold  tracking-wide text-left" key={ele}>
                 {ele}
               </th>
             ))}
-            <th className="p-3 text-xl font-bold tracking-wide text-left">Operations</th>
+            <th className="p-3 text-md font-light tracking-wide text-left">Completed</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 text-app-blue">
@@ -37,7 +37,7 @@ function Table2({ data, attributes, onComplete, className }) {
                 {Object.values(ele).map((val, index) => {
                   return (
                     index != 0 && (
-                      <td className="p-3 text-md whitespace-nowrap font-semibold capitalize" key={uuidv4()}>
+                      <td className="p-3 text-md whitespace-nowrap font-light capitalize" key={uuidv4()}>
                         {val}
                       </td>
                     )

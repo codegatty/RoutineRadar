@@ -56,17 +56,13 @@ function Layout() {
         </div>
         <div className="flex-1 flex flex-col">
           
-          <div className="flex-1">
-          {taskId ? (
-            <Main taskId={taskId}  />
-          ) : (
-            <div className=" flex-1 h-full flex justify-center items-center">
-              <h1 className=" flex-1 font-bold text-secondary text-xl text-center">Select a Task</h1>
-            </div>
-          )}
-          </div>
+          {/* <div className="flex-1"> */}
+
+            <Main taskId={taskId} className="flex-1" />
+{/* 
+          </div> */}
           
-          <WeekAnalytics className="flex-1" />
+          <WeekAnalytics className="flex-1" isRoutineExist={routineCtx.routine?true:false}/>
         </div>
         <div className=" flex-2">
           <NavBar />
@@ -77,3 +73,13 @@ function Layout() {
 }
 
 export default Layout
+
+
+
+// {taskId ? (
+//   <Main taskId={taskId}  />
+// ) : (
+//   <div className=" flex-1 h-full flex justify-center items-center">
+//     {/* <h1 className=" flex-1 font-bold text-secondary text-xl text-center">Select a Task</h1> */}
+//   </div>
+// )}

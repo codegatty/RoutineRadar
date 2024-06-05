@@ -18,9 +18,22 @@ export default {
       },
       textColor:{
         "primary":"#0ea5e9",
-        "secondary":"#1e293b"
+        "secondary":"#1e293b",
+        "base":"#0f172a"
       }
     },
+    animation:{
+      ping_once:"ping 1s cubic-bezier(0, 0, 0.2, 1) 1",
+    },
+    keyframes:{
+      ping:{
+        "75%, 100%": {
+          transform: 'scale(2)',
+          opacity: '0',
+        }
+      }
+    }
+    
   },
   plugins: [
     require('tailwind-scrollbar'),

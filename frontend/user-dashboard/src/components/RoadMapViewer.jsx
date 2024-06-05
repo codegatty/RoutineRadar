@@ -14,7 +14,7 @@ export const RoadMapViewer = ({ roadMapId }) => {
     }
   },[roadMapId,roadMapCtx.roadMaps])
   return (
-    <div className="flex flex-col  w-full my-4 text-red-400">
+    <div className="flex flex-col  w-full h-screen my-4  overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary ">
       {selectedRoadMapPath ? (
         selectedRoadMapPath.map((path, key) => {
           return (
