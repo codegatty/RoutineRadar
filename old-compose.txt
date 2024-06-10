@@ -1,0 +1,37 @@
+version: '3'
+services:
+  rabbitmq-1:
+    image: 'rabbitmq'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+  
+  db:
+    image: 'postgres'
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+    volumes:
+      - postgres-backup:/var/lib/postgresql/data
+
+  
+  admin-service:
+    image: 'admin-service:latest'
+    ports: 
+      - '5000:5000'
+    depends_on:
+      - rabbitmq-1
+
+  badge-service:
+    image: 'badge-service:latest'
+    ports: 
+      - '5008:5008'
+    depends_on:
+      - db
+
+volumes:
+  postgres-backup:
+    external: true

@@ -1,7 +1,5 @@
 const express=require("express");
 const route=express.Router();
-const axios=require("axios");
-
 const {createBadge,deleteBadge,getBadgeByBadgeNo,getBadges,updateBadge}=require("../controller/badgeController");
 
 //user-defined middleware
@@ -11,6 +9,6 @@ route.get("/",tokenValidator,getBadges);
 route.get("/:badgeNo",tokenValidator,getBadgeByBadgeNo);
 route.post("/",tokenValidator,createBadge);
 route.put("/:id",tokenValidator,updateBadge);
-route.delete("/:id",tokenValidator,deleteBadge);
+route.delete("/:id",deleteBadge);
 
 module.exports=route

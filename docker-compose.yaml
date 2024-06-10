@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  rabbitmq-1:
+    image: 'rabbitmq'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.2
+  
+  db:
+    image: 'postgres'
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+    volumes:
+      - postgres-backup:/var/lib/postgresql/data
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.3
+
+  admin-service:
+    image: 'admin-service:latest'
+    ports: 
+      - '5000:5000'
+    depends_on:
+      - rabbitmq-1
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.4
+
+  badge-service:
+    image: 'badge-service:latest'
+    ports: 
+      - '5008:5008'
+    depends_on:
+      - db
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.5  
+
+volumes:
+  postgres-backup:
+    external: true
+
+networks:
+  routineradar_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16

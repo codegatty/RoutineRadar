@@ -27,6 +27,7 @@ async function connectDb(){
 
     }catch(e){
         console.log("something went wrong during connection")
+        console.log(e);
     }
 }
 
