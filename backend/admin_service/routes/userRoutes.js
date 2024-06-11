@@ -4,7 +4,7 @@ const tokenValidator=require("../middleware/tokenValidator");
 
 const {getAlluers} =require("../controller/userController");
 
-router.get('/',tokenValidator,getAlluers);
+router.get('/',getAlluers);
 
 module.exports=router;
 

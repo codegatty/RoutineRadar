@@ -16,7 +16,7 @@ services:
 
   admin-service:
     image: 'admin-service:latest'
-    ports: 
+    ports:
       - '5000:5000'
     networks:
       routineradar_network:
@@ -24,7 +24,7 @@ services:
 
   badge-service:
     image: 'badge-service:latest'
-    ports: 
+    ports:
       - '5008:5008'
     depends_on:
       - db
@@ -34,11 +34,19 @@ services:
 
   challenge-service:
     image: 'challenge-service:latest'
-    ports: 
+    ports:
       - '5001:5001'
     networks:
       routineradar_network:
-        ipv4_address: 172.18.0.6    
+        ipv4_address: 172.18.0.6
+        
+  user-service:
+    image: 'user-service:latest'
+    ports:
+      - '5002:5002'
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.7
 
 volumes:
   postgres-backup:
