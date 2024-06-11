@@ -26,7 +26,7 @@ const getChallengesById = asyncHandler(async (req, res) => {
 //@route POST /challenge
 //@access public
 const createChallenge = asyncHandler(async (req, res) => {
-  const { name, type, duration, weightage, description } = req.body;
+  const { name, type, duration, weightage, description,adminId } = req.body;
 
   if (!name || !type || !duration || !weightage || !description) {
     return res.status(400).json({ msg: "Please fill all the fields" });
@@ -37,7 +37,7 @@ const createChallenge = asyncHandler(async (req, res) => {
     duration,
     weightage,
     description,
-    createdBy: req.admin.id,
+    createdBy: adminId,
   });
 
   if (challenge) {
@@ -78,8 +78,7 @@ const updateChallenge = asyncHandler(async (req, res) => {
       type,
       duration,
       weightage,
-      description,
-      createdBy: "developer",
+      description
     },
     { new: true }
   );

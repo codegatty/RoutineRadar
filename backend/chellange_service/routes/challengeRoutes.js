@@ -1,24 +1,29 @@
-const express= require('express');
-const router=express.Router();
-
+const express = require("express");
+const router = express.Router();
 
 //controllers
-const { getChallengeCount,getChallenges,getChallengesById}=require('../controller/challengeController');
+const {
+  getChallengeCount,
+  getChallenges,
+  getChallengesById,
+  createChallenge,
+  deleteChallenge,
+  updateChallenge,
+} = require("../controller/challengeController");
 
 //user-defined middleware
-const tokenValidator = require('../middleware/tokenValidator');
+const tokenValidator = require("../middleware/tokenValidator");
 
- router.get('/',getChallenges);
- router.get('/:id',getChallengesById);
+router.get("/", getChallenges);
 
-// router.post('/',tokenValidator,createChallenge);
+router.post("/", createChallenge);
 
-// router.put('/:id',tokenValidator,updateChallenge);
+router.get("/count", getChallengeCount);
 
-// router.delete('/:id',tokenValidator,deleteChallenge);
+router.get("/:id", getChallengesById);
 
-// router.get('/test',test)
+router.put("/:id", updateChallenge);
 
-router.get("/count",getChallengeCount);
+router.delete("/:id", deleteChallenge);
 
-module.exports=router;
+module.exports = router;

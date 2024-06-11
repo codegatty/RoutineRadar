@@ -1,28 +1,21 @@
-const asyncHandler = require("express-async-handler");
-const { challengeCREDProducer } = require("../rabbitMq/challenge_cred_producer");
-const { challengeResponseConsumer } = require("../rabbitMq/challenge_response_consumer");
+const axios=require('axios')
+const asyncHandler=require('express-async-handler')
 
+
+const challengeIp="http://172.18.0.6:5001"
 
 //@desc get all chellanges based on admin
 //@route GET /challenge
 //@access private
 
 const getChallenges = asyncHandler(async (req, res) => {
-    challengeCREDProducer("getAll", {})
-    challengeResponseConsumer()
-     new Promise((resolve, reject) => {
-        try {
-            process.once('responseReceived', (receivedData) => {
-                resolve(receivedData);
-            });
-        } catch (e) {
-            reject(e);
-        }
-    }).then((response) => {
-        return res.status(200).json(response);
-    }).catch((err) => {
-        return res.status(400).json({msg:"something went wrong"});
-    });
+    axios.get(challengeIp + "/challenge").then((response) => {
+        return res.status(200).json(response.data);
+
+    }).catch((err)=>{
+        console.log(err)
+        return res.status(400).json({message:"couldn't fetch challenges"})
+    })
     
 })
 
@@ -45,23 +38,14 @@ const createChallenge = asyncHandler(async (req, res) => {
         description,
         createdBy: req.admin.id
     }
-    challengeCREDProducer("create", challenge)
-    challengeResponseConsumer()
-    new Promise((resolve, reject) => {
-        try {
-            process.once('responseReceived', (receivedData) => {
-                resolve(receivedData);
-            });
-        } catch (e) {
-            reject(e);
-        }
-    }).then((response) => {
-        return res.status(201).json(response);
-    }).catch((err) => {
-        return res.status(400).json({msg:"couldn't create new challenge"});
-    });
 
-    // return res.status(201).json("chellange created successfully");
+    axios.post(challengeIp + "/challenge",challenge).then((response) => {
+        return res.status(201).json(response.data);
+
+    }).catch((err)=>{
+        return res.status(400).json({message:"couldn't create challenges"})
+    })
+
 })
 
 //@desc delete a challenge
@@ -69,27 +53,13 @@ const createChallenge = asyncHandler(async (req, res) => {
 //@access public
 const deleteChallenge = asyncHandler(async (req, res) => {
 
-    challengeCREDProducer("delete", { id: req.params.id })
+    axios.delete(`${challengeIp}/challenge/${req.params.id}`).then((response) => {
+        return res.status(200).json(response.data);
 
-    challengeResponseConsumer()
-    new Promise((resolve, reject) => {
-        try {
-            process.once('responseReceived', (receivedData) => {
-                resolve(receivedData);
-            });
-        } catch (e) {
-            reject(e);
-        }
-    }).then((response) => {
-        if(!response ||response==null){
-            return res.status(400).json({msg:"couldn't delete challenge"});
-        }else{
-            return res.status(200).json(response);
-        }
-        
-    }).catch((err) => {
-        return res.status(400).json({msg:"couldn't delete challenge"});
-    });
+    }).catch((err)=>{
+        return res.status(400).json({message:"couldn't create challenges"})
+    })
+
 })
 
 //@desc update a challenge
@@ -101,47 +71,28 @@ const updateChallenge = asyncHandler(async (req, res) => {
     if (!name || !type || !duration || !weightage || !description) {
         return res.status(400).json({ msg: "Please fill all the fields" });
     }
-
-
-
-    const challenge = {
-        id: req.params.id, challenge: {
+    const challenge ={
             name,
             type,
             duration,
             weightage,
             description,
         }
-    }
-    challengeCREDProducer("update", challenge)
+    
+    axios.put(`${challengeIp}/challenge/${req.params.id}`,challenge).then((response) => {
+        return res.status(200).json(response.data);
 
-    challengeResponseConsumer()
-    new Promise((resolve, reject) => {
-        try {
-            process.once('responseReceived', (receivedData) => {
-                resolve(receivedData);
-            });
-        } catch (e) {
-            reject(e);
-        }
-    }).then((response) => {
-        if(!response ||response==null){
-            return res.status(400).json({msg:"couldn't update challenge"});
-        }else{
-            return res.status(200).json(response);
-        }
-        
-    }).catch((err) => {
-        return res.status(400).json({msg:"couldn't update challenge"});
-    });
-})
+    }).catch((err)=>{
+        console.log(err)
+        return res.status(400).json({message:"couldn't update challenge"})
+    })
 
-const test = asyncHandler(async (req, res) => {
-    return res.send("all fine");
 })
 
 
-module.exports = { getChallenges, createChallenge, updateChallenge, deleteChallenge, test }
+
+
+module.exports = { getChallenges, createChallenge, updateChallenge, deleteChallenge }
 
 
 

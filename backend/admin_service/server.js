@@ -8,7 +8,7 @@ const app = express();
 //userdefined functions
 const connectDb=require("./config/dbConfig")
 const {connToChallengeCredQ}=require("./rabbitMq/challenge_cred_producer");
-const {connToChallangeResponseQ}=require("./rabbitMq/challenge_response_consumer");
+const {connToChallengeResponseQ}=require("./rabbitMq/challenge_response_consumer");
 
 // Increase the limit
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -36,10 +36,10 @@ app.listen(port,()=>{
     console.log("admin microservice started at "+port);
 });
 connectDb();
-connToChallengeCredQ().then(()=>{
-    console.log("rabbitMq connection established");
-});
-connToChallangeResponseQ().then(()=>{
-    console.log("rabbitMq connection established");
-});
+// connToChallengeCredQ().then(()=>{
+//     console.log("rabbitMq connection established");
+// });
+// connToChallengeResponseQ().then(()=>{
+//     console.log("rabbitMq connection established");
+// });
 

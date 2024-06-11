@@ -19,13 +19,14 @@ app.listen(port,()=>{
     console.log("challenges microservice started at "+port);
 });
 connectDb();
-connToChallengeResponseQ().then(()=>{
-    console.log("RabbitMQ connection established")
-});
-connToChallengeCredQ().then(async()=>{
-    console.log("RabbitMQ connection established")
-     challengeCREDConsumer()
-})
+//! rabbitmq freezed current time being...
+// connToChallengeResponseQ().then(()=>{
+//     console.log("RabbitMQ connection established")
+// });
+// connToChallengeCredQ().then(async()=>{
+//     console.log("RabbitMQ connection established")
+//      challengeCREDConsumer()
+// })
 
 
 

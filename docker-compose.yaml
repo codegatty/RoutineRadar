@@ -1,14 +1,5 @@
-version: '3.8'
+version: '3'
 services:
-  rabbitmq-1:
-    image: 'rabbitmq'
-    ports:
-      - '5672:5672'
-      - '15672:15672'
-    networks:
-      routineradar_network:
-        ipv4_address: 172.18.0.2
-  
   db:
     image: 'postgres'
     restart: always
@@ -27,8 +18,6 @@ services:
     image: 'admin-service:latest'
     ports: 
       - '5000:5000'
-    depends_on:
-      - rabbitmq-1
     networks:
       routineradar_network:
         ipv4_address: 172.18.0.4
@@ -41,7 +30,15 @@ services:
       - db
     networks:
       routineradar_network:
-        ipv4_address: 172.18.0.5  
+        ipv4_address: 172.18.0.5
+
+  challenge-service:
+    image: 'challenge-service:latest'
+    ports: 
+      - '5001:5001'
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.6    
 
 volumes:
   postgres-backup:

@@ -1,46 +1,47 @@
 const amqp = require("amqplib");
 const express = require("express");
 const app = express();
-//const {getResponse} = require("../controller/challangeQController")
 
 let channel;
-async function connToChallangeResponseQ() {
+let connection;
+
+async function connToChallengeResponseQ() {
     try {
-        const connection = await amqp.connect(process.env.QUEUE_URL);
+        connection = await amqp.connect(process.env.QUEUE_URL);
+        connection.on('close', () => {
+            console.error(`Connection closed, attempting to reconnect...`);
+            setTimeout(connToChallengeResponseQ, 5000); // Retry after 5 seconds
+        });
         channel = await connection.createChannel();
-
+        channel.on('close', () => {
+            console.error(`Channel closed, attempting to reconnect...`);
+            setTimeout(connToChallengeResponseQ, 5000); // Retry after 5 seconds
+        });
     } catch (e) {
-        console.log("someting went wrong during connection" + e);
-
+        console.error(`Something went wrong during connection: ${e.message}`);
+        setTimeout(connToChallengeResponseQ, 5000); // Retry after 5 seconds
     }
 }
 
 async function challengeResponseConsumer() {
-    let data
     try {
         if (!channel) {
-            console.log(channel)
-            connToChallengeCredQ();
+            console.log("Channel is not defined, initializing...");
+            await connToChallengeResponseQ();
         }
-        let queueName = "CHALLENGE_RESP"
+        const queueName = "CHALLENGE_RESP";
         await channel.assertQueue(queueName, { durable: false });
         channel.consume(queueName, async (msg) => {
-            data = JSON.parse(msg.content);
-            //console.log(data);
-
+            const data = JSON.parse(msg.content.toString());
             process.emit("responseReceived", data);
             channel.ack(msg);
-        }, { noack: false });
-
+        }, { noAck: false });
     } catch (e) {
-        console.log("someting went wrong during publishing" + e);
+        console.error(`Something went wrong during consuming: ${e.message}`);
     }
-
 }
-
-
 
 module.exports = {
-    connToChallangeResponseQ,
+    connToChallengeResponseQ,
     challengeResponseConsumer
-}
+};
