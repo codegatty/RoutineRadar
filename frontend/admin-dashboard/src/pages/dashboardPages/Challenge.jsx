@@ -47,7 +47,7 @@ function Challenge(){
         if(state.operation==="create"){
             try{
                 
-                const response=await axiosPrivate.post("http://localhost:5000/admin/challenges",newData,{
+                const response=await axiosPrivate.post("/challenges",newData,{
                     withCredentials:true,
                     headers:{
                         Authorization:"Bearer "+tokenId
@@ -61,7 +61,7 @@ function Challenge(){
             }
         }else if(state.operation==="update"){
             try{
-                const response=await axiosPrivate.put("http://localhost:5000/admin/challenges/"+state.challenge._id,newData,{
+                const response=await axiosPrivate.put("/challenges/"+state.challenge._id,newData,{
                     withCredentials:true,
                     headers:{
                         Authorization:"Bearer "+tokenId

@@ -5,7 +5,7 @@ function useLogout() {
     const {logout}=useAuth();
     async function logOut(){
         try{
-            const response=await axios_public.get("http://localhost:5000/admin/auth/logout",{withCredentials:true});
+            const response=await axios_public.get("/auth/logout",{withCredentials:true});
             logout();
         }catch(err){
             console.log(err);

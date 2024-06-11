@@ -21,7 +21,7 @@ function Challenges() {
     async function fetchAllAdmins(){
       try{
         const tokenId=token();
-        const response=await privateAxios.get("http://localhost:5000/admin/challenges",{withCredentials:true,headers:{
+        const response=await privateAxios.get("/challenges",{withCredentials:true,headers:{
           'Authorization': 'Bearer '+tokenId
         }});
         challengeCtx.storeChallenges(response.data);
@@ -36,7 +36,7 @@ function Challenges() {
   async function handleDeletion(id){
     try{
       const tokenId=token();
-      const response=await privateAxios.delete("http://localhost:5000/admin/challenges/"+id,{withCredentials:true,headers:{
+      const response=await privateAxios.delete("/challenges/"+id,{withCredentials:true,headers:{
         'Authorization': 'Bearer '+tokenId
       }});
       if(response.status === 200){

@@ -21,7 +21,7 @@ function Badges() {
     async function fetchAllAdmins(){
       try{
         const tokenId=token();
-        const response=await privateAxios.get("http://localhost:5000/admin/badges",{withCredentials:true,headers:{
+        const response=await privateAxios.get("/badges",{withCredentials:true,headers:{
           'Authorization': 'Bearer '+tokenId
         }});
         badgeCtx.storeBadges(response.data);
@@ -36,7 +36,7 @@ function Badges() {
   async function handleDeletion(id){
     try{
       const tokenId=token();
-      const response=await privateAxios.delete("http://localhost:5000/admin/badges/"+id,{withCredentials:true,headers:{
+      const response=await privateAxios.delete("/badges/"+id,{withCredentials:true,headers:{
         'Authorization': 'Bearer '+tokenId
       }});
       if(response.status === 200){

@@ -11,7 +11,7 @@ function Users() {
     async function getUsers(){
       try{
         const tokenId=token();
-        const response=await axiosPrivat.get("http://localhost:5000/admin/users",{
+        const response=await axiosPrivat.get("/users",{
           withCredentials:true,
           headers:{
             Authorization:'Bearer '+tokenId

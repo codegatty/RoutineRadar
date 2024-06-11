@@ -44,7 +44,7 @@ function Badge(){
                 const newData={...data,image:imgString}
             
                 console.log(newData)
-                const response=await axiosPrivate.post("http://localhost:5000/admin/badges",newData,{
+                const response=await axiosPrivate.post("/badges",newData,{
                     withCredentials:true,
                     headers:{
                         Authorization:"Bearer "+tokenId,
@@ -66,7 +66,7 @@ function Badge(){
             }
             try{
 
-                const response=await axiosPrivate.put("http://localhost:5000/admin/badges/"+state.badge.id,newData,{
+                const response=await axiosPrivate.put("/badges/"+state.badge.id,newData,{
                     withCredentials:true,
                     headers:{
                         Authorization:"Bearer "+tokenId

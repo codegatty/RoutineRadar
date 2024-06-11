@@ -20,7 +20,7 @@ function Admins() {
     async function fetchAllAdmins(){
       try{
         const tokenId=token();
-        const response=await privateAxios.get("http://localhost:5000/admin/auth/admins",{withCredentials:true,headers:{
+        const response=await privateAxios.get("/auth/admins",{withCredentials:true,headers:{
           'Authorization': 'Bearer '+tokenId
         }});
         

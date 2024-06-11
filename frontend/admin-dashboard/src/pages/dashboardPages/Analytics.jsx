@@ -21,7 +21,7 @@ const [countData,setCountData]=useState({
 
       try{
         const tokenId=token();
-      const response=await axiosPrivate.get("http://localhost:5000/admin/counts",{withCredentials:true,
+      const response=await axiosPrivate.get("/counts",{withCredentials:true,
     headers: {
       'Authorization': `Bearer ${tokenId}`
     }});

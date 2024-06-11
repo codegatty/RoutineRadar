@@ -17,7 +17,7 @@ function Dashboard() {
       async function fetchCurrentAdmin(){
         try{
           const tokenId=token();
-          const response=await axiosPrivate.get("http://localhost:5000/admin/auth/current",{
+          const response=await axiosPrivate.get("/auth/current",{
             withCredentials:true,
             headers:{
               Authorization:"Bearer "+tokenId

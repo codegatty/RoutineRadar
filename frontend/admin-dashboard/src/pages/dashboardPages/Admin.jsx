@@ -40,7 +40,7 @@ function Admin() {
         try{
           if(state.operation==="create"){
             
-          const response=await axiosPrivate.post("http://localhost:5000/admin/auth/register",{adminName,email,password},{
+          const response=await axiosPrivate.post("/auth/register",{adminName,email,password},{
             withCredentials:true,
             headers:{
               Authorization: "Bearer "+tokenId
@@ -48,7 +48,7 @@ function Admin() {
           })
           navigate("/dashboard/admins");
         }else if(state.operation === "edit"){
-          const response=await axiosPrivate.post("http://localhost:5000/admin/auth/",{adminName,email,password},{
+          const response=await axiosPrivate.post("/auth/",{adminName,email,password},{
             withCredentials:true,
             headers:{
               Authorization: "Bearer "+tokenId
