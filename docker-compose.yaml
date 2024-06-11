@@ -14,6 +14,21 @@ services:
       routineradar_network:
         ipv4_address: 172.18.0.3
 
+  api-gateway:
+    image: 'api-gateway:latest'
+    ports:
+      - '8000:8000'
+    depends_on:
+      - admin-service
+      - badge-service
+      - challenge-service
+      - user-service
+      - roadmap-service
+      - routine-service
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.2
+
   admin-service:
     image: 'admin-service:latest'
     ports:

@@ -2,8 +2,10 @@ const asyncHandler = require("express-async-handler");
 const axios=require("axios")
 const User=require("../model/userModel")
 
+const challenge_service_url=process.env.CHALLENGE_SERVICE
+
 const getChallenges=asyncHandler(async (req,res)=>{
-    axios.get("http://localhost:5001/challenge").then(async(response)=>{
+    axios.get(`${challenge_service_url}/challenge`).then(async(response)=>{
         const userId=req.params.id
         const result=response.data
         let  challengeIds=await User.findOne({_id:userId},{participatedChallengeIds:1,_id:0})
@@ -31,7 +33,7 @@ const updateChallengeId=asyncHandler(async(req,res)=>{
         return res.status(400).json({message:"user not available"})
     }
 
-     const response =await axios.get("http://localhost:5001/challenge/"+challengeId)
+     const response =await axios.get(`${challenge_service_url}/challenge/`+challengeId)
 
     if(response.status!==200){
         res.status(400).json({message:"challenge is not there"})
@@ -68,7 +70,7 @@ const onCompleteChallenge=asyncHandler(async(req,res)=>{
         return res.status(400).json({message:"user not available"})
     }
 
-    const response =await axios.get("http://localhost:5001/challenge/"+challengeId)
+    const response =await axios.get(`${challenge_service_url}/challenge/`+challengeId)
 
     if(response.status!==200){
         res.status(400).json({message:"challenge is not there"})

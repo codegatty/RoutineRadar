@@ -2,14 +2,14 @@ const axios=require('axios')
 const asyncHandler=require('express-async-handler')
 
 
-const challengeIp="http://172.18.0.6:5001"
+const challenge_service_url=process.env.CHALLENGE_SERVICE
 
 //@desc get all chellanges based on admin
 //@route GET /challenge
 //@access private
 
 const getChallenges = asyncHandler(async (req, res) => {
-    axios.get(challengeIp + "/challenge").then((response) => {
+    axios.get(challenge_service_url + "/challenge").then((response) => {
         return res.status(200).json(response.data);
 
     }).catch((err)=>{
@@ -39,7 +39,7 @@ const createChallenge = asyncHandler(async (req, res) => {
         createdBy: req.admin.id
     }
 
-    axios.post(challengeIp + "/challenge",challenge).then((response) => {
+    axios.post(challenge_service_url + "/challenge",challenge).then((response) => {
         return res.status(201).json(response.data);
 
     }).catch((err)=>{
@@ -53,7 +53,7 @@ const createChallenge = asyncHandler(async (req, res) => {
 //@access public
 const deleteChallenge = asyncHandler(async (req, res) => {
 
-    axios.delete(`${challengeIp}/challenge/${req.params.id}`).then((response) => {
+    axios.delete(`${challenge_service_url}/challenge/${req.params.id}`).then((response) => {
         return res.status(200).json(response.data);
 
     }).catch((err)=>{
@@ -79,7 +79,7 @@ const updateChallenge = asyncHandler(async (req, res) => {
             description,
         }
     
-    axios.put(`${challengeIp}/challenge/${req.params.id}`,challenge).then((response) => {
+    axios.put(`${challenge_service_url}/challenge/${req.params.id}`,challenge).then((response) => {
         return res.status(200).json(response.data);
 
     }).catch((err)=>{

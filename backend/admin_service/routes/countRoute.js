@@ -6,17 +6,18 @@ const axios=require("axios");
 
 
 const tokenValidator = require('../middleware/tokenValidator');
-const challenge_service_ip="172.18.0.6:5001"
-const user_service_ip="172.18.0.7:5002"
+
+const challenge_service_url=process.env.CHALLENGE_SERVICE
+const user_service_url=process.env.USER_SERVICE
 
 router.get('/',tokenValidator,asyncHandler( async (req,res)=>{
     //admin Count
     const adminCount=await Admin.estimatedDocumentCount();
 
     //user count
-    const request1=axios.get(`http://${challenge_service_ip}/challenge/count`);
+    const request1=axios.get(`${challenge_service_url}/challenge/count`);
     //challenge count
-    const request2=axios.get(`http://${user_service_ip}/user/counts`)
+    const request2=axios.get(`${user_service_url}/user/counts`)
 
     Promise.all([request1,request2]).then((responses)=>{
         const [response1,response2]=responses
