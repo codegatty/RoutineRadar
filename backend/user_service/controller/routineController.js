@@ -3,6 +3,8 @@ const axios = require("axios");
 const User = require("../model/userModel");
 const {addExpBadge,firstRoutineBadge}=require("../utils/BadgeFunctions")
 
+const routine_service_url=process.env.ROUTINE_SERVICE
+
 //@desc creates new routine
 //@route user/routine
 //@access public
@@ -23,7 +25,7 @@ const createRoutine = asyncHandler(async (req, res) => {
     
 
     axios
-      .post("http://localhost:5005/routine", { goal, type, task, userId })
+      .post(`${routine_service_url}}/routine`, { goal, type, task, userId })
       .then(async (response) => {
         
 
@@ -56,7 +58,7 @@ const updateRoutine = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "requrired field must be filled" });
   }
 
-  axios.put("http://localhost:5005/routine/"+userId,{goal,type}).then((response)=>{
+  axios.put(`${routine_service_url}/routine/`+userId,{goal,type}).then((response)=>{
     
     if(response.status==200){
       return res.status(200).json({msg:"routine updated"})
@@ -75,7 +77,7 @@ const updateRoutine = asyncHandler(async (req, res) => {
 const deleteRoutine = asyncHandler(async (req, res) => {
   const userId=req.params.id
 
-  axios.delete("http://localhost:5005/routine/"+userId).then(async (response)=>{
+  axios.delete(`${routine_service_url}/routine/`+userId).then(async (response)=>{
     
     const currentUser=await User.findOne({_id:req.params.id});
     const newExperience=currentUser.experience+10;
@@ -100,7 +102,7 @@ const deleteRoutine = asyncHandler(async (req, res) => {
 const getRoutine = asyncHandler(async (req, res) => {
   const userId=req.params.id
 
-  axios.get("http://localhost:5005/routine/"+userId).then((response)=>{
+  axios.get(`${routine_service_url}/routine/`+userId).then((response)=>{
     
   if(response.status==200){
     return res.status(200).json(response.data)

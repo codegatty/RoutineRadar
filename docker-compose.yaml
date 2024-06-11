@@ -55,8 +55,14 @@ services:
     networks:
       routineradar_network:
         ipv4_address: 172.18.0.8
-  
-  
+
+  routine-service:
+    image: 'routine-service:latest'
+    ports:
+      - '5005:5005'
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.9
 
 volumes:
   postgres-backup:
