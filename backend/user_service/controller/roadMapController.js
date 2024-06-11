@@ -2,6 +2,8 @@ const async_handler=require("express-async-handler")
 const axios=require('axios')
 const User=require("../model/userModel")
 const {addExpBadge}=require("../utils/BadgeFunctions")
+
+const roadmap_service_url=process.env.ROADMAP_SERVICE
 //pass
 const createRoadMap=async_handler(async(req,res)=>{
     const {title,description,userId}=req.body
@@ -21,7 +23,7 @@ const createRoadMap=async_handler(async(req,res)=>{
         return res.status(400).json({ message: "User does not exist" });
     }
 
-    axios.post("http://localhost:5009/roadmap",finalData)
+    axios.post(`${roadmap_service_url}/roadmap`,finalData)
     .then(async (response)=>{
         
         const newExperience= user.experience+30
@@ -53,7 +55,7 @@ const addPaths=async_handler(async(req,res)=>{
         return res.status(400).send({message:"invalid data "});
     }
 
-    axios.put("http://localhost:5009/roadMap/add_path/"+id,finalData).then((response)=>{
+    axios.put(`${roadmap_service_url}/roadMap/add_path/`+id,finalData).then((response)=>{
         return res.status(200).json(response.data)
     }).catch((err)=>{
         return res.status(400).json({message:err.message})
@@ -71,7 +73,7 @@ const updateIsCompleted=async_handler(async(req,res)=>{
         isCompleted
     }
 
-    axios.put("http://localhost:5009/roadMap/update_isCompleted/"+id,finalData).then((response)=>{
+    axios.put(`${roadmap_service_url}/roadMap/update_isCompleted/`+id,finalData).then((response)=>{
         return res.status(200).json(response.data)
     }).catch((err)=>{
         return res.status(400).json({message:err.message})
@@ -82,7 +84,7 @@ const updateIsCompleted=async_handler(async(req,res)=>{
 //pass
 const deleteRoadMap=async_handler(async(req,res)=>{
 
-    axios.delete("http://localhost:5009/roadmap/"+req.params.id)
+    axios.delete(`${roadmap_service_url}/roadmap/`+req.params.id)
     .then((response)=>{
 
 
@@ -94,7 +96,7 @@ const deleteRoadMap=async_handler(async(req,res)=>{
 //pass
 const getRoadMapsByUserId=async_handler(async(req,res)=>{
 
-    axios.get("http://localhost:5009/roadmap/"+req.params.userId)
+    axios.get(`${roadmap_service_url}/roadmap/`+req.params.userId)
     .then((response)=>{
         return res.status(200).json(response.data)
     }).catch(()=>{

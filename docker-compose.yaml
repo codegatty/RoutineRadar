@@ -47,6 +47,16 @@ services:
     networks:
       routineradar_network:
         ipv4_address: 172.18.0.7
+  
+  roadmap-service:
+    image: 'roadmap-service:latest'
+    ports:
+      - '5009:5009'
+    networks:
+      routineradar_network:
+        ipv4_address: 172.18.0.8
+  
+  
 
 volumes:
   postgres-backup:
