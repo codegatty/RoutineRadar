@@ -26,7 +26,7 @@ function ProfileForm({className,userData,onUpdate,onDelete}) {
             finalData.append("profilePic","");
         }else{
             finalData.append("profilePic",data.profilePic[0]);
-            console.log(data.profilePic[1])
+            //console.log(data.profilePic[1])
         }
 
         onUpdate(finalData)

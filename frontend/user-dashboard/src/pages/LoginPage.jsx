@@ -21,7 +21,6 @@ function LoginPage() {
         try{
        const response=await axios_user.post("/login",data);
             userCtx.storeUser(response.data)
-            console.log(response.data);
             navigate("/",{replace:true})
         }catch(error){
             console.log(error);
