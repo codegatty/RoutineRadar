@@ -34,6 +34,7 @@ const updateChallengeId=asyncHandler(async(req,res)=>{
     }
 
      const response =await axios.get(`${challenge_service_url}/challenge/`+challengeId)
+     await axios.put(`${challenge_service_url}/challenge/`+challengeId)
 
     if(response.status!==200){
         res.status(400).json({message:"challenge is not there"})

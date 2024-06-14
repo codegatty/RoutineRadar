@@ -1,5 +1,6 @@
 const axios=require('axios')
 const asyncHandler=require('express-async-handler')
+const Admin=require("../model/adminModel")
 
 
 const challenge_service_url=process.env.CHALLENGE_SERVICE
@@ -9,12 +10,24 @@ const challenge_service_url=process.env.CHALLENGE_SERVICE
 //@access private
 
 const getChallenges = asyncHandler(async (req, res) => {
-    axios.get(challenge_service_url + "/challenge").then((response) => {
-        return res.status(200).json(response.data);
+    axios.get(challenge_service_url + "/challenge/detailed").then(async (response) => {
+        const data=response.data;
+            const enrichedData = await Promise.all(data.map(async (ele) => {
+                
+                 const adminName = await Admin.findOne({ _id: ele.createdBy }, { adminName: 1, _id: 0 });
+                    
+                return { ...ele, 
+                    createdBy: adminName.adminName,createdAt:new Date(ele.createdAt).toLocaleDateString('en-CA') ,
+                    updatedAt:new Date(ele.updatedAt).toLocaleDateString('en-CA')
+                };
+                
+            }));
+        
+            return res.status(200).json(enrichedData);
 
-    }).catch((err)=>{
-        console.log(err)
-        return res.status(400).json({message:"couldn't fetch challenges"})
+   }).catch((err)=>{
+       console.log(err)
+       return res.status(400).json({message:"couldn't fetch challenges"})
     })
     
 })

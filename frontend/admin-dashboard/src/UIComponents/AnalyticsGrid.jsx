@@ -1,7 +1,6 @@
 import React from 'react'
 
 function AnalyticsGrid({data}) {
-  console.log(data)
   return (
     <div className='flex  gap-4 justify-between mx-5'>
       <BoxWrapper>No of admins: {data.adminCount} </BoxWrapper>

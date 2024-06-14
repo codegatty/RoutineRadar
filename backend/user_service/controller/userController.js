@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../model/userModel");
 const {addExpBadge} =require("../utils/BadgeFunctions"); 
+const weekStarterEnderFinder=require("../utils/weekStarterAndEnder")
 
 //@desc create a new user
 //@route POST /user/auth/register
@@ -132,7 +133,7 @@ const updateUser = asyncHandler(async (req, res) => {
 //@route PUT /user/getAllUsers
 //@access private
 const getAllUsers = asyncHandler(async (req, res) => {
-  const data = await User.find({}, "-password -experience -__v -badges");
+  const data = await User.find({}, "-password -experience -__v -badges -updatedAt -participatedChallengeIds -challengeId -isRoutineCreated");
   if (!data) {
     res.status(404).json({ msg: "Something went wrong" });
   }
@@ -147,7 +148,36 @@ const getUserCount = asyncHandler(async (req, res) => {
 
   if (!userCount) return res.status(400).send({ message: "bad request" });
 
-  res.status(200).json({ userCount: userCount });
+  const routineEnabledUsers=await User.countDocuments({isRoutineCreated:true})
+
+  const [startDate, endDate] = weekStarterEnderFinder();
+  const dayWiseCount = await User.aggregate([
+    {
+      $match: {
+        $expr: {
+          $and: [
+            { $gte: ["$createdAt", startDate] },
+            { $lt: ["$createdAt", endDate] },
+          ],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: { $dayOfMonth: "$createdAt" },
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  let arr = [0, 0, 0, 0, 0, 0, 0];
+
+  const day = startDate.getDate();
+  dayWiseCount.map((ele) => {
+    arr[Math.floor(ele._id % day)] = ele.count;
+  });
+
+  res.status(200).json({ userCount: userCount,barDataSet:arr,noRoutineEnabledUsers:routineEnabledUsers });
 });
 
 const getUser = asyncHandler(async (req, res) => {

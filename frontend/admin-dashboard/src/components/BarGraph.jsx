@@ -7,13 +7,12 @@ import {Chart,CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend} from 'c
 
 Chart.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend)
 
-function BarGraph({barData}) {
-  console.log(barData)
+function BarGraph({barData,label}) {
   const barChartData={
     labels:["Sunday","Monday","Tuesday","Wednesday","Friday","Saturday"],
     datasets:[
         {
-            label:"No of challenge/day/week",
+            label:label,
             data:barData,
             backgroundColor:["rgba(26, 32, 44, 0.8)"],
             borderColor:["rgba(0,0,255,0.2)"],

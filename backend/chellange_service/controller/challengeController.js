@@ -5,8 +5,13 @@ const weekStarterEnderFinder = require("../utils/weekStarterAndEnder");
 //@desc get all chellanges based on admin
 //@route GET /challenge
 //@access public
-const getChallenges = asyncHandler(async (req, res) => {
+const getChallengesForUser = asyncHandler(async (req, res) => {
   const challenges = await Challenge.find({},{createdBy:0,createdAt:0,updatedAt:0,__v:0});
+  res.status(200).json(challenges);
+});
+
+const getChallengesForAdmin = asyncHandler(async (req, res) => {
+  const challenges = await Challenge.find({},{__v:0});
   res.status(200).json(challenges);
 });
 
@@ -26,7 +31,7 @@ const getChallengesById = asyncHandler(async (req, res) => {
 //@route POST /challenge
 //@access public
 const createChallenge = asyncHandler(async (req, res) => {
-  const { name, type, duration, weightage, description,adminId } = req.body;
+  const { name, type, duration, weightage, description,createdBy } = req.body;
 
   if (!name || !type || !duration || !weightage || !description) {
     return res.status(400).json({ msg: "Please fill all the fields" });
@@ -37,7 +42,7 @@ const createChallenge = asyncHandler(async (req, res) => {
     duration,
     weightage,
     description,
-    createdBy: adminId,
+    createdBy: createdBy,
   });
 
   if (challenge) {
@@ -128,12 +133,26 @@ const getChallengeCount = asyncHandler(async (req, res) => {
   res.status(200).json({ challengeCount: challengeCount,barDataSet:arr});
 });
 
+  const updateParticipantsCount = asyncHandler(async (req, res) => {
+    const challengeId = req.params.id;
+
+    const challenge = await Challenge.findById(challengeId);
+    if (!challenge) {
+      return res.status(404).json({ msg: "challenge not found" });
+    }
+    
+    await Challenge.updateOne({_id: challengeId}, {$set: {participentCounts: challenge.participentCounts+1}})
+    res.status(200).json({message:"participants count incremented"})
+  })
+
 module.exports = {
-  getChallenges,
+  getChallengesForAdmin,
+  getChallengesForUser,
   createChallenge,
   updateChallenge,
   deleteChallenge,
   test,
   getChallengeCount,
-  getChallengesById
+  getChallengesById,
+  updateParticipantsCount
 };

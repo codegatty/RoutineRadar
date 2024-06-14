@@ -25,13 +25,14 @@ function Challenges() {
           'Authorization': 'Bearer '+tokenId
         }});
         challengeCtx.storeChallenges(response.data);
-        
+        console.log(response.data)
       }catch(e){
         console.log("something went wrong",e);
       }
     }
     fetchAllAdmins();
   },[])
+  console.log(challengeCtx.challenges)
 
   async function handleDeletion(id){
     try{
@@ -42,6 +43,7 @@ function Challenges() {
       if(response.status === 200){
       challengeCtx.deleteChallenge(id);
       }
+    
     }catch(e){
       console.log("something went wrong",e);
     }

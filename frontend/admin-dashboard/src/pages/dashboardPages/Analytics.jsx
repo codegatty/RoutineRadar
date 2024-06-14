@@ -3,8 +3,7 @@ import AnalyticsGrid from '../../UIComponents/AnalyticsGrid'
 import useAuth from '../../hooks/useAuth'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import BarGraph from '../../components/BarGraph';
-
-
+import PieGraph from '../../components/PieGraph';
 
 function Analytics() {
   const {token}=useAuth();
@@ -25,8 +24,8 @@ const [countData,setCountData]=useState({
     headers: {
       'Authorization': `Bearer ${tokenId}`
     }});
+    console.log(response.data)
     setCountData(response.data);
-    console.log(response.data);
       }catch(e){
         console.log(e);
       }
@@ -34,16 +33,20 @@ const [countData,setCountData]=useState({
     }
     getCounts();
   },[])
-
+console.log(countData.noRoutineEnabledUsers)
   return (
-    <div className='mt-5'>
+    <div className='mt-5  h-full overflow-y-scroll'>
       <AnalyticsGrid data={countData}/>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4 ">
   <div>
-    <BarGraph barData={countData.barDataSet}/>
+    <BarGraph barData={countData.challengeBarData} label="No of challenge/day/week"/>
   </div>
-  <div>02</div>
-  <div>03</div>
+  <div>
+  <BarGraph barData={countData.UserBarData} label="No of users registered/day/week"/>
+  </div>
+  <div>
+    <PieGraph routineEnabledUser={countData.noRoutineEnabledUsers} totalUser={countData.userCount}/>
+  </div>
   <div>04</div>
   <div>05</div>
   <div>06</div>

@@ -7,7 +7,11 @@ const challengeSchema=mongoose.Schema({
     },type:{
         type:String,
         required:[true,"Enter the admin name"]
-    },duration:{
+    },participentCounts:{
+        type:Number,
+        default:0
+    }
+    ,duration:{
         type:Number,
         required:[true,"Enter the admin name"]
     },weightage:{

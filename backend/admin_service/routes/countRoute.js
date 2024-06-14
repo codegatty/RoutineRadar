@@ -24,7 +24,9 @@ router.get('/',tokenValidator,asyncHandler( async (req,res)=>{
         return res.status(200).json({adminCount:adminCount,
             challengeCount:response1.data.challengeCount,
             userCount:response2.data.userCount,
-            barDataSet:response1.data.barDataSet
+            challengeBarData:response1.data.barDataSet,
+            userBarData:response2.data.barDataSet,
+            noRoutineEnabledUsers:response2.data.noRoutineEnabledUsers
         });
         
     }).catch((er)=>{
