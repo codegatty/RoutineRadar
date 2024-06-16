@@ -33,7 +33,7 @@ const [countData,setCountData]=useState({
     }
     getCounts();
   },[])
-console.log(countData.noRoutineEnabledUsers)
+
   return (
     <div className='mt-5  h-full overflow-y-scroll'>
       <AnalyticsGrid data={countData}/>
@@ -42,17 +42,17 @@ console.log(countData.noRoutineEnabledUsers)
     <BarGraph barData={countData.challengeBarData} label="No of challenge/day/week"/>
   </div>
   <div>
-  <BarGraph barData={countData.UserBarData} label="No of users registered/day/week"/>
+  <BarGraph barData={countData.userBarData} label="No of users registered/day/week"/>
   </div>
   <div>
     <PieGraph routineEnabledUser={countData.noRoutineEnabledUsers} totalUser={countData.userCount}/>
   </div>
-  <div>04</div>
+  {/* <div>04</div>
   <div>05</div>
   <div>06</div>
   <div>07</div>
   <div>08</div>
-  <div>09</div>
+  <div>09</div> */}
 </div>
     </div>
   )

@@ -33,6 +33,10 @@ const userSchema=mongoose.Schema({
     participatedChallengeIds:{
         type:[mongoose.SchemaTypes.ObjectId],
         default:[]
+    },
+    appRate:{
+        type:Number,
+        default:null
     }
     
 },{timestamps:true});

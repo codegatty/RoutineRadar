@@ -18,6 +18,7 @@ app.use('/user',require('./routes/userRoutes'))
 app.use('/user/routine',require('./routes/routineRoutes'))
 app.use('/user/roadMap',require('./routes/roadMapRoutes'))
 app.use('/user/badge',require('./routes/badgeRoutes'))
+app.use('/user/rating',require('./routes/ratingRoutes'))
 
 
 const port=process.env.PORT || 3000;

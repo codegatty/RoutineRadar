@@ -6,7 +6,7 @@ function AnalyticsGrid({data}) {
       <BoxWrapper>No of admins: {data.adminCount} </BoxWrapper>
       <BoxWrapper>No of users: {data.userCount} </BoxWrapper>
       <BoxWrapper>No of challenges: {data.challengeCount} </BoxWrapper>
-      <BoxWrapper>Overall ratings: --- </BoxWrapper>
+      <BoxWrapper>Overall ratings: 4/5</BoxWrapper>
     </div>
   )
 }

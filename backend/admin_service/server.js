@@ -30,6 +30,7 @@ app.use("/admin/challenges",require("./routes/challengeRoute"));
 app.use("/admin/users",require("./routes/userRoutes"));
 app.use("/admin/counts",require("./routes/countRoute"));
 app.use("/admin/badges",require("./routes/badgeRoute"));
+app.use("/admin/rating",require("./routes/ratingsRoutes"))
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{

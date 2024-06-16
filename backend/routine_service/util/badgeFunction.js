@@ -14,7 +14,7 @@ const addDaysBadges = asyncHandler(async (routine) => {
   let badgeIndex3 = badges.findIndex((ele) => ele === badgeNo);
 
   if (badgeIndex1 === -1 && days >= 10) {
-    await Routine.findByIdAndUpdate(userId, {
+    await Routine.findByIdAndUpdate(routine[0].userId, {
       $push: { badges: 1000 },
     });
   }
