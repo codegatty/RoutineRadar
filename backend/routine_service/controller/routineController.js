@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Routine = require("../model/routineModel");
+const ArchivedRoutine=require("../model/archivedRoutineModel")
 const {addDaysBadges,addScoreBadges}=require("../util/badgeFunction")
+
 
 //desc create a new routine
 //@route POST /routine
@@ -18,10 +20,24 @@ const createRoutine = asyncHandler(async (req, res) => {
 //@route DELETE /routine/user_id
 //@access private
 const deleteRoutine = asyncHandler(async (req, res) => {
+  const currentRoutine=await Routine.findOne({userId: req.params.id},{_id:0,__v:0,updatedAt:0,createdAt:0})
+
   const response = await Routine.deleteOne({ userId: req.params.id });
-  if (!response) {
+  if ( !createRoutine && !response) {
     return res.status(404).json({ msg: "couldn't delete" });
   }
+  //?add routine to archived routines
+  const data={
+    goal:currentRoutine.goal,
+    type:currentRoutine.type,
+    userId:req.params.id,
+    tasks:currentRoutine.tasks,
+    score:currentRoutine.score,
+    badges:currentRoutine.badges,
+  }
+  //?added to archived routines
+  console.log(data)
+ await ArchivedRoutine.create(data)
   res.status(200).json(response);
 });
 

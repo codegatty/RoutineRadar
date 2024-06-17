@@ -18,6 +18,7 @@ app.use(cors({
 
 //router middlewares
 app.use('/routine',require('./routes/routineRoutes'))
+app.use('/routine/archived_routine',require('./routes/archivedRoutineRoutes'));
 
 
 const port=process.env.PORT || 3000;

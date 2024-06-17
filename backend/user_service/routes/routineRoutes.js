@@ -14,7 +14,7 @@ route.put('/:id',userRoutineValidator,updateRoutine);
 
 route.delete('/:id',userRoutineValidator,deleteRoutine);
 
-route.get('/:id',userRoutineValidator,getRoutine);
+route.get('/:id',getRoutine);
 
 module.exports=route;
 

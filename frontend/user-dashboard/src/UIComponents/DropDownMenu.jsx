@@ -28,9 +28,18 @@ function DropDownMenu({user}) {
           <div className='flex flex-row justify-center items-center gap-2'>
           <CgProfile className='flex-2'/><span className='flex-1'>Edit Routine</span>
           </div>
+        </Link>
+      </MenuItem>
+
+      <MenuItem className={menuItemClasses}>
+        <Link className="block data-[focus]:bg-primary " to="/archived_routine">
+          <div className='flex flex-row justify-center items-center gap-2'>
+          <CgProfile className='flex-2'/><span className='flex-1'>Archived Routine</span>
+          </div>
          
         </Link>
       </MenuItem>
+
 
       <MenuItem className={menuItemClasses}>
         <Link className="block data-[focus]:bg-primary " to="/roadmap">
@@ -63,7 +72,6 @@ function DropDownMenu({user}) {
       <div className='flex flex-row justify-start items-center '>
           <IoIosLogOut className='flex-1 text-red-500 '/><span className='flex-1 text-red-500' >Logout</span>
           </div>
-        
         </button>
       </MenuItem>
     </MenuItems>

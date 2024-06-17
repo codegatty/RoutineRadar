@@ -49,7 +49,7 @@ function Challenge() {
   }
  
   return (
-    <div className="'w-screen h-screen bg-primary flex flex-col justify-center gap-5">
+    <div className="w-screen h-screen bg-primary flex flex-col justify-center gap-5">
         <h1 className='flex-2 text-center text-2xl mt-5 font-semibold text-white underline'>Participate Challenges</h1>
       <Table2 
       attributes={challengeAttributes} 
