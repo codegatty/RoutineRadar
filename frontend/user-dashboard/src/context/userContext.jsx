@@ -10,7 +10,8 @@ export const UserContext = createContext({
     createRoutine:()=>{},
     logout:()=>{},
     updateChallengeId:(challengeId)=>{},
-    updateParticipatedChallengeIds:(challengeId)=>{}
+    updateParticipatedChallengeIds:(challengeId)=>{},
+    updateIsRoutineCreated:(isCreated)=>{}
 });
 
 
@@ -45,6 +46,10 @@ function UserContextProvider({children}){
       
     }
 
+    function updateIsRoutineCreated(isCreated){
+        setUserData({...userData,isRoutineCreated:isCreated})
+    }
+
     function updateChallengeId(challengeId){
         setUserData({...userData,challengeId:challengeId})
       
@@ -70,7 +75,8 @@ function UserContextProvider({children}){
         createRoutine,
         deleteRoutine,
         updateChallengeId,
-        updateParticipatedChallengeIds
+        updateParticipatedChallengeIds,
+        updateIsRoutineCreated
     }
     return (
         <UserContext.Provider value={values}>
