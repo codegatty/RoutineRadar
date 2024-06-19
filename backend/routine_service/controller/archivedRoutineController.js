@@ -12,7 +12,7 @@ const getArchivedRoutines=asyncHandler(async(req,res)=>{
         score:1,
         badges:1
     })
-
+    
     res.status(200).json(response)
 })
 
@@ -36,4 +36,18 @@ const reUseRoutine=asyncHandler(async(req,res)=>{
     return res.status(201).json(response);
 })
 
-module.exports={getArchivedRoutines,reUseRoutine}
+const deleteForever=asyncHandler(async(req,res)=>{
+    const routineId=req.params.routineId
+    const routine=await ArchivedRoutine.findOne({_id:routineId})
+    console.log(routine)
+    if(!routine || routine.length<=0){
+        return res.status(400).json({"message":"unable to delete"})
+    }
+    const response=await ArchivedRoutine.deleteOne({_id:routineId})
+    if(response){
+        return res.status(200).json({"message":"archived routine deleted"})
+    }
+    return res.status(400).json({"message":"unable to delete"})
+})
+
+module.exports={getArchivedRoutines,reUseRoutine,deleteForever}

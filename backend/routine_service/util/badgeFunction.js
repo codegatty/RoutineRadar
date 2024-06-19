@@ -1,7 +1,7 @@
 const Routine = require("../model/routineModel");
 const asyncHandler=require('express-async-handler')
 const addDaysBadges = asyncHandler(async (routine) => {
-  const createdDate = new Date(routine[0].createdAt);
+  const createdDate = new Date(routine[0]?.createdAt);
   const diff = Date.now() - createdDate;
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   let badges = routine[0].badges;
@@ -30,6 +30,7 @@ const addDaysBadges = asyncHandler(async (routine) => {
       $push: { badges: 1002 },
     });
   }
+
 });
 
 const addScoreBadges=asyncHandler(async(routine)=>{
@@ -54,6 +55,7 @@ const addScoreBadges=asyncHandler(async(routine)=>{
   }
 
   return result
+
 })
 
 module.exports = { addDaysBadges,addScoreBadges };

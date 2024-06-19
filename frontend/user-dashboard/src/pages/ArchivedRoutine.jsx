@@ -46,6 +46,21 @@ const [bestRoutineIndex,setBestRoutineIndex]=useState(-1)
         }
 
     }
+
+    async function deleteHandler(routineId){
+    
+        try{
+            const response=await axios_user.delete(`/archived_routine/delete/${routineId}`)
+            navigator("/archived_routine",{replace:true})
+            
+        }catch(er)
+        {
+            console.log(er)
+            console.log("something wrong while deleting the routine"+er)
+        }
+
+    }
+
     return(
         <div className='w-screen h-screen bg-primary flex flex-col justify-center items-center gap-5'>
             <Title className="text-primary text-center mt-5 text-xl">Archived Routines</Title>
@@ -66,7 +81,10 @@ const [bestRoutineIndex,setBestRoutineIndex]=useState(-1)
                                 <span>badges: <span className='font-semibold'>{ele.badges.join(',')}</span></span>
                                 <span className='text-blue-800 font-semibold'>{index===bestRoutineIndex&&"best routine for choice"}</span>
                             </div>
-                            <button className='p-2 m-5 bg-app-blue hover:bg-primary hover:text-primary rounded-xl text-secondary font-semibold' onClick={reUseHandler.bind(this,ele._id)}>Reuse</button>
+                            <div className=''>
+                            <button className='p-1 m-3 bg-app-blue hover:bg-primary hover:text-primary rounded-xl text-secondary font-semibold' onClick={reUseHandler.bind(this,ele._id)}>Reuse</button>
+                            <button className='p-1 m-3 bg-app-blue hover:bg-primary hover:text-primary rounded-xl text-secondary font-semibold' onClick={deleteHandler.bind(this,ele._id)}>Delete</button>
+                            </div>
                         </li>
                         )
 

@@ -25,10 +25,8 @@ const createRoutine = asyncHandler(async (req, res) => {
     
 
     axios
-      .post(`${routine_service_url}}/routine`, { goal, type, task, userId })
+      .post(`${routine_service_url}/routine`, { goal, type, task, userId })
       .then(async (response) => {
-        
-
         //?adds experience when user create routine
         await User.updateOne(
           { _id: userId },
@@ -38,7 +36,8 @@ const createRoutine = asyncHandler(async (req, res) => {
         firstRoutineBadge(userId)
         return res.status(200).json({ message: "routine created" });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         return res.status(400).json({ message: "failed to create routine" });
       });
   } else {
@@ -105,7 +104,11 @@ const getRoutine = asyncHandler(async (req, res) => {
   axios.get(`${routine_service_url}/routine/`+userId).then((response)=>{
     
   if(response.status==200){
+    if(response.data.length<=0){
+      return res.status(200).json(null)
+    }else{
     return res.status(200).json(response.data)
+    }
   }else{
     return res.status(400).json({msg:"couldn't get the data"})
   }

@@ -36,7 +36,6 @@ const deleteRoutine = asyncHandler(async (req, res) => {
     badges:currentRoutine.badges,
   }
   //?added to archived routines
-  console.log(data)
  await ArchivedRoutine.create(data)
   res.status(200).json(response);
 });
@@ -242,8 +241,10 @@ const deleteSubTask = asyncHandler(async (req, res) => {
 const getRoutine = asyncHandler(async (req, res) => {
   let response = await Routine.find({ userId: req.params.id });
   //?adds the badge
+  if(response && response.length>0){
   addDaysBadges(response)
   addScoreBadges(response)
+  }
   response = await Routine.find({ userId: req.params.id });
 
   res.status(200).json(response);
