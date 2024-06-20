@@ -9,6 +9,7 @@ import {createBrowserRouter,RouterProvider} from 'react-router-dom'
 import UserContextProvider from './context/userContext.jsx'
 import RoutineContextProvider from './context/RoutineProvider.jsx'
 import  RoadmapContextProvider  from './context/RoadmapProvider.jsx'
+import AnalyticsContextProvider from './context/AnalyticsContext.jsx'
 
 import Routine from './pages/Routine.jsx'
 import App from './App.jsx'
@@ -41,10 +42,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <UserContextProvider>
     <RoutineContextProvider>
       <RoadmapContextProvider>
+        <AnalyticsContextProvider>
       <ErrorBoundary fallback={<div>something happened...</div>}>
         
         <RouterProvider router={router} />
       </ErrorBoundary>
+      </AnalyticsContextProvider>
       </RoadmapContextProvider>
     </RoutineContextProvider>
     </UserContextProvider>

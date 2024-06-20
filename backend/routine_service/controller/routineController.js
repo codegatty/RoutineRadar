@@ -2,7 +2,9 @@ const asyncHandler = require("express-async-handler");
 const Routine = require("../model/routineModel");
 const ArchivedRoutine=require("../model/archivedRoutineModel")
 const {addDaysBadges,addScoreBadges}=require("../util/badgeFunction")
+const axios=require('axios')
 
+const user_service_url=process.env.USER_SERVICE
 
 //desc create a new routine
 //@route POST /routine
@@ -269,7 +271,13 @@ const updateTaskIsCompleted = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  res.json(response);
+  axios.put(`${user_service_url}/user/analytics/${req.params.id}`,{score:score}).then(()=>{
+    return  res.status(200).json(response);
+  }).catch((err)=>{
+    console.log(err)
+    return res.status(400).json("something went wrong while update the task complition")
+  })
+
 });
 
 const updateSubTaskIsCompleted = asyncHandler(async (req, res) => {

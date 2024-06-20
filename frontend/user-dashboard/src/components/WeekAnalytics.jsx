@@ -1,23 +1,46 @@
-import LineGraph from "../UIComponents/Analytics/LineGraph"
-import PieGraph from "../UIComponents/Analytics/PieGraph"
-import ProductivityViewer from "./ProductivityViewer"
-import classNames from "classnames"
-function WeekAnalytics({className,isRoutineExist}) {
-  
-  return (
-    <div className={classNames("h-full overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary mb-5",className)}>
-      <div className="grid grid-cols-2 gap-1">
+import { useContext, useEffect } from 'react'
+import LineGraph from '../UIComponents/Analytics/LineGraph'
+import PieGraph from '../UIComponents/Analytics/PieGraph'
+import ProductivityViewer from './ProductivityViewer'
+import classNames from 'classnames'
+import { axios_user } from '../axios_config/axiosConfig'
+import { UserContext } from '../context/userContext'
+import { AnalyticsContext } from '../context/AnalyticsContext'
+import WeekStreak from './WeekStreak'
 
-        <div className="">
-          {isRoutineExist && <LineGraph/>}
+function WeekAnalytics({ className, isRoutineExist }) {
+  const userCtx = useContext(UserContext)
+  const analyticsCtx = useContext(AnalyticsContext)
+
+  useEffect(() => {
+    async function fetchAnalytics() {
+      try {
+        const response = await axios_user.get(`/analytics/${userCtx.userId}`)
+
+        analyticsCtx.storeAnalytics(response.data)
+      } catch (err) {
+        console.log('Something error while fetching analytics')
+      }
+    }
+
+    fetchAnalytics()
+  }, [])
+
+  return (
+    <div
+      className={classNames(
+        'h-full overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary mb-5',
+        className
+      )}
+    >
+      {analyticsCtx.analytics && 
+        <div className="grid grid-cols-2 gap-1">
+          <div className="">{isRoutineExist && <ProductivityViewer />}</div>
+          <div className="">{isRoutineExist && <WeekStreak />}</div>
+          <div>{isRoutineExist && <LineGraph />}</div>
+          <div>{isRoutineExist && <PieGraph />}</div>
         </div>
-        <div className="">
-          {isRoutineExist && <PieGraph/>}
-        </div>
-        <div>
-          {isRoutineExist && <ProductivityViewer/>}
-        </div>
-      </div>
+      }
     </div>
   )
 }

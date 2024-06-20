@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const axios = require("axios");
 const User = require("../model/userModel");
 const {addExpBadge,firstRoutineBadge}=require("../utils/BadgeFunctions")
-
+const {createAnalytics,deleteAnalytics,updatedAnalytics}=require("./analyticsController") 
 const routine_service_url=process.env.ROUTINE_SERVICE
 
 //@desc creates new routine
@@ -22,7 +22,7 @@ const createRoutine = asyncHandler(async (req, res) => {
 
   if (user.isRoutineCreated === false) {
     //create the rotuine
-    
+   
 
     axios
       .post(`${routine_service_url}/routine`, { goal, type, task, userId })
@@ -34,6 +34,7 @@ const createRoutine = asyncHandler(async (req, res) => {
         );
         addExpBadge(userId)
         firstRoutineBadge(userId)
+        createAnalytics(userId)
         return res.status(200).json({ message: "routine created" });
       })
       .catch((err) => {
@@ -85,6 +86,7 @@ const deleteRoutine = asyncHandler(async (req, res) => {
       { $set: { isRoutineCreated: false,experience:newExperience } }
     );
   if(response.status==200){
+    deleteAnalytics(userId);
     return res.status(200).json({msg:"routine deleted"})
   }else{
     return res.status(400).json({msg:"couldn't delete"})

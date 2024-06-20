@@ -20,6 +20,7 @@ app.use('/user/roadMap',require('./routes/roadMapRoutes'))
 app.use('/user/badge',require('./routes/badgeRoutes'))
 app.use('/user/rating',require('./routes/ratingRoutes'))
 app.use('/user/archived_routine',require('./routes/archivedRoutineRoutes'))
+app.use('/user/analytics',require('./routes/analyticsRoutes'))
 
 const port=process.env.PORT || 3000;
 app.listen(port,()=>{

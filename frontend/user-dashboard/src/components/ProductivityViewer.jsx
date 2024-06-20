@@ -1,18 +1,19 @@
 import classNames from "classnames"
-import {getScoreData} from '../localStorage/weekScoreMangament'
 import { useContext, useEffect, useState } from "react"
 import { RoutineContext } from "../context/RoutineProvider"
 import { baseScore } from "../constants/baseTaskScore"
+import { AnalyticsContext } from "../context/AnalyticsContext"
 
 function ProductivityViewer() {
     const routineCtx=useContext(RoutineContext);
+    const analyticsCtx=useContext(AnalyticsContext)
     const maxScoreOfWeek=(routineCtx?.routine?.tasks.length*baseScore)*7
     const [productivity,setProductivity]=useState(0)
     useEffect(()=>{
-        let currentScore=getScoreData();
+        let currentScore=analyticsCtx.analytics.weeklyScoreData;
         //?set the productivity in percentage
         setProductivity((currentScore/maxScoreOfWeek)*100)
-    },[routineCtx.routine])
+    },[routineCtx.updateTaskIsCompleted])
   return (
     <div >
       

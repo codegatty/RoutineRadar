@@ -9,9 +9,11 @@ import { FiChevronDown } from "react-icons/fi";
 import { convertTo12HourFormat } from '../utility/convertTo12HourFormat'
 import {scoreCalculatorFromTasks,scoreProvider} from '../utility/scoreCalculator'
 import { setScoreData } from '../localStorage/weekScoreMangament'
+import { AnalyticsContext } from '../context/AnalyticsContext'
 
 function TaskItem({ task,userId,onClick }) {
   const routineCtx = useContext(RoutineContext);
+  const analyticsCtx=useContext(AnalyticsContext);
   const [enabled, setEnabled] = useState(task.isCompleted)
   const [toggleSubTask,setToggleSubTask] = useState(false); 
 
@@ -29,6 +31,7 @@ function TaskItem({ task,userId,onClick }) {
     const currentScore=scoreProvider(task)
     //?update the local storage score for pie analytics
     setScoreData(currentScore)
+    analyticsCtx.updateWeeklyTaskData(currentScore);
     const response=await axios_public.put(`/task/update/is_complete/${userId}`,{...data,score:currentScore})
     }catch(error){
       console.log(error);

@@ -3,6 +3,7 @@ import InputErrorDisplay from "../UIComponents/InputErrorDisplay";
 import { RoutineContext } from "../context/RoutineProvider";
 import { useContext,useEffect,useState } from "react";
 import { axios_public,axios_user } from "../axios_config/axiosConfig";
+import {AnalyticsContext} from '../context/AnalyticsContext'
 import classNames from "classnames";
 
 function TaskForm({defaultValue,selectedIndex,className}) {
@@ -18,6 +19,8 @@ function TaskForm({defaultValue,selectedIndex,className}) {
   },[defaultValue])
 
   const routineCtx=useContext(RoutineContext)
+  const analyticsCtx=useContext(AnalyticsContext)
+  
   
   const {register,handleSubmit,formState: { errors, isSubmitting, } } = useForm({values:{
     title:isUpdate?defaultValue.title:"",
@@ -59,7 +62,9 @@ function TaskForm({defaultValue,selectedIndex,className}) {
     try{
        await axios_public.put(`/task/delete/${userId}`,{taskId});
         routineCtx.deleteTask(selectedIndex);
+        analyticsCtx.flushAnalytics()
         setIsUpdate(false);
+
     }catch(error){
       console.log(error);
     }
