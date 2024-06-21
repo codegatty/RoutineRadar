@@ -66,7 +66,7 @@ const loginUser = asyncHandler(async (req, res) => {
       { new: true }
     );
 
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       {
         user: {
           id: user.id,
@@ -74,11 +74,79 @@ const loginUser = asyncHandler(async (req, res) => {
           email: user.email,
         },
       },
-      process.env.SECRET_KEY,
-      { expiresIn: "30m" }
+      process.env.ACCESSTOKEN_SECRET_KEY,
+      { expiresIn: "1m" }
     );
-    res.status(200).json(response);
+
+    const refreshToken = jwt.sign(
+      {
+        user: {
+          id: user.id,
+          userName: user.adminName,
+          email: user.email,
+          createdBy: user.createdBy,
+        },
+      },
+      process.env.REFRESHTOKEN_SECRET_KEY,
+      { expiresIn: "5m" }
+    );
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge:5 * 60 * 1000,
+    });
+
+    res.status(200).json({accessToken:accessToken});
   }
+});
+
+
+
+
+
+const refresh = asyncHandler(async (req, res) => {
+  
+  const cookies = req.cookies.refreshToken;
+
+  if (!cookies)
+    return res.status(401).json({ message: "authentication expired" });
+
+  const refreshToken = req.cookies.refreshToken;
+
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESHTOKEN_SECRET_KEY,
+    async (err, decodedInfo) => {
+      
+      if (err) {
+        res.status(400);
+      }
+      
+       const user = await User.findOne({ email: decodedInfo?.user.email });
+      
+
+      if (!user) {
+        return res.status(401).json({ msg: "Unauthorized" });
+      }
+
+      const accessToken = jwt.sign(
+        {
+          user: {
+            id: user.id,
+            userName: user.userName,
+            email: user.email,
+            createdBy: user.createdBy,
+          },
+        },
+        process.env.ACCESSTOKEN_SECRET_KEY,
+        { expiresIn: "1m" }
+      );
+
+      return res.status(200).json({ accessToken: accessToken });
+    }
+  );
+ 
 });
 
 //@desc delete a challenge
@@ -181,7 +249,8 @@ const getUserCount = asyncHandler(async (req, res) => {
 });
 
 const getUser = asyncHandler(async (req, res) => {
-  const userId = req.params.id;
+
+   const userId = req.user.id;
 
   const user = await User.findOne({ _id: userId });
 
@@ -189,7 +258,7 @@ const getUser = asyncHandler(async (req, res) => {
     return res.status(404).send({ message: "user not found" });
   }
 
-  return res.status(200).json({ message: "user" });
+  return res.status(200).json(user);
 });
 
 //?experience based badges
@@ -203,4 +272,5 @@ module.exports = {
   getAllUsers,
   getUserCount,
   getUser,
+  refresh
 };

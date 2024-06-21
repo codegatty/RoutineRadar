@@ -2,6 +2,7 @@ require("dotenv").config();
 const express=require("express");
 const app = express();
 const cors=require("cors");
+const cookieParser=require("cookie-parser");
 
 //userdefined functions
 const connectDb=require("./config/dbConfig")
@@ -10,7 +11,12 @@ const connectDb=require("./config/dbConfig")
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"))
-app.use(cors());
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true,
+}
+));
+app.use(cookieParser());
 
 //router middlewares
 app.use('/user/challenge',require('./routes/challengeRoutes'))

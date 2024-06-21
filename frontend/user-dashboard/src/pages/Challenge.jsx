@@ -21,7 +21,8 @@ function Challenge() {
     fetchChallenges()
   },[userCtx.userData])
 
-  async function onParticipate(challengeId){
+  async function onParticipate(challengeId){  
+    
     if(!userCtx.userData.challengeId){
     try{
       const body={

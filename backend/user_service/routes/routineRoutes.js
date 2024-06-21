@@ -6,15 +6,17 @@ const {createRoutine,
     deleteRoutine,
     getRoutine} =require("../controller/routineController")
 
+    const tokenValidator=require("../middleware/tokenValidator")
+
 const userRoutineValidator = require("../middleware/userRoutineValidator")
 
-route.post('/',createRoutine);
+route.post('/',tokenValidator,createRoutine);
 
-route.put('/:id',userRoutineValidator,updateRoutine);
+route.put('/:id',tokenValidator,userRoutineValidator,updateRoutine);
 
-route.delete('/:id',userRoutineValidator,deleteRoutine);
+route.delete('/:id',tokenValidator,userRoutineValidator,deleteRoutine);
 
-route.get('/:id',getRoutine);
+route.get('/:id',tokenValidator,getRoutine);
 
 module.exports=route;
 

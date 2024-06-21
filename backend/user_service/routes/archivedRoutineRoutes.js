@@ -2,9 +2,9 @@ const express= require('express');
 const router=express.Router();
 
 const {getArchivedRoutinesByUserId,reUseArchivedRoutine,deleteRoutineForever}=require("../controller/archivedRoutineController")
-
-router.delete('/delete/:routineId',deleteRoutineForever)
-router.post("/re_use/:routineId",reUseArchivedRoutine)
-router.get("/:id",getArchivedRoutinesByUserId)
+const tokenValidator=require("../middleware/tokenValidator")
+router.delete('/delete/:routineId',tokenValidator,deleteRoutineForever)
+router.post("/re_use/:routineId",tokenValidator,reUseArchivedRoutine)
+router.get("/:id",tokenValidator,getArchivedRoutinesByUserId)
 
 module.exports=router;

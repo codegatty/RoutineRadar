@@ -14,6 +14,14 @@ export const axios_user=axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-    },withCredentials: false,
+    },withCredentials: true,
+});
+
+export const axios_open=axios.create({
+    baseURL: 'http://localhost:8000/user',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+    },withCredentials:true,
 });
 

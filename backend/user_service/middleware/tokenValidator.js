@@ -6,19 +6,17 @@ const tokenValidator=asyncHandler(async (req,res,next)=>{
 let token;
 let authHeader=req.headers.authorization||req.headers.Authorization;
 token=authHeader?.split(' ')[1];
-
 if(!token){
-    return res.status(401).json({message:"unauthorized"});
+    return res.status(403).json({message:"unauthorized"});
 }
-
-await jwt.verify(token,process.env.SECRET_KEY,(err,decodedInfo)=>{
+await jwt.verify(token,process.env.ACCESSTOKEN_SECRET_KEY,(err,decodedInfo)=>{
     if(err){
        res.status(400); 
     }
         
         if(!decodedInfo){
             
-           return res.status(401).json({message:"token expired"});
+           return res.status(403).json({message:"unauthorized"});
         }
         req.user=decodedInfo.user;
         next();

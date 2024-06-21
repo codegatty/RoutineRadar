@@ -5,6 +5,7 @@ import { RoadmapContext } from '../context/RoadmapProvider'
 import { axios_user } from '../axios_config/axiosConfig'
 import { UserContext } from '../context/userContext'
 import {taskNotifier} from '../utility/taskNotifier'
+import { Spinner } from "flowbite-react";
 
 import Header from '../components/Header'
 import SideBar from '../components/SideBar'
@@ -15,6 +16,7 @@ import WeekAnalytics from '../components/WeekAnalytics'
 function Layout() {
   const [sidebarToggle, setSidebarToggle] = useState(true)
   const [taskId, setTaskId] = useState(null)
+  const[isLoading,setIsLoading]=useState(true)
   
   const routineCtx = useContext(RoutineContext)
   const userCtx = useContext(UserContext)
@@ -25,6 +27,7 @@ function Layout() {
     async function fetchRoutine() {
       
       try {
+       
         //?obtaining routine from backend
         const response2 = await axios_user.get(`routine/${userCtx.userId}`)
         const response3=await axios_user.get(`roadmap/${userCtx.userId}`)
@@ -32,11 +35,15 @@ function Layout() {
         roadmapCtx.storeRoadMaps(response3.data)
         //?this will create multiple timeout callback to trigger notification in future
         taskNotifier(response2.data[0])
+       
       } catch (error) {
         console.log(error)
+        
       }
     }
+    setIsLoading(true)
     fetchRoutine()
+    setIsLoading(false)
    
   }, [])
 
@@ -44,6 +51,10 @@ function Layout() {
 
   function taskIdHandler(taskId) {
     setTaskId(taskId)
+  }
+  console.log(userCtx.userId)
+  if(isLoading){
+    return <Spinner color="info" aria-label="Info spinner example" />
   }
   return (
     <div className="w-screen h-screen bg-primary flex flex-col overflow-hidden">
