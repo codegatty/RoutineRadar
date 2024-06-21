@@ -3,7 +3,7 @@ const express=require("express");
 const app = express();
 const cors=require("cors")
 const {job}=require("./scheduler/scheduler.js")
-job;
+job.schedule();
  
 //userdefined functions
 const connectDb=require("./config/dbConfig")

@@ -50,6 +50,7 @@ function TaskItem({ task,userId,onClick }) {
         <Checkbox
           checked={enabled}
           onChange={updateIsComplete}
+          disabled={enabled}
           className=" flex-2 group block size-5 rounded border bg-white data-[checked]:bg-secondary"
         >
           <svg className="stroke-white opacity-0 group-data-[checked]:opacity-100" viewBox="0 0 14 14" fill="none">
