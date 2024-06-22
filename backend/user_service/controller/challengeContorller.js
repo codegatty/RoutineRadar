@@ -34,7 +34,6 @@ const updateChallengeId=asyncHandler(async(req,res)=>{
     }
 
      const response =await axios.get(`${challenge_service_url}/challenge/`+challengeId)
-     await axios.put(`${challenge_service_url}/challenge/`+challengeId)
 
     if(response.status!==200){
         res.status(400).json({message:"challenge is not there"})
@@ -46,16 +45,16 @@ const updateChallengeId=asyncHandler(async(req,res)=>{
     },{new:true})
    
 
-    const total_milliseconds=parseInt(challenge[0].duration)*60*60*1000
-    setTimeout(async ()=>{
-        try{
-        await User.findByIdAndUpdate(userId,{
-            $set:{challengeId:null}
-        })
-    }catch(e){
-        console.log(error)
-    }
-    },total_milliseconds)
+    // const total_milliseconds=parseInt(challenge[0].duration)*60*60*1000
+    // setTimeout(async ()=>{
+    //     try{
+    //     await User.findByIdAndUpdate(userId,{
+    //         $set:{challengeId:null}
+    //     })
+    // }catch(e){
+    //     console.log(error)
+    // }
+    // },total_milliseconds)
     
 
     res.status(200).json({"message":"challengeId updated"})

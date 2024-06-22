@@ -24,6 +24,7 @@ const getChallengesById = asyncHandler(async (req, res) => {
   if(!challenge || challenge.length==0){
     return res.status(400).json({message:"no challenge found"})
   }
+  await Challenge.updateOne({_id: challengeId}, {$inc: {participentCounts:1}})
   return res.status(200).json(challenge);
 });
 
