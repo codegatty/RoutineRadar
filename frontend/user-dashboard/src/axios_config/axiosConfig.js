@@ -10,7 +10,7 @@ export const axios_public=axios.create({
 });
 
 export const axios_user=axios.create({
-    baseURL: 'http://localhost:8000/user',
+    baseURL: 'http://localhost:5002/user',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -18,7 +18,7 @@ export const axios_user=axios.create({
 });
 
 export const axios_open=axios.create({
-    baseURL: 'http://localhost:8000/user',
+    baseURL: 'http://localhost:5002/user',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

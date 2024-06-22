@@ -1,6 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const Challenge = require("../model/challengeModel");
 const weekStarterEnderFinder = require("../utils/weekStarterAndEnder");
+const axios=require("axios")
+
+const challenge_service_url=process.env.CHALLENGE_SERVICE
 
 //@desc get all chellanges based on admin
 //@route GET /challenge
@@ -47,6 +50,7 @@ const createChallenge = asyncHandler(async (req, res) => {
   });
 
   if (challenge) {
+    await axios.post(`${challenge_service_url}/challenge/notification/send-notification`,{})
     return res.status(201).json(challenge);
   } else {
     return res.status(400).json({ msg: "challenge could not be created" });
