@@ -103,7 +103,7 @@ function Challenge(){
                 </div>
 
                 <div className={classNames(formSection)}>
-                <label className={classNames(label)}>Duration (in days)</label>
+                <label className={classNames(label)}>Duration (in hours)</label>
                 <input className={classNames(input)} type="text" {...register("duration",{
                     required: "Please enter your duration",
                     validate:(value)=>rangeValidator(value)
@@ -113,7 +113,7 @@ function Challenge(){
                 </div>
 
                 <div className={classNames(formSection)}>
-                <label className={classNames(label)}>Weightage of Challenge</label>
+                <label className={classNames(label)}>Experience gained</label>
                 <input className={classNames(input)} type="number"  {...register("weightage",{
                     required: "Please enter your weightage",
                     validate:(value)=>rangeValidator(value)

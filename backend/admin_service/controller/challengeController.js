@@ -17,7 +17,7 @@ const getChallenges = asyncHandler(async (req, res) => {
                  const adminName = await Admin.findOne({ _id: ele.createdBy }, { adminName: 1, _id: 0 });
                     
                 return { ...ele, 
-                    createdBy: adminName.adminName,createdAt:new Date(ele.createdAt).toLocaleDateString('en-CA') ,
+                    createdBy: adminName?.adminName?adminName.adminName:"Removed admin",createdAt:new Date(ele.createdAt).toLocaleDateString('en-CA') ,
                     updatedAt:new Date(ele.updatedAt).toLocaleDateString('en-CA')
                 };
                 

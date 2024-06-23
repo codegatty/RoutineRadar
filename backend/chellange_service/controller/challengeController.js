@@ -14,7 +14,7 @@ const getChallengesForUser = asyncHandler(async (req, res) => {
 });
 
 const getChallengesForAdmin = asyncHandler(async (req, res) => {
-  const challenges = await Challenge.find({},{__v:0});
+  const challenges = await Challenge.find({},{name:1,type:1,duration:1,weightage:1,description:1,createdBy:1,createdAt:1,updatedAt:1,participentCounts:1});
   res.status(200).json(challenges);
 });
 

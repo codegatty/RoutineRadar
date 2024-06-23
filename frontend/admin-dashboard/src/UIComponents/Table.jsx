@@ -17,7 +17,7 @@ function Table({data,attributes,updateHandler,removeHandler,disableDelete,disabl
   return (
 <div className='relative shadow rounded-lg max-h-[400px] overflow-y-scroll'>
   <div className='w-full'>
-    <table className="table table-auto">
+    <table className="table table-auto text-xl">
       <thead className='bg-grey-50 border-b-2 border-grey-200'>
         <tr>
           {attributes.map((ele, index) => (

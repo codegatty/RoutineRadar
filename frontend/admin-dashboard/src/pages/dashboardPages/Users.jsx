@@ -1,5 +1,6 @@
 import { useEffect,useState } from 'react';
 import Table from '../../UIComponents/Table';
+import Table2 from '../../UIComponents/Table2'
 import useAuth from '../../hooks/useAuth'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
@@ -25,10 +26,11 @@ function Users() {
     }
     getUsers();
   },[])
-  const attr=["UserName","Email","profile pic","created_at"];
+  const attr=["UserName","Email","created_at"];
   return (
-    <div>
+    <div className='h-full '>
       <Table data={users} attributes={attr} disableDelete={true} disableEdit={true}/>
+      {/* <Table2 data={users} disableDelete={true} disableEdit={true} attributes={attr} imageIndex={3} normal={true}/> */}
     </div>
   )
 }

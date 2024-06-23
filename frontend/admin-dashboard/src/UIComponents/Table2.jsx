@@ -2,7 +2,7 @@
 import { AiTwotoneDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import {v4 as uuidv4} from 'uuid'
-function Table2({data,attributes,updateHandler,removeHandler,disableDelete,disableEdit,imageIndex}) {
+function Table2({data,attributes,updateHandler,removeHandler,disableDelete,disableEdit,imageIndex,normal}) {
 
   function handleUpdate(ele){
       updateHandler(ele);
@@ -15,8 +15,8 @@ function Table2({data,attributes,updateHandler,removeHandler,disableDelete,disab
 
 
   return (
-    <div className='relative shadow rounded-lg max-h-[400px] overflow-y-scroll'>
-    <table className="w-full ">
+    <div className='relative shadow rounded-lg overflow-y-scroll h-full'>
+    <table className="w-full h-full text-xl">
   <thead className='bg-grey-50 border-b-2 border-grey-200'>
     <tr>
         {
@@ -33,7 +33,9 @@ function Table2({data,attributes,updateHandler,removeHandler,disableDelete,disab
         return (<tr key={uuidv4()}>
           {
             Object.values(ele).map((val,index)=>{
-              return (index!=0&&<td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold' key={uuidv4()}>{index===imageIndex?<img src={val}/>:val}</td>)
+              console.log(`http://localhost:5002/profile/${val}`)
+              return (index!=0&&<td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold' key={uuidv4()}>{index===imageIndex?<img width="200" height="200" src={!normal?val:`http://localhost:5002/profile/${val}`}/>:val}</td>)
+              
             })
           }
           <td className='p-3 text-md text-gray-700 whitespace-nowrap font-semibold'>

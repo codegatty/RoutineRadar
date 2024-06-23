@@ -1,3 +1,3 @@
 export const typesOfChallange=["Coding","Respect","Typeing","competing"];
 
-export const challengeAttributes=["Name","type","duration","weightage","description","created By","created_at","updated_at","no. of participants "]
+export const challengeAttributes=["Name","type","No of participants","Duration","Exp","Description","Created By","Created At","Updated At"]

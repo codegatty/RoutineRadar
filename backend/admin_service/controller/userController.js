@@ -10,7 +10,10 @@ const user_service_url=process.env.USER_SERVICE
 const getAlluers=async(req,res)=>{
     try{
         const response=await axios.get(`${user_service_url}/user/getAllUsers`);
-        res.status(200).json(response.data)
+        const enRichData=response.data.map((ele)=>{
+            return {...ele,createdAt:new Date(ele.createdAt).toLocaleDateString('en-CA')}
+        })
+        res.status(200).json(enRichData)
     
     }catch(err){
         console.log(err)

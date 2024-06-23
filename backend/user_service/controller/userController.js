@@ -82,7 +82,7 @@ const loginUser = asyncHandler(async (req, res) => {
       {
         user: {
           id: user.id,
-          userName: user.adminName,
+          userName: user.userName,
           email: user.email,
           createdBy: user.createdBy,
         },
@@ -201,7 +201,7 @@ const updateUser = asyncHandler(async (req, res) => {
 //@route PUT /user/getAllUsers
 //@access private
 const getAllUsers = asyncHandler(async (req, res) => {
-  const data = await User.find({}, "-password -experience -__v -badges -updatedAt -participatedChallengeIds -challengeId -isRoutineCreated");
+  const data = await User.find({},{userName:1,email:1,createdAt:1});
   if (!data) {
     res.status(404).json({ msg: "Something went wrong" });
   }
