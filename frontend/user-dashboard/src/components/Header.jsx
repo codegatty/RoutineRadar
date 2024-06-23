@@ -13,7 +13,7 @@ function Header({ sidebarToggle, setSidebarToggle }) {
     setSidebarToggle(!sidebarToggle)
   }
   return (
-    <div className="bg-primary h-10 flex flex-row justify-around items-center px-5 ">
+    <div className="bg-primary  flex flex-row justify-around items-center px-5 text-xl ">
       <div className="flex flex-row  flex-1">
         <button className="mr-2" onClick={sidebarToggleHandler}>
           <TfiAlignLeft color="white" size={25} />
@@ -29,7 +29,7 @@ function Header({ sidebarToggle, setSidebarToggle }) {
           </div>
         )}
       </div>
-      <div className="flex-1  flex justify-end">
+      <div className="flex-1  flex justify-end mr-10">
         <DropDownMenu user={userCtx.userData} />
       </div>
     </div>

@@ -29,7 +29,7 @@ function WeekAnalytics({ className, isRoutineExist }) {
   return (
     <div
       className={classNames(
-        'h-full overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary mb-5',
+        'h-full p-2 overflow-scroll scrollbar-thin scrollbar-thumb-secondary scrollbar-track-primary mb-5 border border-b-0 border-t-2 border-l-0 border-r-0  border-gray-600',
         className
       )}
     >

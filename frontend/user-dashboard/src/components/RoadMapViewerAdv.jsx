@@ -6,10 +6,11 @@ import { UserContext } from '../context/userContext'
 import { axios_user } from '../axios_config/axiosConfig'
 
 export const RoadMapViewerAdv = () => {
+  const roadMapCtx = useContext(RoadmapContext)
   const [selectedRoadMap, setSelectedRoadMap] = useState(null)
   const [arrayOfComplete, setArrayOfComplete] = useState(null)
 
-  const roadMapCtx = useContext(RoadmapContext)
+
   const userCtx = useContext(UserContext)
 
   function optionChangeHandler(e) {
@@ -47,7 +48,7 @@ export const RoadMapViewerAdv = () => {
   }
 
   return (
-    <div className="w-72 px-4 py-4 flex flex-col">
+    <div className="w-72 px-4 py-4 flex flex-col border border-b-0 border-t-0 border-l-2 border-r-0  border-gray-600">
       <div className=" w-full flex gap-1 justify-center items-center">
         {/* <span className='flex-1 text-sm text-white font-bold text-center'>Select Road Map</span> */}
         <Select

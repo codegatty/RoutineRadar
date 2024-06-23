@@ -11,7 +11,7 @@ function SideBar({ sidebarToggle, routine, selectedTaskId }) {
     <>
     {
       routine?
-    <div className={'w-72 px-4 py-4 ' + `${sidebarToggle ? 'block' : 'hidden'}`}>
+    <div className={'w-72 px-4 py-4 border border-gray-600 border-r-1 border-l-0 border-t-0 border-b-0' + `${sidebarToggle ? 'block' : 'hidden'}`}>
       <div className="my-2 mb-4 ">
         <div className='flex flex-row'>
         <h1 className=" flex-1 text-2x text-white font-bold text-center"> {routine?.goal}</h1>

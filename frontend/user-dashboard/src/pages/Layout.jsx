@@ -52,7 +52,7 @@ function Layout() {
   function taskIdHandler(taskId) {
     setTaskId(taskId)
   }
-  console.log(userCtx.userId)
+  
   if(isLoading){
     return <Spinner color="info" aria-label="Info spinner example" />
   }

@@ -30,23 +30,30 @@ function ProfilePage() {
   }
 
   return (
-    <div className="flex flex-row  bg-primary h-screen">
-      <div className="flex-2  flex justify-center items-center ">
+    <div className="flex flex-row  bg-primary h-screen capitalize">
+      <div className="flex-1  flex justify-center items-center ">
         <img
-          className=" rounded-full object-cover w-52 h-52 "
+          className=" rounded-full object-cover w-72 h-72 "
           src={`http://localhost:5002/profile/${currentUser?.profilePic}`}
         />
       </div>
-      <div className="flex flex-col justify-center items-center">
-        <div className=' items-end '>
+      <div className=" flex-1 flex flex-col items-center justify-center gap-10">
+        <div className=' '>
           <ProfileForm userData={currentUser} onUpdate={updateHandler} onDelete={deleteHandler} />
         </div>
-        <div className=" ">
-          <p className='text-white'>Rate us</p>
+        <div className="  ">
+          <div>
+          <p className=' text-md text-app-blue'>Rate the experience of the application</p>
+          <div className='flex justify-center'>
           <StarRating />
+          </div>
+          
+          </div>
         </div>
       </div>
-      <ProgressViewer className="flex-1" userData={currentUser} />
+      <div className='flex-1 '>
+      <ProgressViewer className="" userData={currentUser} />
+      </div>
     </div>
   )
 }
