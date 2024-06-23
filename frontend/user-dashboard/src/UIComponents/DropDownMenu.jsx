@@ -6,6 +6,12 @@ import { IoIosLogOut } from "react-icons/io";
 import { RiRoadMapLine } from "react-icons/ri";
 function DropDownMenu({user}) {
     const menuItemClasses="px-3 py-1 text-sm font-semibold"
+
+    function logoutHandler(){
+
+    }
+
+
   return (
     <Menu >
     <MenuButton className="flex justify-center items-center ">
@@ -59,7 +65,7 @@ function DropDownMenu({user}) {
       </MenuItem>
 
       <MenuItem className={menuItemClasses}>
-      <Link to="/" className="block data-[focus]:bg-primary ">
+      <Link to="/setting" className="block data-[focus]:bg-primary ">
       <div className='flex flex-row justify-center items-center gap-2'>
           <CiSettings className='flex-2'/><span className='flex-1'>Settings</span>
           </div>
@@ -67,12 +73,11 @@ function DropDownMenu({user}) {
       </MenuItem>
 
       <MenuItem className={menuItemClasses}>
-      <button className='block data-[focus]:bg-primary w-full ' >
-        
-      <div className='flex flex-row justify-start items-center '>
-          <IoIosLogOut className='flex-1 text-red-500 '/><span className='flex-1 text-red-500' >Logout</span>
+      <Link to="/logout" className="block data-[focus]:bg-primary ">
+      <div className='flex flex-row justify-center items-center gap-2'>
+          <CiSettings className='flex-2 text-red-500'/><span className='flex-1 text-red-500'>Logout</span>
           </div>
-        </button>
+      </Link>
       </MenuItem>
     </MenuItems>
   </Menu>

@@ -6,6 +6,7 @@ import { useContext,useState} from 'react';
 import {UserContext} from '../context/userContext'
 import {useNavigate } from 'react-router-dom'
 import {useAuth} from '../context/AuthContext'
+import LazyLoading from '../UIComponents/LazyLoading';
 
 function LoginPage() {
     const {token,setToken}=useAuth()
@@ -64,6 +65,7 @@ function LoginPage() {
         
     </form>
     </div>
+    
   )
 }
 

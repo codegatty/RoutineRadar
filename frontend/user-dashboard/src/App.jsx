@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState, useLayoutEffect } from 'react';
+import { useContext, useState, useLayoutEffect } from 'react';
 import { UserContext } from './context/userContext';
 import { Outlet } from 'react-router-dom';
 import { axios_user } from './axios_config/axiosConfig';
-import { Spinner } from 'flowbite-react';
 import { PUBLIC_VAPID_KEY } from './constants/public_key';
 import {urlBase64ToUint8Array} from './utility/urlBase64ToUint8Array '
 import axios from 'axios'
+import LazyLoading from './UIComponents/LazyLoading';
 
 function App() {
   const [isLoading, setLoading] = useState(true);
@@ -79,7 +79,7 @@ function App() {
 
   return (
     <>
-      {isLoading ? <Spinner color="failure" aria-label="Failure spinner example" /> : <Outlet />}
+      {isLoading ? <LazyLoading/> : <Outlet />}
     </>
   );
 }

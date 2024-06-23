@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext'; // Adjust the path to your AuthProvider
 import { Navigate } from 'react-router-dom';
 import { axios_open } from '../axios_config/axiosConfig'; // Adjust the path to your axios config
+import LazyLoading from '../UIComponents/LazyLoading';
 
 const ProtectedRoute = ({ children }) => {
     const { token, setToken } = useAuth();
@@ -26,7 +27,7 @@ const ProtectedRoute = ({ children }) => {
     }, [token, setToken]);
 
     if (isLoading) {
-        return <div>Loading...</div>; // You can replace this with a proper loading component or spinner
+        return  <LazyLoading/>; // You can replace this with a proper loading component or spinner
     }
 
     if (!token) {

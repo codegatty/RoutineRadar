@@ -22,6 +22,8 @@ import Roadmap from './pages/Roadmap.jsx'
 import Challenge from './pages/Challenge.jsx'
 import ArchivedRoutine from './pages/ArchivedRoutine.jsx'
 import ProtectedRoute from './pages/ProtectedRoute.jsx'
+import Logout from './pages/Logout.jsx'
+import Setting from './pages/Setting.jsx'
 
 
 const router = createBrowserRouter([
@@ -34,11 +36,14 @@ const router = createBrowserRouter([
       { path: '/profile', element: <ProfilePage /> },
       { path: '/roadmap', element: <Roadmap /> },
       { path: '/challenge', element: <Challenge /> },
-      { path: '/archived_routine', element: <ArchivedRoutine /> }
+      { path: '/archived_routine', element: <ArchivedRoutine /> },
+      {path:'/setting',element:<Setting/>}
     ]
   },
   { path: '/register', element: <RegisterPage /> },
-  { path: '/login', element: <LoginPage /> }
+  { path: '/login', element: <LoginPage /> },
+  { path: '/logout', element: <Logout /> }
+  
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

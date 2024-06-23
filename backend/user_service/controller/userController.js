@@ -261,8 +261,17 @@ const getUser = asyncHandler(async (req, res) => {
   return res.status(200).json(user);
 });
 
-//?experience based badges
-
+const logout=asyncHandler(async(req,res)=>{
+  const cookie = req.cookies
+  if (!cookie?.refreshToken)
+    return res.status(401).json({ message: "unauthorized" });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
+  return res.status(200).json({"message":"user successfully logout"})
+})
 
 module.exports = {
   registerUser,
@@ -272,5 +281,6 @@ module.exports = {
   getAllUsers,
   getUserCount,
   getUser,
-  refresh
+  refresh,
+  logout
 };
