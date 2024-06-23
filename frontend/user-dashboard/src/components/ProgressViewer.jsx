@@ -80,6 +80,7 @@ const BadgeViewer = ({ badges, type }) => {
           <Popover
             aria-labelledby="default-popover"
             trigger="hover"
+            key={badge.title}
             content={
               <div className="w-64 text-sm text-gray-500 dark:text-gray-400 border border-1 border-app-blue">
                 <div className="border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">

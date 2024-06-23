@@ -64,7 +64,7 @@ function Main({ taskId, className }) {
               
                 <div className=" flex flex-col item-center justify-center my-1  text-primary rounded-md mx-10 p-5 ">
                   <span className=" p-2 capitalize text-center">task has been completed</span>
-                  <span className="text-center font-semibold">Gained Score: {counts.scoreAttained}</span>
+                  <span className="text-center font-semibold">Gained Score: {counts.scoreAttained.toFixed(2)}</span>
                 </div>
               
             </div>}
@@ -82,10 +82,10 @@ function Main({ taskId, className }) {
             </div>
             {selectedTask?.subTasks.length > 0 ? (
               <div className="flex-1 flex flex-row justify-around ">
-                <CountCard label="No. of SubTasks: " count={counts.noOfSubtasks} />
-                <CountCard label="Completed SubTask: " count={counts.completedSubtasks} />
-                <CountCard label="Non Completed SubTask: " count={counts.nonCompletedSubtasks} />
-                <CountCard label="Score Attained: " count={counts.scoreAttained} />
+                <CountCard label="No. of SubTasks: " count={counts.noOfSubtasks} carryFloat={false}/>
+                <CountCard label="Completed SubTask: " count={counts.completedSubtasks} carryFloat={false}/>
+                <CountCard label="Non Completed SubTask: " count={counts.nonCompletedSubtasks} carryFloat={false}/>
+                <CountCard label="Score Attained: " count={counts.scoreAttained} carryFloat={true}/>
               </div>
             ) : (
               <div className="flex-1 flex flex-row justify-around ">

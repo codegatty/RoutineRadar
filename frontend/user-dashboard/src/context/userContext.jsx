@@ -11,7 +11,8 @@ export const UserContext = createContext({
     logout:()=>{},
     updateChallengeId:(challengeId)=>{},
     updateParticipatedChallengeIds:(challengeId)=>{},
-    updateIsRoutineCreated:(isCreated)=>{}
+    updateIsRoutineCreated:(isCreated)=>{},
+    updateUser:(userName,profilePic)=>{}
 });
 
 
@@ -22,6 +23,10 @@ function UserContextProvider({children}){
     function storeUser(user){
         setUserId(user._id);
         setUserData(user);
+    }
+
+    function updateUser(userName,profilePic){
+        setUserData((prev)=>{return {...prev,userName:userName,profilePic:profilePic}})
     }
 
     function logout(){
@@ -76,7 +81,8 @@ function UserContextProvider({children}){
         deleteRoutine,
         updateChallengeId,
         updateParticipatedChallengeIds,
-        updateIsRoutineCreated
+        updateIsRoutineCreated,
+        updateUser
     }
     return (
         <UserContext.Provider value={values}>

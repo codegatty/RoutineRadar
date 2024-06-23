@@ -11,14 +11,14 @@ function SideBar({ sidebarToggle, routine, selectedTaskId }) {
     <>
     {
       routine?
-    <div className={'w-72 px-4 py-4 border border-gray-600 border-r-1 border-l-0 border-t-0 border-b-0' + `${sidebarToggle ? 'block' : 'hidden'}`}>
+    <div className={'w-72 px-4 py-4 border border-gray-600 border-r-1 border-l-0 border-t-0 border-b-0 ' + `${sidebarToggle ? 'block' : 'hidden'}`}>
       <div className="my-2 mb-4 ">
-        <div className='flex flex-row'>
+        <div className='flex flex-row gap-1 capitalize text-sm'>
         <h1 className=" flex-1 text-2x text-white font-bold text-center"> {routine?.goal}</h1>
 
         <div className="flex-1 bg-yellow-900 p-1 rounded-lg flex flex-row justify-center items-center text-white font-bold ">
             <span className="flex-1 text-sm">Score: </span>
-            <span className="flex-1">{routine?.score}</span>
+            <span className="flex-1">{routine?.score?routine.score.toFixed(2):0}</span>
           </div>
 
         </div>

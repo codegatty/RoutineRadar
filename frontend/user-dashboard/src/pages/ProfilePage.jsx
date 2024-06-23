@@ -15,8 +15,18 @@ function ProfilePage() {
   const currentUser = userCtx.userData
   const navigate = useNavigate()
 
-  function updateHandler(formData) {
-    //!pending profile update feature
+  async function updateHandler(formData) {
+    try{
+    const response=await axios_user.put(`/${userCtx.userId}`,formData,{
+      headers:{
+        "Content-Type":"multipart/form-data"
+      }
+    })
+    userCtx.updateUser(response.data.userName,response.data.profilePic)
+  }catch(err){
+    console.log("something went wrong while updating profile")
+    console.log(err)
+  }
   }
 
   async function deleteHandler() {

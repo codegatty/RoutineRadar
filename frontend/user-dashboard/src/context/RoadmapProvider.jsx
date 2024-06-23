@@ -9,6 +9,7 @@ export const RoadmapContext=createContext({
     addPath:(id,path)=>{},
     deleteRoadMap:(id)=>{},
     updateIsCompleted:(id,isCompleted)=>{},
+    clearAllRoadmap:()=>{}
 })
 
 
@@ -60,6 +61,9 @@ function RoadmapReducer(state,action){
             
             
             return new_state;
+
+        case 'CLEAR':
+            return null;
         
     }
 }
@@ -92,6 +96,10 @@ function RoadmapContextProvider({children}){
         dispatch({ type: 'UPDATEISCOMPLETED', payload:{id,index,isCompleted} })
     }
 
+    function clearAllRoadmap(){
+        dispatch({ type: 'CLEAR',payload:{}})
+    }
+
 
     const value={
         roadMaps: roadmapState,
@@ -100,7 +108,8 @@ function RoadmapContextProvider({children}){
         updateRoadMap,
         deleteRoadMap,
         addPath,
-        updateIsCompleted
+        updateIsCompleted,
+        clearAllRoadmap
     }
 
     return <RoadmapContext.Provider value={value}>
